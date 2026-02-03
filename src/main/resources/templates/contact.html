@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Contact Us</title>
+    <link rel="stylesheet" href="/css/contact.css">
+</head>
+<body>
+
+    <!-- HEADER / NAV -->
+    <header class="navbar">
+        <h2 class="logo">BlossomHomes</h2>
+        <nav>
+            <a th:href="@{/#home}">Home</a>
+            <a th:href="@{/#services}">Services</a>
+            <a th:href="@{/#about}">About</a>
+            <a th:href="@{/contact}" class="active">Contact</a>
+
+        </nav>
+    </header>
+
+    <!-- CONTACT SECTION -->
+    <section class="contact-section">
+        <div class="contact-container">
+
+            <!-- LEFT INFO -->
+            <div class="contact-info">
+                <h1>Get in Touch</h1>
+                <p>
+                    Have questions or need support?  
+                    Reach out to us and we’ll respond as soon as possible.
+                </p>
+
+                <div class="info-item">
+                    <strong>📍 Address:</strong>
+                    <span>Nairobi, Kenya</span>
+                </div>
+
+                <div class="info-item">
+                    <strong>📞 Phone:</strong>
+                    <span>+254 700 000 000</span>
+                </div>
+
+                <div class="info-item">
+                    <strong>✉ Email:</strong>
+                    <span>support@nursinghome.com</span>
+                </div>
+            </div>
+
+            <!-- RIGHT FORM -->
+            <div class="contact-form">
+                <h2>Send a Message</h2>
+
+                <form>
+                    <input type="text" placeholder="Your Name" required>
+                    <input type="email" placeholder="Your Email" required>
+                    <input type="text" placeholder="Subject">
+                    <textarea placeholder="Your Message" required></textarea>
+
+                    <button type="submit">Send Message</button>
+                </form>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="footer">
+        <p>&copy; 2026 Nursing Home Management System. All rights reserved.</p>
+    </footer>
+
+</body>
+</html>

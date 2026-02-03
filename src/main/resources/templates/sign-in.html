@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blossom Nursing Home | Sign Up</title>
+  <link rel="stylesheet" href="/css/sign-in.css">
+</head>
+<body>
+
+<div class="container">
+
+  <!-- LEFT SIDE -->
+  <div class="signup-image">
+    <div class="overlay">
+      <h1>Blossom Nursing Home</h1>
+      <p>Caring for residents with comfort and dignity</p>
+    </div>
+  </div>
+
+  <!-- RIGHT SIDE -->
+  <div class="login-form">
+    <form class="form-card">
+      <h2>Create Account</h2>
+      <p class="sub-text">
+        Already have an account?
+        <a th:href="@{/loginn}">Login</a>
+      </p>
+
+      <input type="text" placeholder="Full name" required>
+      <input type="email" placeholder="Email address" required>
+      <input type="password" placeholder="Password" required>
+      <input type="password" placeholder="Confirm password" required>
+
+      <button type="submit">Create Account</button>
+    </form>
+  </div>
+
+</div>
+
+</body>
+</html>

@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <link rel="stylesheet" href="/css/home.css">
+        
+        <title>Blossom Nursing Home</title>
+    </head>
+    <body>
+        <div class="container">
+        <section class="Header">
+            <div class="logo">
+             <a href="#">BlossomHomes</a>
+            </div>
+            <div class="nav">
+                <ul>
+                    <li><a href="#home">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a th:href="@{/contact}">Contact</a></li>
+                    <button><a th:href="@{/sign-in}">Sign In</a></button>
+                </ul>
+            </div>
+        </section>
+        </div>
+            <section class="Home" id="home">
+              <div class="container">
+                <div class="home-section">
+    <h1>Caring for Residents with Comfort and Dignity</h1>
+    <p>
+        Our nursing home management system helps provide safe, organized,<br>
+        and compassionate care for residents while keeping staff and families connected.
+    </p>
+    </div>
+    <div class="home-buttons">
+        <a th:href="@{/loginn}" class="btn">Login</a>
+        <a th:href="@{/contact}" class="btn">Contact Us</a>
+    </div>
+    <div class="home-image">
+        <img src="/images/home.jpeg" alt="Home Image" class="images" width="100px" height="500px">
+    </div>
+              </div>
+            </section>
+
+        <section class="About" id="about">
+              <div class="container">
+    <div class="about-section">
+        <div class="about-text">
+            <h2>
+             We are committed to providing quality care for elderly
+            in a safe environment.
+            </h2>
+            <p>
+                Our system helps nursing homes manage residents, staff, and daily care
+                activities while ensuring transparency and trust.
+            </p>
+        </div>
+        <div class="about-image">
+            <img src="/images/about (2).jpeg" alt="about-image" class="images">
+        </div>
+    </div>
+              </div>
+</section>
+<!-- Services-->
+       <section class="Services" id="services">
+        <div class="container">
+    <div class="service-title">
+        <h1>A Nursing Home That Does It All</h1>
+        <br><br>
+        <p>
+            We provide professional and compassionate care services<br>
+            designed to support the health, comfort, and well-being of our residents.
+        </p>
+    </div>
+
+    <div class="services-grid">
+        <div class="service-card nursing">
+            <div class="service-overlay">
+                <h3>24/7 Nursing Care</h3>
+                <p>Qualified nurses and caregivers available around the clock.</p>
+            </div>
+        </div>
+
+        <div class="service-card physio">
+            <div class="service-overlay">
+                <h3>Physiotherapy</h3>
+                <p>Physical therapy programs to improve strength and mobility.</p>
+            </div>
+        </div>
+
+        <div class="service-card nutrition">
+            <div class="service-overlay">
+                <h3>Nutrition</h3>
+                <p>Healthy, balanced meals prepared to meet dietary needs.</p>
+            </div>
+        </div>
+
+        <div class="service-card emergency">
+            <div class="service-overlay">
+                <h3>Emergency Care</h3>
+                <p>Quick response to emergencies with proper medical attention.</p>
+            </div>
+        </div>
+    </div>
+    </div>
+</section>
+        <section class="footer">
+            <div class="container">
+    <div class="footer-content">
+
+        <div class="footer-section">
+            <h4>Blossom Homes</h4>
+            <p>&copy; 2026 Blossom Homes.</p>
+            <p>All rights reserved.</p>
+        </div>
+
+        <div class="footer-section">
+            <h4>Quick Links</h4>
+            <ul>
+                <li><a href="#home">Home</a></li>
+                <li><a href="#about">About Us</a></li>
+                <li><a href="#services">Services</a></li>
+                <li><a th:href="@{/contact}">Contact</a></li>
+                <li><a th:href="@{/loginn}">Login</a></li>
+            </ul>
+        </div>
+
+        <div class="footer-section">
+            <h4>Contact Us</h4>
+            <p>Email: info@nursinghome.com</p>
+            <p>Phone: +254 700 000 000</p>
+        </div>
+
+    </div>
+
+    <div class="footer-bottom">
+        <p>
+            <a href="#">Privacy Policy</a> |
+            <a href="#">Terms & Conditions</a>
+        </p>
+    </div>
+    </div>
+</section>
+    </body>
+</html>

@@ -1,0 +1,141 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+.container {
+    margin:1% auto;
+    width: 80%;
+    padding: 1%;
+    font-family: 'Poppins', sans-serif;
+}
+/* ===== HEADER ===== */
+.header {
+    width: 100%;
+    background: #1e293b;
+    color: white;
+    padding: 15px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 22px;
+    font-weight: bold;
+}
+
+.nav a {
+    color: white;
+    margin-left: 20px;
+    text-decoration: none;
+    font-size: 15px;
+}
+
+.nav a.active,
+.nav a:hover {
+    color: #38bdf8;
+}
+
+/* ===== LOGIN SECTION ===== */
+.login-section {
+    min-height: calc(100vh - 120px);
+    background: #f0f8ff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 40px;
+}
+
+.login-card {
+    background: white;
+    width: 100%;
+    max-width: 900px;
+    display: flex;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1);
+}
+
+/* LEFT INFO */
+.login-info {
+    flex: 1;
+    background: #70a1ff;
+    color: white;
+    padding: 50px;
+}
+
+.login-info h2 {
+    font-size: 30px;
+    margin-bottom: 15px;
+}
+
+.login-info p {
+    line-height: 1.6;
+}
+
+/* RIGHT FORM */
+.login-form {
+    flex: 1;
+    padding: 50px;
+}
+
+.login-form h3 {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.login-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.login-form input {
+    padding: 12px;
+    margin-bottom: 15px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+}
+
+.login-form button {
+    padding: 12px;
+    background: #2563eb;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.login-form button:hover {
+    background: #1e40af;
+}
+
+.forgot {
+    margin-top: 15px;
+    font-size: 14px;
+    color: #2563eb;
+    cursor: pointer;
+}
+
+/* ===== FOOTER ===== */
+.footer {
+    background: #1e293b;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    font-size: 14px;
+    margin: 0 auto;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+    .login-card {
+        flex-direction: column;
+    }
+
+    .nav {
+        display: none;
+    }
+}

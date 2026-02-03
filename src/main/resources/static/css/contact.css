@@ -1,0 +1,127 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+/* NAVBAR */
+.navbar {
+    width: 100%;
+    padding: 20px 60px;
+    background: #1e293b;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    color: #fff;
+}
+
+.navbar nav a {
+    color: #cbd5e1;
+    margin-left: 20px;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.navbar nav a:hover,
+.navbar nav a.active {
+    color: #38bdf8;
+}
+
+/* CONTACT SECTION */
+.contact-section {
+    width: 100%;
+    min-height: 100vh;
+    background: #f8fafc;
+    display: flex;
+    align-items: center;
+    padding: 60px;
+}
+
+.contact-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+    background: #ffffff;
+    display: flex;
+    border-radius: 12px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+/* LEFT SIDE */
+.contact-info {
+    width: 45%;
+    background: linear-gradient(135deg, #2563eb, #38bdf8);
+    color: #fff;
+    padding: 50px;
+}
+
+.contact-info h1 {
+    margin-bottom: 15px;
+}
+
+.contact-info p {
+    margin-bottom: 30px;
+    line-height: 1.6;
+}
+
+.info-item {
+    margin-bottom: 20px;
+}
+
+/* RIGHT SIDE */
+.contact-form {
+    width: 55%;
+    padding: 50px;
+}
+
+.contact-form h2 {
+    margin-bottom: 20px;
+    color: #1e293b;
+}
+
+.contact-form form {
+    display: flex;
+    flex-direction: column;
+}
+
+.contact-form input,
+.contact-form textarea {
+    margin-bottom: 15px;
+    padding: 12px;
+    border-radius: 6px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+}
+
+.contact-form textarea {
+    resize: none;
+    height: 120px;
+}
+
+.contact-form button {
+    background: #2563eb;
+    color: #fff;
+    border: none;
+    padding: 12px;
+    border-radius: 6px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.contact-form button:hover {
+    background: #1e40af;
+}
+
+/* FOOTER */
+.footer {
+    width: 100%;
+    text-align: center;
+    padding: 20px;
+    background: #1e293b;
+    color: #cbd5e1;
+}
