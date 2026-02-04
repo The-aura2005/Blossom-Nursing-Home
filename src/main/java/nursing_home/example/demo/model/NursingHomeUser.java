@@ -17,6 +17,13 @@ public class NursingHomeUser  {
     private String password;
     @Enumerated(EnumType.STRING)
     private NursingHomeUserRole nursingHomeUserRole;
+
+    public NursingHomeUser(){}
+    public NursingHomeUser(String username, String password, NursingHomeUserRole nursingHomeUserRole) {
+        this.username = username;
+        this.password = password;
+        this.nursingHomeUserRole = nursingHomeUserRole;
+    }
     public Long getId() {
         return id;
     }
@@ -29,11 +36,7 @@ public class NursingHomeUser  {
     public void setNursingHomeUserRole(NursingHomeUserRole nursingHomeUserRole) {
         this.nursingHomeUserRole = nursingHomeUserRole;
     }
-    public NursingHomeUser(String username, String password, NursingHomeUserRole nursingHomeUserRole) {
-        this.username = username;
-        this.password = password;
-        this.nursingHomeUserRole = nursingHomeUserRole;
-    }
+    
     public String getUsername() {
         return username;
     }

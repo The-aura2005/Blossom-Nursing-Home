@@ -41,8 +41,8 @@
             <h3>Sign In</h3>
 
             <form method="post" th:action="@{/loginn}">
-                <input type="text" placeholder="Username" required>
-                <input type="password" placeholder="Password" required>
+                <input type="text" name="username" placeholder="Username" required>
+                <input type="password" name="password" placeholder="Password" required>
 
                 <button type="submit">Login</button>
             </form>

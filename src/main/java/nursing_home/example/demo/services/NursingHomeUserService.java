@@ -1,32 +1,22 @@
 package nursing_home.example.demo.services;
 
-
-import java.util.Optional;
-
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import lombok.AllArgsConstructor;
 import nursing_home.example.demo.dao.NursingHomeUserRepository;
 import nursing_home.example.demo.model.NursingHomeUser;
-import nursing_home.example.demo.model.NursingHomeUserRole;
+
 @Service
+@AllArgsConstructor
 public class NursingHomeUserService {
-    
-    @Autowired
-    private  NursingHomeUserRepository nursingHomeUserRepository;
+    private NursingHomeUserRepository nursingHomeUserRepository;
 
-    public NursingHomeUserRole authenticate(String username, String password){
-        Optional<NursingHomeUser> optionalUser = nursingHomeUserRepository.findByUsername(username);
 
-        if(optionalUser.isPresent()){
-            NursingHomeUser user = optionalUser.get();
-
-            if (user.getPassword().equals(password)) {
-                return user.getNursingHomeUserRole();
-            }
-        } 
-        return null;
+    public NursingHomeUser login(String username,String password){
+        return nursingHomeUserRepository.findByUsername(username)
+        .filter(NursingHomeUser -> NursingHomeUser.getPassword().equals(password))
+        .orElse(null);
 
     }
-
-}
+    
+    }
