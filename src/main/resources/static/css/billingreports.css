@@ -1,0 +1,206 @@
+
+.billing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 6px 7px -4px rgba(0,0,0,0.2);
+}
+
+.billing-header h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.billing-actions {
+    display: flex;
+    gap: 15px;
+}
+
+.generate-report-btn,
+.add-invoice-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background-color: #1e90ff;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+}
+
+.generate-report-btn:hover,
+.add-invoice-btn:hover {
+    background-color: #1679d6;
+}
+
+.generate-report-btn span,
+.add-invoice-btn span {
+    font-size: 20px;
+}
+
+.billing-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.stat-card {
+    background-color: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 6px 7px -4px rgba(0,0,0,0.2);
+    border-left: 5px solid #1e90ff;
+}
+
+.stat-card:nth-child(2) {
+    border-left-color: #ff9800;
+}
+
+.stat-card:nth-child(3) {
+    border-left-color: #4caf50;
+}
+
+.stat-card:nth-child(4) {
+    border-left-color: #2196f3;
+}
+
+.stat-label {
+    font-size: 14px;
+    color: #666;
+    font-weight: 500;
+    margin-bottom: 10px;
+}
+
+.stat-value {
+    font-size: 28px;
+    font-weight: 700;
+    color: #1e90ff;
+}
+
+.stat-card:nth-child(2) .stat-value {
+    color: #ff9800;
+}
+
+.stat-card:nth-child(3) .stat-value {
+    color: #4caf50;
+}
+
+.stat-card:nth-child(4) .stat-value {
+    color: #2196f3;
+}
+
+.billing-table-container {
+    background-color: white;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 7px -4px rgba(0,0,0,0.2);
+}
+
+.billing-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.billing-table thead {
+    background-color: #1e90ff;
+    color: white;
+}
+
+.billing-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.billing-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.billing-table tbody tr:hover {
+    background-color: #f5f5f5;
+    transition: background-color 0.2s ease;
+}
+
+.billing-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.payment-badge {
+    display: inline-block;
+    padding: 5px 12px;
+    border-radius: 20px;
+    font-size: 12px;
+    font-weight: 600;
+    text-align: center;
+}
+
+.payment-paid {
+    background-color: #d4edda;
+    color: #155724;
+}
+
+.payment-pending {
+    background-color: #fff3cd;
+    color: #856404;
+}
+
+.payment-overdue {
+    background-color: #f8d7da;
+    color: #721c24;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+.action-buttons button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 5px;
+    transition: background-color 0.2s ease;
+}
+
+.btn-view {
+    color: #28a745;
+}
+
+.btn-view:hover {
+    background-color: #d4edda;
+}
+
+.btn-download {
+    color: #1e90ff;
+}
+
+.btn-download:hover {
+    background-color: #e0f0ff;
+}
+
+.btn-delete {
+    color: #dc3545;
+}
+
+.btn-delete:hover {
+    background-color: #f8d7da;
+}
+
+.action-buttons button span {
+    font-size: 18px;
+}

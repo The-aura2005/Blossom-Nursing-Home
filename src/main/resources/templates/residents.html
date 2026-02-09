@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Residents - Admin Dashboard</title>
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="css/residents.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        <script src="js/admin.js"></script>
+        </head>
+    <body>
+        <div class="grid-container">
+            <header class="header">
+                <div class="menu-icon" onclick="openSidebar()">
+                    <span class="material-symbols-outlined">menu</span>
+                 
+                    </div>
+            <div class="header-left">
+               <h1>Residents</h1> 
+            </div>
+            <div class="header-right">
+                <span class="material-symbols-outlined">account_box</span> 
+            </div>
+                
+            </header>
+            <aside id="sidebar">
+                <div class="sidebar-title">
+                    
+                    <div><h3>BlossomHomes</h3></div>
+                    <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+                </div>
+                 <ul class="sidebar-list">
+                    <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/residents}" class="active">Residents</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/staff}">Staff Management</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/billingreports}">BillingReports</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </aside>
+            <main class="main-container">
+                <div class="residents-header">
+                    <h2>Residents Management</h2>
+                    <button class="add-resident-btn">
+                        <span class="material-symbols-outlined">add</span>
+                        Add New Resident
+                    </button>
+                </div>
+
+                <div class="residents-table-container">
+                    <table class="residents-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Age</th>
+                                <th>Room Number</th>
+                                <th>Admission Date</th>
+                                <th>Health Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>RES001</td>
+                                <td>John Smith</td>
+                                <td>78</td>
+                                <td>101</td>
+                                <td>01/15/2025</td>
+                                <td><span class="status-badge status-good">Stable</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RES002</td>
+                                <td>Mary Johnson</td>
+                                <td>82</td>
+                                <td>102</td>
+                                <td>02/10/2025</td>
+                                <td><span class="status-badge status-fair">Fair</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RES003</td>
+                                <td>Robert Williams</td>
+                                <td>75</td>
+                                <td>103</td>
+                                <td>12/20/2024</td>
+                                <td><span class="status-badge status-good">Stable</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RES004</td>
+                                <td>Patricia Davis</td>
+                                <td>80</td>
+                                <td>201</td>
+                                <td>01/05/2025</td>
+                                <td><span class="status-badge status-warning">Needs Attention</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>RES005</td>
+                                <td>James Miller</td>
+                                <td>85</td>
+                                <td>202</td>
+                                <td>11/30/2024</td>
+                                <td><span class="status-badge status-good">Stable</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+    </body>
+</html>

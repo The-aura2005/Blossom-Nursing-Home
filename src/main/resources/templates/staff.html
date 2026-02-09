@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Staff - Admin Dashboard</title>
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="css/staff.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        <script src="js/admin.js"></script>
+        </head>
+    <body>
+        <div class="grid-container">
+            <header class="header">
+                <div class="menu-icon" onclick="openSidebar()">
+                    <span class="material-symbols-outlined">menu</span>
+                 
+                    </div>
+            <div class="header-left">
+               <h1>Staff Management</h1> 
+            </div>
+            <div class="header-right">
+                <span class="material-symbols-outlined">account_box</span> 
+            </div>
+                
+            </header>
+            <aside id="sidebar">
+                <div class="sidebar-title">
+                    
+                    <div><h3>BlossomHomes</h3></div>
+                    <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+                </div>
+                 <ul class="sidebar-list">
+                    <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/staff}" class="active">Staff Management</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/billingreports}">BillingReports</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </aside>
+            <main class="main-container">
+                <div class="staff-header">
+                    <h2>Staff Management</h2>
+                    <button class="add-staff-btn">
+                        <span class="material-symbols-outlined">add</span>
+                        Add New Staff
+                    </button>
+                </div>
+
+                <div class="staff-table-container">
+                    <table class="staff-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Position</th>
+                                <th>Department</th>
+                                <th>Contact</th>
+                                <th>Email</th>
+                                <th>Status</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>STF001</td>
+                                <td>Dr. Sarah Wilson</td>
+                                <td>Medical Director</td>
+                                <td>Medical</td>
+                                <td>555-0101</td>
+                                <td>sarah.wilson@blossomhomes.com</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>STF002</td>
+                                <td>Emily Rodriguez</td>
+                                <td>Nurse</td>
+                                <td>Nursing</td>
+                                <td>555-0102</td>
+                                <td>emily.rodriguez@blossomhomes.com</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>STF003</td>
+                                <td>Michael Chen</td>
+                                <td>Care Assistant</td>
+                                <td>Care Services</td>
+                                <td>555-0103</td>
+                                <td>michael.chen@blossomhomes.com</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>STF004</td>
+                                <td>Jennifer Thompson</td>
+                                <td>Nutritionist</td>
+                                <td>Dietary</td>
+                                <td>555-0104</td>
+                                <td>jennifer.thompson@blossomhomes.com</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>STF005</td>
+                                <td>David Martinez</td>
+                                <td>Maintenance</td>
+                                <td>Facilities</td>
+                                <td>555-0105</td>
+                                <td>david.martinez@blossomhomes.com</td>
+                                <td><span class="status-badge status-inactive">On Leave</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>STF006</td>
+                                <td>Lisa Anderson</td>
+                                <td>Administrator</td>
+                                <td>Administration</td>
+                                <td>555-0106</td>
+                                <td>lisa.anderson@blossomhomes.com</td>
+                                <td><span class="status-badge status-active">Active</span></td>
+                                <td class="action-buttons">
+                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+    </body>
+</html>

@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Billing Reports - Admin Dashboard</title>
+        <link rel="stylesheet" href="css/admin.css">
+        <link rel="stylesheet" href="css/billingreports.css">
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+        <script src="js/admin.js"></script>
+        </head>
+    <body>
+        <div class="grid-container">
+            <header class="header">
+                <div class="menu-icon" onclick="openSidebar()">
+                    <span class="material-symbols-outlined">menu</span>
+                 
+                    </div>
+            <div class="header-left">
+               <h1>Billing Reports</h1> 
+            </div>
+            <div class="header-right">
+                <span class="material-symbols-outlined">account_box</span> 
+            </div>
+                
+            </header>
+            <aside id="sidebar">
+                <div class="sidebar-title">
+                    
+                    <div><h3>BlossomHomes</h3></div>
+                    <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+                </div>
+                 <ul class="sidebar-list">
+                    <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/staff}">Staff Management</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/billingreports}" class="active">BillingReports</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+                </ul>
+            </aside>
+            <main class="main-container">
+                <div class="billing-header">
+                    <h2>Billing Reports</h2>
+                    <div class="billing-actions">
+                        <button class="generate-report-btn">
+                            <span class="material-symbols-outlined">file_download</span>
+                            Generate Report
+                        </button>
+                        <button class="add-invoice-btn">
+                            <span class="material-symbols-outlined">add</span>
+                            Add Invoice
+                        </button>
+                    </div>
+                </div>
+
+                <div class="billing-stats">
+                    <div class="stat-card">
+                        <div class="stat-label">Total Revenue</div>
+                        <div class="stat-value">$125,500</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Pending Payments</div>
+                        <div class="stat-value">$18,300</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Total Invoices</div>
+                        <div class="stat-value">245</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-label">Collection Rate</div>
+                        <div class="stat-value">88%</div>
+                    </div>
+                </div>
+
+                <div class="billing-table-container">
+                    <table class="billing-table">
+                        <thead>
+                            <tr>
+                                <th>Invoice ID</th>
+                                <th>Resident Name</th>
+                                <th>Amount</th>
+                                <th>Invoice Date</th>
+                                <th>Due Date</th>
+                                <th>Payment Status</th>
+                                <th>Payment Method</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>INV-2026-001</td>
+                                <td>John Smith</td>
+                                <td>$5,000.00</td>
+                                <td>01/20/2026</td>
+                                <td>02/05/2026</td>
+                                <td><span class="payment-badge payment-paid">Paid</span></td>
+                                <td>Credit Card</td>
+                                <td class="action-buttons">
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>INV-2026-002</td>
+                                <td>Mary Johnson</td>
+                                <td>$5,000.00</td>
+                                <td>01/22/2026</td>
+                                <td>02/07/2026</td>
+                                <td><span class="payment-badge payment-pending">Pending</span></td>
+                                <td>Bank Transfer</td>
+                                <td class="action-buttons">
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>INV-2026-003</td>
+                                <td>Robert Williams</td>
+                                <td>$5,000.00</td>
+                                <td>01/25/2026</td>
+                                <td>02/10/2026</td>
+                                <td><span class="payment-badge payment-paid">Paid</span></td>
+                                <td>Insurance</td>
+                                <td class="action-buttons">
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>INV-2026-004</td>
+                                <td>Patricia Davis</td>
+                                <td>$5,250.00</td>
+                                <td>01/28/2026</td>
+                                <td>02/12/2026</td>
+                                <td><span class="payment-badge payment-overdue">Overdue</span></td>
+                                <td>Check</td>
+                                <td class="action-buttons">
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>INV-2026-005</td>
+                                <td>James Miller</td>
+                                <td>$5,000.00</td>
+                                <td>02/01/2026</td>
+                                <td>02/15/2026</td>
+                                <td><span class="payment-badge payment-paid">Paid</span></td>
+                                <td>Credit Card</td>
+                                <td class="action-buttons">
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>INV-2026-006</td>
+                                <td>Linda Garcia</td>
+                                <td>$5,000.00</td>
+                                <td>02/02/2026</td>
+                                <td>02/16/2026</td>
+                                <td><span class="payment-badge payment-pending">Pending</span></td>
+                                <td>Bank Transfer</td>
+                                <td class="action-buttons">
+                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
+                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </main>
+        </div>
+
+    </body>
+</html>

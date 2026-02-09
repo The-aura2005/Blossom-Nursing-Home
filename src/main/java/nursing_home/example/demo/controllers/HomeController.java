@@ -14,12 +14,12 @@ public class HomeController {
     }
     @GetMapping("/contact")
     public String contact() {
-        return "contact"; // loads contact.html
+        return "contact"; 
     }
 
     @GetMapping("/sign-in")
     public String signIn(){
-        return "sign-in";//loads sign-in.html
+        return "sign-in";
     }
 
     @GetMapping("/admin-dashboard")
@@ -34,4 +34,5 @@ public class HomeController {
     public String accountantDashboard(){
         return "accountant-dashboard";
     }
+   
 }
