@@ -5,10 +5,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 public class AdminController {
-    @GetMapping("/residents")
-    public String residentPage() {
-        return "residents";
-    }
+    //@GetMapping("/residents")
+    //public String residentPage() {
+        //return "residents";
+    //}
 
     @GetMapping("/staff")
     public String staffPage() {

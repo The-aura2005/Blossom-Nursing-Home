@@ -6,15 +6,17 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 
 @Entity
+@Table(name = "residents")
 public class Resident {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private int age;
-    private String roomNumber;
+    private int roomNumber;
     private LocalDate admissionDate;
     private String status;
     public Long getId() {
@@ -35,10 +37,10 @@ public class Resident {
     public void setAge(int age) {
         this.age = age;
     }
-    public String getRoomNumber() {
+    public int getRoomNumber() {
         return roomNumber;
     }
-    public void setRoomNumber(String roomNumber) {
+    public void setRoomNumber(int roomNumber) {
         this.roomNumber = roomNumber;
     }
     public LocalDate getAdmissionDate() {
@@ -48,7 +50,7 @@ public class Resident {
         this.admissionDate = admissionDate;
     }
     public Resident(){}
-    public Resident(String name, int age, String roomNumber, LocalDate admissionDate, String status) {
+    public Resident(String name, int age, int roomNumber, LocalDate admissionDate, String status) {
         this.name = name;
         this.age = age;
         this.roomNumber = roomNumber;

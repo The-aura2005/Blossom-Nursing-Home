@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+    <head><title>Add Residents</title>
+    <link rel="stylesheet" th:href="@{/css/addResident.css}"></head>
+    <body>
+        <div class="header">
+            <a th:href="@{/admin-dashboard}">Admin Dashboard</a>
+        </div>
+        <div class="container">
+        <h1>Add Resident</h1>
+        <form th:action="@{/residents}" th:object="${resident}" method="post" >
+            <label for="name">Name</label><br>
+            <input type="text" id="name" name="name"><br>
+             <label for="age">Age</label><br>
+            <input type="number" id="age" name="age"><br>
+             <label for="roomNumber">Room Number</label><br>
+            <input type="number" id="roomNumber" name="roomNumber"><br>
+             <label for="admissionDate">Admission Date</label><br>
+            <input type="date" id="admissionDate" name="admissionDate"><br>
+             <label for="healthStatus">Health Status</label><br>
+            <input type="text" id="healthStatus" name="healthStatus"><br>
+            <button type="submit">Add Resident</button>
+        </form>
+        </div>
+    </body>
+</html>

@@ -42,10 +42,10 @@
             <main class="main-container">
                 <div class="residents-header">
                     <h2>Residents Management</h2>
-                    <button class="add-resident-btn">
-                        <span class="material-symbols-outlined">add</span>
-                        Add New Resident
-                    </button>
+                    <a th:href="@{/addResident}" class="add-resident-btn">
+                    <span class="material-symbols-outlined">add</span>
+                    Add New Resident
+                    </a>
                 </div>
 
                 <div class="residents-table-container">
@@ -62,65 +62,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>RES001</td>
-                                <td>John Smith</td>
-                                <td>78</td>
-                                <td>101</td>
-                                <td>01/15/2025</td>
-                                <td><span class="status-badge status-good">Stable</span></td>
-                                <td class="action-buttons">
-                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>RES002</td>
-                                <td>Mary Johnson</td>
-                                <td>82</td>
-                                <td>102</td>
-                                <td>02/10/2025</td>
-                                <td><span class="status-badge status-fair">Fair</span></td>
-                                <td class="action-buttons">
-                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>RES003</td>
-                                <td>Robert Williams</td>
-                                <td>75</td>
-                                <td>103</td>
-                                <td>12/20/2024</td>
-                                <td><span class="status-badge status-good">Stable</span></td>
-                                <td class="action-buttons">
-                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>RES004</td>
-                                <td>Patricia Davis</td>
-                                <td>80</td>
-                                <td>201</td>
-                                <td>01/05/2025</td>
-                                <td><span class="status-badge status-warning">Needs Attention</span></td>
-                                <td class="action-buttons">
-                                    <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>RES005</td>
-                                <td>James Miller</td>
-                                <td>85</td>
-                                <td>202</td>
-                                <td>11/30/2024</td>
-                                <td><span class="status-badge status-good">Stable</span></td>
+                            <tr th:each="resident :${residents}">
+                                <td th:text="${resident.id}"></td>
+                                <td th:text="${resident.name}"></td>
+                                <td th:text="${resident.age}"></td>
+                                <td th:text="${resident.roomNumber}"></td>
+                                <td th:text="${#temporals.format(resident.admissionDate,'MM/dd/yyyy')}"></td>
+                                <td><span class="status-badge status-good" th:text="${resident.status}"></span></td>
                                 <td class="action-buttons">
                                     <button class="btn-edit" title="Edit"><span class="material-symbols-outlined">edit</span></button>
                                     <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
