@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html>
+    <head><title>Edit Resident</title>
+    <link rel="stylesheet" th:href="@{/css/addResident.css}"></head>
+    <body>
+        <div class="header">
+            <a th:href="@{/admin-dashboard}">Admin Dashboard</a>
+        </div>
+        <div class="container">
+        <h1>Edit Resident</h1>
+        <form th:action="@{/residents/update}" th:object="${resident}" method="post" >
+            <input type="hidden" th:field="*{id}" /><br>
+            <label for="name">Name</label><br>
+            <input type="text" id="name" th:field="*{name}"><br>
+             <label for="age">Age</label><br>
+            <input type="number" id="age" th:field="*{age}"><br>
+             <label for="roomNumber">Room Number</label><br>
+            <input type="number" id="roomNumber" th:field="*{roomNumber}"><br>
+             <label for="admissionDate">Admission Date</label><br>
+            <input type="date" id="admissionDate" th:field="*{admissionDate}"><br>
+             <label for="status">Status</label><br>
+            <input type="text" id="status" th:field="*{status}"><br>
+            <button type="submit">Update Resident</button>
+        </form>
+        </div>
+    </body>
+</html>

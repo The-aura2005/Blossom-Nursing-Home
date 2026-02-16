@@ -4,6 +4,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.beans.factory.annotation.Autowired;
 import lombok.AllArgsConstructor;
 import nursing_home.example.demo.model.NursingHomeUser;
 import nursing_home.example.demo.model.NursingHomeUserRole;
@@ -12,6 +13,7 @@ import nursing_home.example.demo.services.NursingHomeUserService;
 @Controller
 @AllArgsConstructor
 public class LoginController {
+    @Autowired
     private NursingHomeUserService nursingHomeUserService;
 
     @GetMapping("/loginn")

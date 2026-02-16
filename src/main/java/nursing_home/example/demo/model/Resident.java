@@ -19,6 +19,15 @@ public class Resident {
     private int roomNumber;
     private LocalDate admissionDate;
     private String status;
+
+     public Resident(){}
+    public Resident(String name, int age, int roomNumber, LocalDate admissionDate, String status) {
+        this.name = name;
+        this.age = age;
+        this.roomNumber = roomNumber;
+        this.admissionDate = admissionDate;
+        this.status = status;
+    }
     public Long getId() {
         return id;
     }
@@ -49,14 +58,7 @@ public class Resident {
     public void setAdmissionDate(LocalDate admissionDate) {
         this.admissionDate = admissionDate;
     }
-    public Resident(){}
-    public Resident(String name, int age, int roomNumber, LocalDate admissionDate, String status) {
-        this.name = name;
-        this.age = age;
-        this.roomNumber = roomNumber;
-        this.admissionDate = admissionDate;
-        this.status = status;
-    }
+   
     public String getStatus() {
         return status;
     }
