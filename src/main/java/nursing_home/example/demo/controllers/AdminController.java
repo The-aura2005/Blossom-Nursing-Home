@@ -9,12 +9,6 @@ public class AdminController {
     //public String residentPage() {
         //return "residents";
     //}
-
-    @GetMapping("/staff")
-    public String staffPage() {
-        return "staff";
-    }
-
     @GetMapping("/billingreports")
     public String billingReportsPage() {
         return "billingreports";
