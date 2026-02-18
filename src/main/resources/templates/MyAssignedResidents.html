@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Assigned Residents</title>
+    <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/AssignedResidents.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_4" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_6" />
+</head>
+<body>
+    <div class="grid-container">
+        <header class="header">
+            <div class="header-left">
+                <h1>Welcome Back, Laura!</h1>
+            </div>
+            <div class="header-right">
+                <button class="log-out-btn">Log Out</button>
+            </div>
+        </header>
+        <aside class="sidebar">
+            <div class="sidebar-title">Staff Dashboard</div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                    <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                </ul>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="Assigned-Residents">
+                <h3>Assigned Residents</h3>
+                <div class="resident-list">
+                    <div class="resident-card">
+                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
+                        <div class="resident-name">Wendy Brown</div>
+                        <div class="resident-room">Room 103</div>
+                        <div class="resident-status">Stable</div>
+                        <div class="quick-action-btnn">
+                            <button class="quick-btnn">Log Vitals</button>
+                            <button class="quick-btnn">Add Activity</button>
+                            <button class="quick-btnn">Write Report</button>  
+                        </div>
+                    </div>
+                    <div class="resident-card">
+                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
+                        <div class="resident-name">Janny Jane</div>
+                        <div class="resident-room">101</div>
+                        <div class="resident-status">Stable</div>
+                        <div class="quick-action-btnn">
+                            <button class="quick-btnn">Log Vitals</button>
+                            <button class="quick-btnn">Add Activity</button>
+                            <button class="quick-btnn">Write Report</button>  
+                        </div>
+                    </div>
+                    <div class="resident-card">
+                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
+                        <div class="resident-name">Kitty Kat</div>
+                        <div class="resident-room">102</div>
+                        <div class="resident-status">Active</div>
+                        <div class="quick-action-btnn">
+                            <button class="quick-btnn">Log Vitals</button>
+                            <button class="quick-btnn">Add Activity</button>
+                            <button class="quick-btnn">Write Report</button>  
+                        </div>
+                    </div>
+                    <div class="resident-card">
+                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
+                        <div class="resident-name">Laura Johnson</div>
+                        <div class="resident-room">109</div>
+                        <div class="resident-status">Active</div>
+                        <div class="quick-action-btnn">
+                            <button class="quick-btnn">Log Vitals</button>
+                            <button class="quick-btnn">Add Activity</button>
+                            <button class="quick-btnn">Write Report</button>  
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>

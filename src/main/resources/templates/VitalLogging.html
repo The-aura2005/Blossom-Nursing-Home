@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vital Logging</title>
+    <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/VitalLogging.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_4" />
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_6" />
+</head>
+<body>
+    <div class="grid-container">
+        <header class="header">
+            <div class="header-left">
+                <h1>Welcome Back, Laura!</h1>
+            </div>
+            <div class="header-right">
+                <button class="log-out-btn">Log Out</button>
+            </div>
+        </header>
+        <aside class="sidebar">
+            <div class="sidebar-title">Staff Dashboard</div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                    <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                </ul>
+            </div>
+        </aside>
+        <main class="main-content">
+            <div class="Vitals-container">
+            <h3>Vital Logging</h3>
+            <div class="dropdown-resident">
+                <label for="Select-Resident">Select Resident:</label>
+                <select id="Select-Resident">
+                <option value="Laura Nasy">Laura Nasy</option>
+                <option value="Val Maby">Val Maby</option>
+                <option value="John Smith">John Smith</option>
+                </select>
+            </div>
+            <div class="Record-vitals">
+                <label for="Temperature" name="Temperature">Temperature:</label>
+                <input type="number" id="Temperature" placeholder="Enter temperature">
+                
+                <label for="Weight" name="Weight">Weight:</label>
+                <input type="number" id="Weight" placeholder="Enter weight (kg)">
+                
+                <label for="BloodPressure" name="BloodPressure">Blood Pressure:</label>
+                <input type="text" id="BloodPressure" placeholder="Enter blood pressure (e.g., 120/80)">
+                
+                <label for="Notes" name="Notes">Notes:</label>
+                <textarea id="Notes" placeholder="Enter any additional notes"></textarea>
+                
+                <button type="submit">Submit</button>
+            </div>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
+    

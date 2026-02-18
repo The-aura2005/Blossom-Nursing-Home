@@ -1,0 +1,136 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    background-color: #F0F8FF;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+h3 {
+    color: #1e90ff;
+    font-size: 30px;
+    font-weight: 600;
+    font-family: Arial, Helvetica, sans-serif;
+    margin: 15px;
+}
+
+/* Log Activity Container */
+.log-activity-container {
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px;
+    padding: 30px;
+    overflow: hidden;
+    box-shadow: 0 6px 7px -4px rgba(0,0,0,0.2);
+}
+
+/* Activity Form */
+.activity-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.activity-form label {
+    font-size: 14px;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #1e293b;
+    margin-top: 15px;
+}
+
+.activity-form label:first-of-type {
+    margin-top: 0;
+}
+
+.activity-form select,
+.activity-form input,
+.activity-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: #f9f9f9;
+    box-sizing: border-box;
+}
+
+.activity-form select:focus,
+.activity-form input:focus,
+.activity-form textarea:focus {
+    outline: none;
+    border-color: #1e90ff;
+    background-color: white;
+}
+
+.activity-form textarea {
+    resize: vertical;
+    min-height: 100px;
+}
+
+.activity-form button {
+    background-color: #1e90ff;
+    border: none;
+    border-radius: 8px;
+    padding: 12px 20px;
+    color: white;
+    font-weight: bold;
+    font-size: 14px;
+    margin-top: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: fit-content;
+}
+
+.activity-form button:hover {
+    background-color: #70a1ff;
+}
+
+.activity-form button:active {
+    background-color: #1e90ff;
+    transform: scale(0.98);
+}
+
+/* Activity History Container */
+.activity-history-container {
+    background-color: white;
+    border-radius: 10px;
+    margin: 10px;
+    overflow: hidden;
+    box-shadow: 0 6px 7px -4px rgba(0,0,0,0.2);
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.activity-table thead {
+    background-color: #1e90ff;
+    color: white;
+}
+
+.activity-table th {
+    padding: 15px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.activity-table td {
+    padding: 15px;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.activity-table tbody tr:hover {
+    background-color: #f5f5f5;
+    transition: background-color 0.2s ease;
+}
+
+.activity-table tbody tr:last-child td {
+    border-bottom: none;
+}

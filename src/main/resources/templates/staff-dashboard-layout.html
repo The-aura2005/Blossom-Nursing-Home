@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Staff Dashboard</title>
+        <link rel="stylesheet" href="/css/staff-dashboard.css">
+        <link rel="stylesheet" href="/css/VitalLogging.css">
+        <link rel="stylesheet" href="/css/AssignedResidents.css">
+        <link rel="stylesheet" href="/css/Task.css">
+        <link rel="stylesheet" href="/css/Reports.css">
+        <link rel="stylesheet" href="css/activitiesLogging.css">
+
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_4" />
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_6" />
+    </head>
+    <body>
+        <div class="grid-container">
+            <!---- header ---->
+            <header class="header">
+                <div class="header-left">
+                    <h1>Welcome Back,Laura!</h1>
+                </div>
+                <div class="header-right">
+                    <button class="log-out-btn">Log Out</button>
+            </header>
+            <!-----sidebar--->
+            <aside class="sidebar">
+                <div class="sidebar-title">Staff Dashboard</div>
+
+                <div class="sidebar-menu">
+                <ul>
+                    <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                    <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                </ul>
+                </div>
+
+            </aside>
+            <main class="main-content" th:fragment="content">
+        <!-- Page-specific content will load here -->
+    </main>
+        </div>
+    </body>
+</html>
