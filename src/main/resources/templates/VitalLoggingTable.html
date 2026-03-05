@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>Vital Logging Table</title>
+        <link rel="stylesheet" href="/css/staff-dashboard.css">
+        <link rel="stylesheet" href="css/residents.css">
+    </head>
+    <body>
+        <div class="grid-container">
+        <header class="header">
+            <div class="header-left">
+                <h1>Welcome Back, Laura!</h1>
+            </div>
+            <div class="header-right">
+                <button class="log-out-btn">Log Out</button>
+            </div>
+        </header>
+        <aside class="sidebar">
+            <div class="sidebar-title">Staff Dashboard</div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                    <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                </ul>
+            </div>
+        </aside>
+        <main class="main-content">
+        <h1>Vital Logging Table</h1>
+        <div class="residents-table-container">
+                    <table class="residents-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Temperature</th>
+                                <th>Blood Pressure</th>
+                                <th>Weight</th>
+                                <th>Date Recorded</th>
+                                <th>Saff Name That Recorded</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="vitals :${vitalsList}">
+                                <td th:text="${vitals.resident.id}"></td>
+                                <td th:text="${vitals.resident.name}"></td>
+                                <td th:text="${vitals.temperature}"></td>
+                                <td th:text="${vitals.bloodPressure}"></td>
+                                <td th:text="${vitals.weight}"></td>
+                                <td th:text="${#temporals.format(vitals.dateRecorded,'MM/dd/yyyy')}"></td>
+                                <td th:text="${vitals.resident.staffNameThatRecorded}"></td>
+                
+                            </tr>
+                        </tbody>
+                    </table>
+        </div>
+        </main>
+    </div>
+    </body>
+</html>

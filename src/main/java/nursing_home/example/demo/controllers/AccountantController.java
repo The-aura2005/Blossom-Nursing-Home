@@ -5,11 +5,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class AdminController {
+public class AccountantController {
 
-    @GetMapping("/admin-dashboard")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String adminDashboard() {
-        return "admin-dashboard";
+    @GetMapping("/accountant-dashboard")
+    @PreAuthorize("hasRole('ACCOUNTANT')")
+    public String accountantDashboard() {
+        return "accountant-dashboard";
     }
 }

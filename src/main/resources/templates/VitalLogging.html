@@ -34,13 +34,16 @@
         <main class="main-content">
             <div class="Vitals-container">
             <h3>Vital Logging</h3>
+            <form th:action="@{/vitals}" method="post">
             <div class="dropdown-resident">
                 <label for="Select-Resident">Select Resident:</label>
-                <select id="Select-Resident">
-                <option value="Laura Nasy">Laura Nasy</option>
-                <option value="Val Maby">Val Maby</option>
-                <option value="John Smith">John Smith</option>
-                </select>
+                <select name="residentId" required>
+                <option value="">-- Select Resident --</option>
+                <th:block th:each="resident : ${residents}">
+                <option th:value="${resident.id}" th:text="${resident.name}">
+            </option>
+        </th:block>
+    </select>
             </div>
             <div class="Record-vitals">
                 <label for="Temperature" name="Temperature">Temperature:</label>

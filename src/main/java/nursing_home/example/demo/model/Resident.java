@@ -1,11 +1,14 @@
 package nursing_home.example.demo.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
+import jakarta.persistence.CascadeType;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
 
 @Entity
@@ -19,6 +22,8 @@ public class Resident {
     private int roomNumber;
     private LocalDate admissionDate;
     private String status;
+    @OneToMany(mappedBy = "resident" , cascade= CascadeType.ALL)
+    private List<Vitals> vitals;
 
      public Resident(){}
     public Resident(String name, int age, int roomNumber, LocalDate admissionDate, String status) {

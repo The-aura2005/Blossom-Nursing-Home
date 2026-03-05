@@ -14,7 +14,7 @@
                     <h1>Welcome Back,Laura!</h1>
                 </div>
                 <div class="header-right">
-                    <button class="log-out-btn">Log Out</button>
+                    <button class="log-out-btn" onclick="logout()">Log Out</button>
             </header>
             <!-----sidebar--->
             <aside class="sidebar">
@@ -136,5 +136,16 @@
                 <div class="Quick Action Buttons"></div>
             </main>
         </div>
+
+        <script>
+            function logout() {
+                // Create a form to submit logout through Spring Security
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+                document.body.appendChild(form);
+                form.submit();
+            }
+        </script>
     </body>
 </html>

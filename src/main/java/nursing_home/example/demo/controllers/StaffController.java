@@ -1,5 +1,6 @@
 package nursing_home.example.demo.controllers;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -16,40 +17,46 @@ public class StaffController {
     private StaffService staffService;
 
     @GetMapping("/addStaff")
-    public String addStaff(Model model){
-        model.addAttribute("staff",new Staff());
+    @PreAuthorize("hasRole('ADMIN')")
+    public String addStaff(Model model) {
+        model.addAttribute("staff", new Staff());
         return "addStaff";
     }
+
     @PostMapping("/staffs")
-    public String saveStaff(@ModelAttribute Staff staff){
+    @PreAuthorize("hasRole('ADMIN')")
+    public String saveStaff(@ModelAttribute Staff staff) {
         staffService.addStaff(staff);
         staffService.updateStaff(staff);
         return "redirect:/staffs";
     }
 
     @GetMapping("/staffs")
-    public String viewStaff(Model model){
-        model.addAttribute("staffs",staffService.viewStaffs());
+    @PreAuthorize("hasRole('ADMIN')")
+    public String viewStaff(Model model) {
+        model.addAttribute("staffs", staffService.viewStaffs());
         return "staffs";
     }
-    
+
     @PostMapping("/staffs/delete")
-    public String deleteStaff(Long id){
+    @PreAuthorize("hasRole('ADMIN')")
+    public String deleteStaff(Long id) {
         staffService.deleteStaff(id);
         return "redirect:/staffs";
     }
-    @GetMapping("/editStaff")
-    public String editStaff(Long id,Model model){
-        Staff staff = staffService.getStaffById(id);
-        model.addAttribute("staff",staff);
-        return "editStaff";
 
+    @GetMapping("/editStaff")
+    @PreAuthorize("hasRole('ADMIN')")
+    public String editStaff(Long id, Model model) {
+        Staff staff = staffService.getStaffById(id);
+        model.addAttribute("staff", staff);
+        return "editStaff";
     }
+
     @PostMapping("/staffs/update")
-    public String updateStaff(@ModelAttribute Staff staff){
+    @PreAuthorize("hasRole('ADMIN')")
+    public String updateStaff(@ModelAttribute Staff staff) {
         staffService.updateStaff(staff);
         return "redirect:/staffs";
     }
-
-    
 }
