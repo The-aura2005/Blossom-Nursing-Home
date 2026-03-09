@@ -17,14 +17,14 @@ public class ResidentController {
     private ResidentService residentService;
 
     @GetMapping("/addResident")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String addResident(Model model) {
         model.addAttribute("resident", new Resident());
         return "addResident";
     }
 
     @PostMapping("/residents")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String saveResident(@ModelAttribute Resident resident) {
         residentService.addResident(resident);
         residentService.updateResident(resident);
@@ -46,7 +46,7 @@ public class ResidentController {
     }
 
     @GetMapping("/editResident")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String editResident(@RequestParam Long id, Model model) {
         Resident resident = residentService.getResidentById(id);
         model.addAttribute("resident", resident);
@@ -54,7 +54,7 @@ public class ResidentController {
     }
 
     @PostMapping("/residents/update")
-    @PreAuthorize("hasRole('ADMIN') or hasRole('STAFF')")
+    @PreAuthorize("hasRole('ADMIN')")
     public String updateResident(@ModelAttribute Resident resident) {
         residentService.updateResident(resident);
         return "redirect:/residents";

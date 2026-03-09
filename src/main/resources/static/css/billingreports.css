@@ -1,3 +1,228 @@
+.billing-header {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.billing-header h2 {
+    margin: 0 0 8px;
+    color: #1e90ff;
+}
+
+.billing-header p {
+    margin: 0;
+    color: #4a5568;
+}
+
+.billing-cards {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 16px;
+    margin-bottom: 20px;
+}
+
+.billing-card {
+    background: #fff;
+    border-radius: 10px;
+    padding: 16px;
+    border-left: 6px solid #1e90ff;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.billing-card h3 {
+    margin: 0 0 8px;
+    color: #1e90ff;
+}
+
+.billing-card p {
+    margin: 0;
+    color: #4a5568;
+}
+
+.billing-table-wrap,
+.accountant-referral {
+    background: #fff;
+    border-radius: 10px;
+    padding: 20px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    margin-bottom: 20px;
+}
+
+.billing-table-wrap h3,
+.accountant-referral h3 {
+    margin: 0 0 12px;
+    color: #1e90ff;
+}
+
+.billing-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.billing-table th {
+    background: #1e90ff;
+    color: #fff;
+    text-align: left;
+    padding: 10px;
+}
+
+.billing-table td {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px;
+}
+
+.status-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.status-badge.paid {
+    background: #d1fae5;
+    color: #065f46;
+}
+
+.status-badge.pending {
+    background: #fef3c7;
+    color: #92400e;
+}
+
+.status-badge.overdue {
+    background: #fee2e2;
+    color: #991b1b;
+}
+
+.accountant-referral p {
+    margin: 0 0 10px;
+    color: #4a5568;
+}
+
+.accountant-referral ul {
+    margin: 0;
+    padding-left: 18px;
+}
+/* Billing and payments page custom styles layered on top of admin.css */
+.billing-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.billing-header h2 {
+    margin: 0;
+    color: #1e90ff;
+    font-size: 24px;
+}
+
+.billing-actions {
+    display: flex;
+    gap: 10px;
+    flex-wrap: wrap;
+}
+
+.billing-alert {
+    margin-bottom: 14px;
+    padding: 12px 14px;
+    border-radius: 8px;
+    color: #0d47a1;
+    background-color: #e3f2fd;
+    border: 1px solid #bbdefb;
+    font-weight: 500;
+}
+
+.action-form {
+    margin: 0;
+}
+
+.action-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    border: none;
+    border-radius: 8px;
+    background-color: #1e90ff;
+    color: #fff;
+    padding: 10px 14px;
+    font-size: 14px;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.action-link {
+    text-decoration: none;
+}
+
+.action-btn:hover {
+    background-color: #70a1ff;
+}
+
+.billing-cards .card {
+    border-left: 7px solid #1e90ff;
+}
+
+.billing-cards .card:nth-child(2),
+.billing-cards .card:nth-child(3),
+.billing-cards .card:nth-child(4) {
+    border-left-color: #1e90ff;
+}
+
+.billing-grid .data-table {
+    overflow-x: auto;
+}
+
+.billing-grid .data-table h3,
+.billing-grid .activity-card h3 {
+    color: #1e90ff;
+}
+
+.icon-btn {
+    border: none;
+    background: #eaf4ff;
+    color: #1e90ff;
+    border-radius: 6px;
+    width: 30px;
+    height: 30px;
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.icon-btn:hover {
+    background: #d8ebff;
+}
+
+.action-buttons {
+    display: flex;
+    gap: 8px;
+}
+
+@media (max-width: 992px) {
+    .billing-header {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .billing-actions {
+        width: 100%;
+    }
+}
+
+@media (max-width: 768px) {
+    .billing-header h2 {
+        font-size: 20px;
+    }
+
+    .action-btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
 
 .billing-header {
     display: flex;

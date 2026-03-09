@@ -1,182 +1,293 @@
 <!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Billing Reports - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/billingreports.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="js/admin.js"></script>
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
+        <div class="header-left"><h1>Billing Reports</h1></div>
+        <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
+    </header>
+
+    <aside id="sidebar">
+        <div class="sidebar-title">
+            <div><h3>BlossomHomes</h3></div>
+            <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+        </div>
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/billingreports}" class="active">Billing Reports</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-container">
+        <section class="billing-header">
+            <h2>Billing Overview For Admin</h2>
+            <p>This page gives administration-level visibility while detailed invoice and payment processing is handled by the accountant.</p>
+        </section>
+
+        <section class="billing-cards">
+            <div class="billing-card">
+                <h3>Collections Snapshot</h3>
+                <p>Track overall payment progress and identify overdue balances needing follow-up.</p>
+            </div>
+            <div class="billing-card">
+                <h3>Resident Billing Status</h3>
+                <p>Review resident account standing before admissions meetings or care-plan updates.</p>
+            </div>
+            <div class="billing-card">
+                <h3>Monthly Trend Review</h3>
+                <p>Use finance trends for operational planning and staffing decisions.</p>
+            </div>
+        </section>
+
+        <section class="billing-table-wrap">
+            <h3>Sample Billing Report View</h3>
+            <table class="billing-table">
+                <thead>
+                <tr>
+                    <th>Resident</th>
+                    <th>Room</th>
+                    <th>Invoice Month</th>
+                    <th>Amount</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Laura</td>
+                    <td>101</td>
+                    <td>Jan 2026</td>
+                    <td>$5,000</td>
+                    <td><span class="status-badge paid">Paid</span></td>
+                    <td>For records only</td>
+                </tr>
+                <tr>
+                    <td>Jessy</td>
+                    <td>103</td>
+                    <td>Jan 2026</td>
+                    <td>$5,000</td>
+                    <td><span class="status-badge pending">Pending</span></td>
+                    <td>Refer to accountant</td>
+                </tr>
+                <tr>
+                    <td>Mercy</td>
+                    <td>120</td>
+                    <td>Jan 2026</td>
+                    <td>$5,000</td>
+                    <td><span class="status-badge overdue">Overdue</span></td>
+                    <td>Refer to accountant</td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="accountant-referral">
+            <h3>Accountant Referral</h3>
+            <p>For invoice creation, payment posting, corrections, and exports, coordinate directly with the accountant role.</p>
+            <ul>
+                <li>Escalate overdue accounts for follow-up.</li>
+                <li>Request invoice corrections where resident details changed.</li>
+                <li>Request month-end revenue exports for management reporting.</li>
+            </ul>
+        </section>
+    </main>
+</div>
+</body>
+</html>
+<!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Billing Reports - Admin Dashboard</title>
-        <link rel="stylesheet" href="css/admin.css">
-        <link rel="stylesheet" href="css/billingreports.css">
-        <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-        <script src="js/admin.js"></script>
-        </head>
-    <body>
-        <div class="grid-container">
-            <header class="header">
-                <div class="menu-icon" onclick="openSidebar()">
-                    <span class="material-symbols-outlined">menu</span>
-                 
-                    </div>
+<head>
+    <title>Billing &amp; Payments - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link rel="stylesheet" href="css/billingreports.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="js/admin.js"></script>
+</head>
+<body>
+    <div class="grid-container">
+        <header class="header">
+            <div class="menu-icon" onclick="openSidebar()">
+                <span class="material-symbols-outlined">menu</span>
+            </div>
             <div class="header-left">
-               <h1>Billing Reports</h1> 
+                <h1>Billing &amp; Payments</h1>
             </div>
             <div class="header-right">
-                <span class="material-symbols-outlined">account_box</span> 
+                <span class="material-symbols-outlined">account_box</span>
             </div>
-                
-            </header>
-            <aside id="sidebar">
-                <div class="sidebar-title">
-                    
-                    <div><h3>BlossomHomes</h3></div>
-                    <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
-                </div>
-                 <ul class="sidebar-list">
-                    <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/billingreports}" class="active">BillingReports</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
-                </ul>
-            </aside>
-            <main class="main-container">
-                <div class="billing-header">
-                    <h2>Billing Reports</h2>
-                    <div class="billing-actions">
-                        <button class="generate-report-btn">
-                            <span class="material-symbols-outlined">file_download</span>
-                            Generate Report
-                        </button>
-                        <button class="add-invoice-btn">
-                            <span class="material-symbols-outlined">add</span>
-                            Add Invoice
-                        </button>
-                    </div>
-                </div>
+        </header>
 
-                <div class="billing-stats">
-                    <div class="stat-card">
-                        <div class="stat-label">Total Revenue</div>
-                        <div class="stat-value">$125,500</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Pending Payments</div>
-                        <div class="stat-value">$18,300</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Total Invoices</div>
-                        <div class="stat-value">245</div>
-                    </div>
-                    <div class="stat-card">
-                        <div class="stat-label">Collection Rate</div>
-                        <div class="stat-value">88%</div>
-                    </div>
-                </div>
+        <aside id="sidebar">
+            <div class="sidebar-title">
+                <div><h3>BlossomHomes</h3></div>
+                <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+            </div>
+            <ul class="sidebar-list">
+                <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/billingreports}" class="active">Billing &amp; Payments</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+            </ul>
+        </aside>
 
-                <div class="billing-table-container">
-                    <table class="billing-table">
+        <main class="main-container">
+            <div class="billing-alert" th:if="${billingMessage}" th:text="${billingMessage}"></div>
+            <section class="billing-header">
+                <h2>Billing Overview</h2>
+                <div class="billing-actions">
+                    <form th:action="@{/billing/invoices}" method="post" class="action-form">
+                        <input type="hidden" name="residentName" value="New Resident">
+                        <input type="hidden" name="amount" value="5000">
+                        <input type="hidden" name="paymentMethod" value="Bank Transfer">
+                        <button class="action-btn" type="submit">
+                            <span class="material-symbols-outlined">receipt_long</span>
+                            New Invoice
+                        </button>
+                    </form>
+                    <form th:action="@{/billing/payments}" method="post" class="action-form">
+                        <input type="hidden" name="invoiceId" th:value="${#lists.isEmpty(invoices) ? 'N/A' : invoices.get(0).invoiceId}">
+                        <input type="hidden" name="amount" value="5000">
+                        <input type="hidden" name="paymentMethod" value="Cash">
+                        <button class="action-btn" type="submit">
+                            <span class="material-symbols-outlined">payments</span>
+                            Record Payment
+                        </button>
+                    </form>
+                    <a th:href="@{/billing/reports/export}" class="action-btn action-link">
+                        <span class="material-symbols-outlined">download</span>
+                        Export Report
+                    </a>
+                </div>
+            </section>
+
+            <section class="main-cards billing-cards">
+                <div class="card">
+                    <div class="inner-card">
+                        <p>Total Revenue</p>
+                        <span class="material-symbols-outlined">account_balance_wallet</span>
+                    </div>
+                    <span class="text-primary font-weight-bold" th:text="${totalRevenue}">$0</span>
+                </div>
+                <div class="card">
+                    <div class="inner-card">
+                        <p>Outstanding</p>
+                        <span class="material-symbols-outlined">schedule</span>
+                    </div>
+                    <span class="text-primary font-weight-bold" th:text="${outstanding}">$0</span>
+                </div>
+                <div class="card">
+                    <div class="inner-card">
+                        <p>Paid Invoices</p>
+                        <span class="material-symbols-outlined">task_alt</span>
+                    </div>
+                    <span class="text-primary font-weight-bold" th:text="${paidInvoices}">0</span>
+                </div>
+                <div class="card">
+                    <div class="inner-card">
+                        <p>Collection Rate</p>
+                        <span class="material-symbols-outlined">query_stats</span>
+                    </div>
+                    <span class="text-primary font-weight-bold" th:text="${collectionRate + '%'}">0%</span>
+                </div>
+            </section>
+
+            <section class="content-grid billing-grid">
+                <div class="data-table">
+                    <h3>Recent Invoices</h3>
+                    <table>
                         <thead>
                             <tr>
                                 <th>Invoice ID</th>
-                                <th>Resident Name</th>
+                                <th>Resident</th>
                                 <th>Amount</th>
-                                <th>Invoice Date</th>
                                 <th>Due Date</th>
-                                <th>Payment Status</th>
-                                <th>Payment Method</th>
+                                <th>Method</th>
+                                <th>Status</th>
                                 <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>INV-2026-001</td>
-                                <td>John Smith</td>
-                                <td>$5,000.00</td>
-                                <td>01/20/2026</td>
-                                <td>02/05/2026</td>
-                                <td><span class="payment-badge payment-paid">Paid</span></td>
-                                <td>Credit Card</td>
-                                <td class="action-buttons">
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
+                            <tr th:if="${#lists.isEmpty(invoices)}">
+                                <td colspan="7">No billing records available yet.</td>
                             </tr>
-                            <tr>
-                                <td>INV-2026-002</td>
-                                <td>Mary Johnson</td>
-                                <td>$5,000.00</td>
-                                <td>01/22/2026</td>
-                                <td>02/07/2026</td>
-                                <td><span class="payment-badge payment-pending">Pending</span></td>
-                                <td>Bank Transfer</td>
-                                <td class="action-buttons">
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                            <tr th:each="invoice : ${invoices}">
+                                <td th:text="${invoice.invoiceId}"></td>
+                                <td th:text="${invoice.residentName}"></td>
+                                <td th:text="${invoice.amount}"></td>
+                                <td th:text="${invoice.dueDate}"></td>
+                                <td th:text="${invoice.paymentMethod}"></td>
+                                <td>
+                                    <span class="status-badge"
+                                          th:text="${invoice.status}"
+                                          th:classappend="${invoice.status == 'Paid' ? ' status-active' : (invoice.status == 'Pending' ? ' status-pending' : ' status-inactive')}">Status</span>
                                 </td>
-                            </tr>
-                            <tr>
-                                <td>INV-2026-003</td>
-                                <td>Robert Williams</td>
-                                <td>$5,000.00</td>
-                                <td>01/25/2026</td>
-                                <td>02/10/2026</td>
-                                <td><span class="payment-badge payment-paid">Paid</span></td>
-                                <td>Insurance</td>
-                                <td class="action-buttons">
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>INV-2026-004</td>
-                                <td>Patricia Davis</td>
-                                <td>$5,250.00</td>
-                                <td>01/28/2026</td>
-                                <td>02/12/2026</td>
-                                <td><span class="payment-badge payment-overdue">Overdue</span></td>
-                                <td>Check</td>
-                                <td class="action-buttons">
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>INV-2026-005</td>
-                                <td>James Miller</td>
-                                <td>$5,000.00</td>
-                                <td>02/01/2026</td>
-                                <td>02/15/2026</td>
-                                <td><span class="payment-badge payment-paid">Paid</span></td>
-                                <td>Credit Card</td>
-                                <td class="action-buttons">
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>INV-2026-006</td>
-                                <td>Linda Garcia</td>
-                                <td>$5,000.00</td>
-                                <td>02/02/2026</td>
-                                <td>02/16/2026</td>
-                                <td><span class="payment-badge payment-pending">Pending</span></td>
-                                <td>Bank Transfer</td>
-                                <td class="action-buttons">
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
-                                    <button class="btn-download" title="Download"><span class="material-symbols-outlined">download</span></button>
-                                    <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
+                                <td>
+                                    <div class="action-buttons">
+                                        <button class="icon-btn" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                        <button class="icon-btn" title="Download"><span class="material-symbols-outlined">download</span></button>
+                                    </div>
                                 </td>
                             </tr>
                         </tbody>
                     </table>
                 </div>
-            </main>
-        </div>
 
-    </body>
+                <div class="activity-card">
+                    <h3>Recent Payments</h3>
+                    <div class="activity-item" th:if="${#lists.isEmpty(recentPayments)}">
+                        <div class="activity-content">
+                            <div class="activity-text">No payment activity available yet.</div>
+                        </div>
+                    </div>
+                    <div class="activity-item" th:each="payment : ${recentPayments}">
+                        <div class="activity-dot"></div>
+                        <div class="activity-content">
+                            <div class="activity-text" th:text="${payment.text}">Payment activity</div>
+                            <div class="activity-time" th:text="${payment.time}">Now</div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutLink = document.querySelector('a[href="/logout"]');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/logout';
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            }
+        });
+    </script>
+</body>
 </html>

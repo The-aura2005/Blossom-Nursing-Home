@@ -45,6 +45,6 @@ public class LoginController {
             }
         }
 
-        return "redirect:/loginn";
+        return "no-role";
     }
 }

@@ -11,4 +11,6 @@ import nursing_home.example.demo.model.Resident;
 public interface ResidentRepository extends JpaRepository<Resident, Long> {
     Optional<Resident> findById(Long id);
 
+    java.util.List<Resident> findAllByOrderByNameAsc();
+
 }

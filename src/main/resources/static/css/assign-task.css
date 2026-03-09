@@ -1,0 +1,82 @@
+.assign-layout {
+    display: grid;
+    grid-template-columns: 340px 1fr;
+    gap: 20px;
+}
+
+.assign-card,
+.table-card {
+    background: #fff;
+    border-radius: 10px;
+    box-shadow: 0 6px 7px -4px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+}
+
+.assign-card h3,
+.table-card h3 {
+    margin-top: 0;
+    color: #1e90ff;
+}
+
+.assign-card form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.assign-card input,
+.assign-card select {
+    border: 1px solid #d9e6f7;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.assign-card button {
+    margin-top: 10px;
+    border: none;
+    background: #1e90ff;
+    color: #fff;
+    border-radius: 8px;
+    padding: 11px;
+    cursor: pointer;
+    font-weight: 600;
+}
+
+.assign-card button:hover {
+    background: #70a1ff;
+}
+
+.success {
+    margin-bottom: 12px;
+    border: 1px solid #bde5c8;
+    background: #eaf9ef;
+    color: #1f6b35;
+    border-radius: 6px;
+    padding: 10px;
+    font-size: 14px;
+}
+
+.table-card table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.table-card thead {
+    background: #1e90ff;
+    color: #fff;
+}
+
+.table-card th,
+.table-card td {
+    text-align: left;
+    padding: 12px;
+    border-bottom: 1px solid #e8eef7;
+    font-size: 14px;
+}
+
+@media (max-width: 980px) {
+    .assign-layout {
+        grid-template-columns: 1fr;
+    }
+}

@@ -26,7 +26,11 @@ public class StaffService {
     }
     //method to view staff
     public List<Staff> viewStaffs(){
-        return staffRepository.findAll();
+        List<Staff> staffs = staffRepository.findAll();
+        if(staffs.isEmpty()){
+            throw new IllegalStateException("no staff found");
+        }
+        return staffs;
     }  
     //method to delete staff
     public void deleteStaff(Long id){

@@ -13,7 +13,7 @@
     <div class="grid-container">
         <header class="header">
             <div class="header-left">
-                <h1>Welcome Back, Laura!</h1>
+                <h1>Vital Logging</h1>
             </div>
             <div class="header-right">
                 <button class="log-out-btn">Log Out</button>
@@ -27,13 +27,14 @@
                     <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
                     <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
                     <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
-                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                    <li><a th:href="@{/myReports}">Reports</a></li>
                 </ul>
             </div>
         </aside>
         <main class="main-content">
             <div class="Vitals-container">
             <h3>Vital Logging</h3>
+            <div class="task-alert" th:if="${vitalsMessage}" th:text="${vitalsMessage}"></div>
             <form th:action="@{/vitals}" method="post">
             <div class="dropdown-resident">
                 <label for="Select-Resident">Select Resident:</label>
@@ -46,20 +47,21 @@
     </select>
             </div>
             <div class="Record-vitals">
-                <label for="Temperature" name="Temperature">Temperature:</label>
-                <input type="number" id="Temperature" placeholder="Enter temperature">
+                <label for="Temperature">Temperature:</label>
+                <input type="number" id="Temperature" name="temperature" placeholder="Enter temperature" required>
                 
-                <label for="Weight" name="Weight">Weight:</label>
-                <input type="number" id="Weight" placeholder="Enter weight (kg)">
+                <label for="Weight">Weight:</label>
+                <input type="number" id="Weight" name="weight" placeholder="Enter weight (kg)" required>
                 
-                <label for="BloodPressure" name="BloodPressure">Blood Pressure:</label>
-                <input type="text" id="BloodPressure" placeholder="Enter blood pressure (e.g., 120/80)">
+                <label for="BloodPressure">Blood Pressure:</label>
+                <input type="text" id="BloodPressure" name="bloodPressure" placeholder="Enter blood pressure (e.g., 120/80)" required>
                 
-                <label for="Notes" name="Notes">Notes:</label>
-                <textarea id="Notes" placeholder="Enter any additional notes"></textarea>
+                <label for="Notes">Notes:</label>
+                <textarea id="Notes" name="notes" placeholder="Enter any additional notes"></textarea>
                 
                 <button type="submit">Submit</button>
             </div>
+            </form>
             </div>
         </main>
     </div>

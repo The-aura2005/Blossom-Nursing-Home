@@ -13,7 +13,7 @@
     <div class="grid-container">
         <header class="header">
             <div class="header-left">
-                <h1>Welcome Back, Laura!</h1>
+                <h1 th:text="${'Welcome Back, ' + loggedInUser + '!'}">Welcome Back!</h1>
             </div>
             <div class="header-right">
                 <button class="log-out-btn">Log Out</button>
@@ -26,26 +26,29 @@
                     <li><a th:href="@{/MyTask}">My Tasks</a></li>
                     <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
                     <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
-                    <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
-                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                    <li><a th:href="@{/activitiesLogging}" class="active">Activities Logging</a></li>
+                    <li><a th:href="@{/myReports}">Reports</a></li>
                 </ul>
             </div>
         </aside>
         <main class="main-content">
+        <div class="task-alert" th:if="${taskMessage}" th:text="${taskMessage}"></div>
+        <div class="task-alert" th:if="${activityMessage}" th:text="${activityMessage}"></div>
+        <div class="task-alert" th:if="${activityError}" th:text="${activityError}"></div>
         <!-- Activity Form Container -->
         <div class="log-activity-container">
             <h3>Log Activity</h3>
-            <div class="activity-form">
+            <form class="activity-form" th:action="@{/activitiesLogging}" method="post">
                 <label for="Select-Resident">Select Resident:</label>
-                <select id="Select-Resident">
+                <select id="Select-Resident" name="residentId" required>
                     <option value="">Choose a resident</option>
-                    <option value="Laura Nasy">Laura Nasy</option>
-                    <option value="Val Maby">Val Maby</option>
-                    <option value="John Smith">John Smith</option>
+                    <option th:each="resident : ${residents}"
+                            th:value="${resident.id}"
+                            th:text="${resident.name + ' - Room ' + resident.roomNumber}"></option>
                 </select>
                 
                 <label for="ActivityType">Activity Type:</label>
-                <select id="ActivityType">
+                <select id="ActivityType" name="activityType" required>
                     <option value="">Select activity type</option>
                     <option value="Medication">Medication</option>
                     <option value="Meal">Meal</option>
@@ -56,16 +59,16 @@
                 </select>
                 
                 <label for="ActivityNotes">Notes:</label>
-                <textarea id="ActivityNotes" placeholder="Enter activity notes"></textarea>
+                <textarea id="ActivityNotes" name="notes" placeholder="Enter activity notes"></textarea>
                 
                 <label for="ActivityDate">Date:</label>
-                <input type="date" id="ActivityDate">
+                <input type="date" id="ActivityDate" name="activityDate" required>
                 
                 <label for="ActivityTime">Time:</label>
-                <input type="time" id="ActivityTime">
+                <input type="time" id="ActivityTime" name="activityTime" required>
                 
                 <button type="submit" id="submit-activity">Submit</button>
-            </div>
+            </form>
         </div>
 
         <!-- Activity History Container -->
@@ -82,26 +85,15 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>02/18/2026</td>
-                        <td>Medication</td>
-                        <td>Admiistered 5mg medicaton</td>
-                        <td>09:00 AM</td>
-                        <td>Sarah Johnson</td>
+                    <tr th:if="${#lists.isEmpty(activityHistory)}">
+                        <td colspan="5">No activity logs yet.</td>
                     </tr>
-                    <tr>
-                        <td>02/18/2026</td>
-                        <td>Meal</td>
-                        <td>Lunch - completed full meal</td>
-                        <td>12:30 PM</td>
-                        <td>Mike Davis</td>
-                    </tr>
-                    <tr>
-                        <td>02/17/2026</td>
-                        <td>Exercise</td>
-                        <td>30 min walk around facility</td>
-                        <td>03:00 PM</td>
-                        <td>John Williams</td>
+                    <tr th:each="log : ${activityHistory}">
+                        <td th:text="${#temporals.format(log.activityDate, 'MM/dd/yyyy')}">02/18/2026</td>
+                        <td th:text="${log.activityType}">Medication</td>
+                        <td th:text="${log.notes}">Notes</td>
+                        <td th:text="${#temporals.format(log.activityTime, 'hh:mm a')}">09:00 AM</td>
+                        <td th:text="${log.resident.name}">Resident</td>
                     </tr>
                 </tbody>
             </table>

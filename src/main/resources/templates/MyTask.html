@@ -33,14 +33,15 @@
         </aside>
         <main class="main-content">
         <h3>My Tasks</h3>
+        <div class="task-alert" th:if="${taskMessage}" th:text="${taskMessage}"></div>
         <div class="summary-card">
             <div class="card-content">
                 <h4>Pending Tasks</h4>
-                <P>10</P>
+                <P th:text="${pendingCount}">0</P>
             </div>
             <div class="card-content">
                 <h4>Completed Tasks</h4>
-                <P>3</P>
+                <P th:text="${completedCount}">0</P>
             </div>
         </div>
         <div class="Task-container">
@@ -56,13 +57,27 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>Administer Medication</td>
-                        <td>John Smith</td>
-                        <td>Room 101</td>
-                        <td>09:00 AM</td>
-                        <td>High</td>
-                        <td><button>Edit</button></td>
+                    <tr th:if="${#lists.isEmpty(tasks)}">
+                        <td colspan="6">No tasks assigned yet.</td>
+                    </tr>
+                    <tr th:each="task : ${tasks}">
+                        <td th:text="${task.title}">Task</td>
+                        <td th:text="${task.residentName}">Resident</td>
+                        <td th:text="${task.roomNumber}">Room</td>
+                        <td th:text="${task.scheduledTime}">Time</td>
+                        <td>
+                            <span class="priority-badge"
+                                  th:text="${task.priority}"
+                                  th:classappend="${task.priority == 'HIGH' ? ' priority-high' : (task.priority == 'MEDIUM' ? ' priority-medium' : ' priority-low')}">Priority</span>
+                        </td>
+                        <td class="task-actions">
+                            <form th:if="${task.status == 'PENDING'}" th:action="@{/MyTask/complete}" method="post">
+                                <input type="hidden" name="taskId" th:value="${task.id}">
+                                <button class="complete-btn" type="submit">Complete Task</button>
+                            </form>
+                            <span th:if="${task.status == 'COMPLETED'}" class="completed-label">Completed</span>
+                            <a th:if="${task.status == 'COMPLETED'}" th:href="@{/activitiesLogging}" class="log-btn">Log Activity</a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

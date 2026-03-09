@@ -13,7 +13,7 @@
     <div class="grid-container">
         <header class="header">
             <div class="header-left">
-                <h1>Welcome Back, Laura!</h1>
+                <h1 th:text="${'Welcome Back, ' + loggedInUser + '!'}">Welcome Back!</h1>
             </div>
             <div class="header-right">
                 <button class="log-out-btn">Log Out</button>
@@ -24,10 +24,10 @@
             <div class="sidebar-menu">
                 <ul>
                     <li><a th:href="@{/MyTask}">My Tasks</a></li>
-                    <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                    <li><a th:href="@{/MyAssignedResidents}" class="active">My Assigned Residents</a></li>
                     <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
                     <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
-                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                    <li><a th:href="@{/myReports}">Reports</a></li>
                 </ul>
             </div>
         </aside>
@@ -35,49 +35,21 @@
             <div class="Assigned-Residents">
                 <h3>Assigned Residents</h3>
                 <div class="resident-list">
-                    <div class="resident-card">
-                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Wendy Brown</div>
-                        <div class="resident-room">Room 103</div>
-                        <div class="resident-status">Stable</div>
-                        <div class="quick-action-btnn">
-                            <button class="quick-btnn">Log Vitals</button>
-                            <button class="quick-btnn">Add Activity</button>
-                            <button class="quick-btnn">Write Report</button>  
-                        </div>
+                    <div class="resident-card" th:if="${#lists.isEmpty(assignedResidents)}">
+                        <div class="resident-name">No assigned residents yet.</div>
+                        <div class="resident-room">Residents appear here when tasks are assigned to you.</div>
                     </div>
-                    <div class="resident-card">
+                    <div class="resident-card" th:each="resident : ${assignedResidents}">
                         <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Janny Jane</div>
-                        <div class="resident-room">101</div>
-                        <div class="resident-status">Stable</div>
+                        <div class="resident-name" th:text="${resident.residentName}">Resident Name</div>
+                        <div class="resident-room" th:text="${'Room ' + resident.roomNumber}">Room 0</div>
+                        <div class="resident-status" th:text="${resident.residentStatus}">Assigned</div>
                         <div class="quick-action-btnn">
-                            <button class="quick-btnn">Log Vitals</button>
-                            <button class="quick-btnn">Add Activity</button>
-                            <button class="quick-btnn">Write Report</button>  
+                            <a class="quick-btnn" th:href="@{/VitalLogging}">Log Vitals</a>
+                            <a class="quick-btnn" th:href="@{/activitiesLogging}">Add Activity</a>
+                            <a class="quick-btnn" th:href="@{/myReports}">Write Report</a>
                         </div>
-                    </div>
-                    <div class="resident-card">
-                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Kitty Kat</div>
-                        <div class="resident-room">102</div>
-                        <div class="resident-status">Active</div>
-                        <div class="quick-action-btnn">
-                            <button class="quick-btnn">Log Vitals</button>
-                            <button class="quick-btnn">Add Activity</button>
-                            <button class="quick-btnn">Write Report</button>  
-                        </div>
-                    </div>
-                    <div class="resident-card">
-                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Laura Johnson</div>
-                        <div class="resident-room">109</div>
-                        <div class="resident-status">Active</div>
-                        <div class="quick-action-btnn">
-                            <button class="quick-btnn">Log Vitals</button>
-                            <button class="quick-btnn">Add Activity</button>
-                            <button class="quick-btnn">Write Report</button>  
-                        </div>
+                        <div class="resident-room" th:text="${resident.pendingCount + ' pending / ' + resident.completedCount + ' completed tasks'}"></div>
                     </div>
                 </div>
             </div>

@@ -5,14 +5,16 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
-import lombok.AllArgsConstructor;
 import nursing_home.example.demo.dao.ResidentRepository;
 import nursing_home.example.demo.model.Resident;
 
 @Service
-@AllArgsConstructor
 public class ResidentService {
-    private ResidentRepository residentRepository;
+    private final ResidentRepository residentRepository;
+
+    public ResidentService(ResidentRepository residentRepository) {
+        this.residentRepository = residentRepository;
+    }
 
     public void addResident(Resident resident) {
         if (resident.getId() != null) {
@@ -25,7 +27,13 @@ public class ResidentService {
     }
 
     public List<Resident> viewResidents() {
-        return residentRepository.findAll();
+        List<Resident> residents = residentRepository.findAll();
+        if (residents.isEmpty()) {
+            throw new IllegalStateException("No residents found");
+        } else {
+            return residents;
+        }
+
     }
 
     public void deleteResident(Long id) {

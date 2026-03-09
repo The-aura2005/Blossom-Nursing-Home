@@ -65,3 +65,75 @@ h3 {
 .Task-table tbody tr:last-child td {
     border-bottom: none;
 }
+
+.task-alert {
+    margin: 0 10px 12px;
+    padding: 12px;
+    border-radius: 8px;
+    border: 1px solid #bde5c8;
+    background: #eaf9ef;
+    color: #1f6b35;
+    font-size: 14px;
+}
+
+.task-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.task-actions form {
+    margin: 0;
+}
+
+.complete-btn,
+.log-btn {
+    border: none;
+    border-radius: 6px;
+    padding: 8px 10px;
+    font-size: 12px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+.complete-btn {
+    background: #1e90ff;
+    color: white;
+}
+
+.complete-btn:hover {
+    background: #70a1ff;
+}
+
+.log-btn {
+    background: #e6f0ff;
+    color: #1e90ff;
+}
+
+.completed-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #2e7d32;
+}
+
+.priority-badge {
+    border-radius: 999px;
+    padding: 3px 10px;
+    font-size: 12px;
+    font-weight: 600;
+}
+
+.priority-high {
+    background: #ffe5e5;
+    color: #c62828;
+}
+
+.priority-medium {
+    background: #fff3cd;
+    color: #856404;
+}
+
+.priority-low {
+    background: #e8f5e9;
+    color: #1b5e20;
+}

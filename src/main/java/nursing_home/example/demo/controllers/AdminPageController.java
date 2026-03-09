@@ -7,21 +7,21 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AdminPageController {
 
-    @GetMapping("/billingreports")
+    @GetMapping("/admin-dashboard")
     @PreAuthorize("hasRole('ADMIN')")
-    public String billingReportsPage() {
-        return "billingreports";
-    }
-
-    @GetMapping("/medical")
-    @PreAuthorize("hasRole('ADMIN')")
-    public String medicalPage() {
-        return "medical";
+    public String adminDashboard() {
+        return "admin-dashboard";
     }
 
     @GetMapping("/settings")
     @PreAuthorize("hasRole('ADMIN')")
     public String settingsPage() {
         return "settings";
+    }
+
+    @GetMapping("/billingreports")
+    @PreAuthorize("hasAnyRole('ADMIN','ACCOUNTANT')")
+    public String billingReportsPage() {
+        return "billingreports";
     }
 }
