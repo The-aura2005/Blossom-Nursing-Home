@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Vital Logging Table</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link rel="stylesheet" href="/css/residents.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="/js/admin.js"></script>
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <h1>Vital Logs (All Staff)</h1>
+        </div>
+        <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
+    </header>
+
+    <aside id="sidebar">
+        <div class="sidebar-title">
+            <div><h3>BlossomHomes</h3></div>
+            <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+        </div>
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/reports}" class="active">Reports</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-container">
+        <div class="data-table" style="margin-bottom: 20px;">
+            <h3>All Vital Logs</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Resident ID</th>
+                    <th>Resident Name</th>
+                    <th>Temperature</th>
+                    <th>Blood Pressure</th>
+                    <th>Weight</th>
+                    <th>Date Recorded</th>
+                    <th>Logged By</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(vitalsList)}">
+                    <td colspan="7">No vital logs available.</td>
+                </tr>
+                <tr th:each="vitals : ${vitalsList}">
+                    <td th:text="${vitals.resident.id}">1</td>
+                    <td th:text="${vitals.resident.name}">Resident</td>
+                    <td th:text="${vitals.temperature}">0</td>
+                    <td th:text="${vitals.bloodPressure}">120/80</td>
+                    <td th:text="${vitals.weight}">0</td>
+                    <td th:text="${#temporals.format(vitals.dateRecorded, 'MM/dd/yyyy')}">01/01/2026</td>
+                    <td th:text="${vitals.recordedByUsername}">staff</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutLink = document.querySelector('a[href="/logout"]');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
+    });
+</script>
+</body>
+</html>

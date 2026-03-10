@@ -31,7 +31,8 @@
                 <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
                 <li class="sidebar-list-item"><a th:href="@{/assign-task}" class="active">Assign Tasks</a></li>
                 <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
-                <li class="sidebar-list-item"><a th:href="@{/billingreports}">Billing Reports</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/reports}">Reports</a></li>
+                <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
                 <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
             </ul>
         </aside>
@@ -107,5 +108,21 @@
             </div>
         </main>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const logoutLink = document.querySelector('a[href="/logout"]');
+            if (logoutLink) {
+                logoutLink.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    const form = document.createElement('form');
+                    form.method = 'POST';
+                    form.action = '/logout';
+                    document.body.appendChild(form);
+                    form.submit();
+                });
+            }
+        });
+    </script>
 </body>
 </html>

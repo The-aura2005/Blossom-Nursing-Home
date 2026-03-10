@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add Activity</title>
+    <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/activitiesLogging.css">
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="header-left">
+            <h1 th:text="${'Welcome Back, ' + loggedInUser + '!'}">Welcome Back!</h1>
+        </div>
+        <div class="header-right">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <button class="log-out-btn" type="submit">Log Out</button>
+            </form>
+        </div>
+    </header>
+    <aside class="sidebar">
+        <div class="sidebar-title">Staff Dashboard</div>
+        <div class="sidebar-menu">
+            <ul>
+                    <li><a th:href="@{/staff-dashboard}">Overview</a></li>
+                    <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
+                    <li><a th:href="@{/activitiesLogging}" class="active">Activities Logging</a></li>
+                <li><a th:href="@{/myReports}">Reports</a></li>
+                    <li><a th:href="@{/medications}">Medication Logs</a></li>
+                    <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
+            </ul>
+        </div>
+    </aside>
+    <main class="main-content">
+        <div class="task-alert" th:if="${activityMessage}" th:text="${activityMessage}"></div>
+        <div class="task-alert" th:if="${activityError}" th:text="${activityError}"></div>
+
+        <div class="log-activity-container" th:if="${selectedResident != null}">
+            <h3>Log Activity</h3>
+            <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
+
+            <form class="activity-form" th:action="@{/activitiesLogging/add}" method="post" style="padding-top: 10px;">
+                <input type="hidden" name="residentId" th:value="${selectedResident.residentId}">
+
+                <label for="ActivityType">Activity Type:</label>
+                <select id="ActivityType" name="activityType" required>
+                    <option value="">Select activity type</option>
+                    <option value="Medication">Medication</option>
+                    <option value="Meal">Meal</option>
+                    <option value="Exercise">Exercise</option>
+                    <option value="Therapy">Therapy</option>
+                    <option value="Medical Appointment">Medical Appointment</option>
+                    <option value="Other">Other</option>
+                </select>
+
+                <label for="ActivityNotes">Notes:</label>
+                <textarea id="ActivityNotes" name="notes" placeholder="Enter activity notes"></textarea>
+
+                <label for="ActivityDate">Date:</label>
+                <input type="date" id="ActivityDate" name="activityDate" required>
+
+                <label for="ActivityTime">Time:</label>
+                <input type="time" id="ActivityTime" name="activityTime" required>
+
+                <button type="submit" id="submit-activity">Submit</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

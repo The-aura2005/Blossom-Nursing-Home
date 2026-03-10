@@ -33,22 +33,26 @@ public class SecurityConfig {
                                                                 "/static/**", "/css/**", "/js/**",
                                                                 "/images/**")
                                                 .permitAll()
-                                                .requestMatchers("/loginn","/login","/dashboard-redirect", "/loginn.html",
+                                                .requestMatchers("/loginn", "/login", "/dashboard-redirect",
+                                                                "/loginn.html",
                                                                 "/login-error.html")
                                                 .permitAll()
 
-                                                // Billing reports - shared between ADMIN and ACCOUNTANT
-                                                .requestMatchers("/billingreports", "/billingreports.html")
-                                                .hasAnyRole("ADMIN", "ACCOUNTANT")
-
-                                                // Staff dashboard - requires ROLE_STAFF
+                                                // Staff pages - requires ROLE_STAFF
                                                 .requestMatchers("/staff-dashboard", "/staff-dashboard.html",
                                                                 "/MyAssignedResidents", "/MyAssignedResidents.html",
-                                                                "/MyTask", "/MyTask.html", "/activitiesLogging",
-                                                                "/activitiesLogging.html", "/MyTask/complete", "/VitalLogging",
-                                                                "/VitalLogging.html", "/VitalLoggingTable", "/vitals",
-                                                                "/activitiesLogging")
+                                                                "/MyTask", "/MyTask.html", "/MyTask/complete",
+                                                                "/VitalLoggingTable",
+                                                                "/activitiesLogging", "/activitiesLogging.html",
+                                                                "/ActivityLogging", "/activitiesLogging/add",
+                                                                "/medications/new/**", "/medications/save",
+                                                                "/reports/new/**", "/reports/save",
+                                                                "/medications", "/incident-reports")
                                                 .hasRole("STAFF")
+
+                                                // Shared staff/admin logging routes
+                                                .requestMatchers("/VitalLogging", "/VitalLogging.html", "/vitals")
+                                                .hasAnyRole("STAFF", "ADMIN")
 
                                                 // Admin dashboard - requires ROLE_ADMIN
                                                 .requestMatchers("/admin-dashboard", "/admin-dashboard.html",
@@ -56,13 +60,12 @@ public class SecurityConfig {
                                                                 "/editResident.html", "/addResident",
                                                                 "/addResident.html", "/staffs", "/staffs.html",
                                                                 "/addStaff", "/addStaff.html", "/assign-task",
-                                                                "/medical", "/medical/**")
+                                                                "/medical", "/medical/**",
+                                                                "/admin/VitalLoggingTable",
+                                                                "/admin/activitiesLogging",
+                                                                "/admin/medications",
+                                                                "/admin/incident-reports")
                                                 .hasRole("ADMIN")
-
-                                                // Accountant dashboard - requires ROLE_ACCOUNTANT
-                                                .requestMatchers("/accountant-dashboard", "/accountant-dashboard.html",
-                                                                "/billing/**")
-                                                .hasRole("ACCOUNTANT")
 
                                                 // All other requests require authentication
                                                 .anyRequest().authenticated())

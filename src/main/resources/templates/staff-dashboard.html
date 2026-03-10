@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
         <title>Staff Dashboard</title>
         <link rel="stylesheet" href="/css/staff-dashboard.css">
@@ -11,10 +11,13 @@
             <!---- header ---->
             <header class="header">
                 <div class="header-left">
-                    <h1>Welcome Back,Laura!</h1>
+                    <h1 th:text="${'Welcome Back, ' + loggedInUser + '!'}">Welcome Back!</h1>
                 </div>
                 <div class="header-right">
-                    <button class="log-out-btn" onclick="logout()">Log Out</button>
+                    <form th:action="@{/logout}" method="post" style="margin:0;">
+                        <button class="log-out-btn" type="submit">Log Out</button>
+                    </form>
+                </div>
             </header>
             <!-----sidebar--->
             <aside class="sidebar">
@@ -22,11 +25,14 @@
 
                 <div class="sidebar-menu">
                 <ul>
+                    <li><a th:href="@{/staff-dashboard}" class="active">Overview</a></li>
                     <li><a th:href="@{/MyTask}">My Tasks</a></li>
                     <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
-                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
                     <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
-                    <li><a th:href="@{/MyReports}">Reports</a></li>
+                    <li><a th:href="@{/myReports}">Reports</a></li>
+                    <li><a th:href="@{/medications}">Medication Logs</a></li>
+                    <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
                 </ul>
                 </div>
 
@@ -36,116 +42,120 @@
                 <div class="quick-actions">
                     <div class="quick-actions-title"><h3>Quick Actions</h3></div>
                     <div class="quick-action-card">
-                    <button class="quick-btn">Log Vitals</button>
-                    <button class="quick-btn">Add Activity</button>
-                    <button class="quick-btn">Write Report</button>
-                    <button class="quick-btn">View Residents</button>
+                    <a class="quick-btn" th:href="@{/VitalLoggingTable}">Log Vitals</a>
+                    <a class="quick-btn" th:href="@{/activitiesLogging}">Add Activity</a>
+                    <a class="quick-btn" th:href="@{/myReports}">Write Report</a>
+                    <a class="quick-btn" th:href="@{/medications}">Medication Logs</a>
+                    <a class="quick-btn" th:href="@{/incident-reports}">Incident Reports</a>
+                    <a class="quick-btn" th:href="@{/MyAssignedResidents}">View Residents</a>
                 </div> 
                 </div> 
                 <div class="main-cards">
                     <div class="card">
-                        <h3>Today's Shift</h3>
-                        <p>8:00am-4:00pm</p>
+                        <h3>Pending Tasks</h3>
+                        <p th:text="${pendingCount + ' tasks'}">0 tasks</p>
                     </div>
                     <div class="card">
                         <h3>Assigned Residents</h3>
-                        <p>12 residents</p>
+                        <p th:text="${assignedResidentCount + ' residents'}">0 residents</p>
                     </div>
                     <div class="card">
-                        <h3>Assigned Tasks</h3>
-                        <p>12 tasks</p>
+                        <h3>Medication Logs</h3>
+                        <p th:text="${medicationLogCount + ' entries'}">0 entries</p>
                     </div>
                     <div class="card">
-                        <h3>Reports</h3>
-                        <p>12 reports</p>
+                        <h3>Completed Tasks</h3>
+                        <p th:text="${completedCount + ' tasks'}">0 tasks</p>
                     </div>
                 </div>
                 <div class="Tasks">
                     <h3>My Tasks Today</h3>
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
+                <div class="task-item" th:if="${#lists.isEmpty(dashboardTasks)}">
                     <div class="task-details">
-                        <div class="task-title">Administer Medications - Room 101</div>
-                        <div class="task-info">John Smith • 9:00 AM</div>
+                        <div class="task-title">No tasks assigned yet.</div>
+                        <div class="task-info">New assignments will appear here.</div>
                     </div>
-                    <span class="task-priority priority-high">High</span>
                 </div>
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
+                <div class="task-item" th:each="task : ${dashboardTasks}">
+                    <input type="checkbox" class="task-checkbox" th:checked="${task.status == 'COMPLETED'}" disabled>
                     <div class="task-details">
-                        <div class="task-title">Vital Signs Check - Room 205</div>
-                        <div class="task-info">Maria Garcia • 10:30 AM</div>
+                        <div class="task-title" th:text="${task.title + ' - Room ' + task.roomNumber}">Task</div>
+                        <div class="task-info" th:text="${task.residentName + ' • ' + task.scheduledTime}">Resident • Time</div>
                     </div>
-                    <span class="task-priority priority-high">High</span>
-                </div>
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-details">
-                        <div class="task-title">Assist with Breakfast - Dining Hall</div>
-                        <div class="task-info">Multiple Residents • 7:00 AM</div>
-                    </div>
-                    <span class="task-priority priority-medium">Medium</span>
-                </div>
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-details">
-                        <div class="task-title">Physical Therapy Session - Room 312</div>
-                        <div class="task-info">James Wilson • 2:00 PM</div>
-                    </div>
-                    <span class="task-priority priority-medium">Medium</span>
-                </div>
-                <div class="task-item">
-                    <input type="checkbox" class="task-checkbox">
-                    <div class="task-details">
-                        <div class="task-title">Update Medical Records</div>
-                        <div class="task-info">Documentation • 3:30 PM</div>
-                    </div>
-                    <span class="task-priority priority-low">Low</span>
+                    <span class="task-priority"
+                          th:text="${task.priority}"
+                          th:classappend="${task.priority == 'HIGH' ? ' priority-high' : (task.priority == 'MEDIUM' ? ' priority-medium' : ' priority-low')}">Priority</span>
                 </div>
                 </div>
+                <div class="content-grid">
                 <div class="Assigned-Residents">
                     <h3>Assigned Residents</h3>
                     <div class="resident-list">
-                    <div class="resident-card">
-                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Wendy Brown</div>
-                        <div class="resident-room">Room 103</div>
-                        <div class="resident-status">Stable</div>
+                    <div class="resident-card" th:if="${#lists.isEmpty(assignedResidents)}">
+                        <div class="resident-name">No assigned residents yet.</div>
+                        <div class="resident-room">Residents appear here when tasks are assigned to you.</div>
                     </div>
-                    <div class="resident-card">
+                    <div class="resident-card" th:each="resident : ${assignedResidents}">
                         <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Janny Jane</div>
-                        <div class="resident-room">101</div>
-                        <div class="resident-status">Stable</div>
-                    </div>
-                    <div class="resident-card">
-                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Kitty Kat</div>
-                        <div class="resident-room">102</div>
-                        <div class="resident-status">Active</div>
-                    </div>
-                    <div class="resident-card">
-                        <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
-                        <div class="resident-name">Laura Johnson</div>
-                        <div class="resident-room">109</div>
-                        <div class="resident-status">Active</div>
+                        <div class="resident-name" th:text="${resident.residentName}">Resident Name</div>
+                        <div class="resident-room" th:text="${'Room ' + resident.roomNumber}">Room 0</div>
+                        <div class="resident-status" th:text="${resident.residentStatus}">Status</div>
+                        <div class="quick-action-btnn" th:if="${resident.residentId != null}">
+                            <a class="quick-btnn" th:href="@{/VitalLogging(residentId=${resident.residentId})}">Log Vitals</a>
+                            <a class="quick-btnn" th:href="@{/ActivityLogging(residentId=${resident.residentId})}">Add Activity</a>
+                            <a class="quick-btnn" th:href="@{/medications/new/{residentId}(residentId=${resident.residentId})}">Administer Medication</a>
+                            <a class="quick-btnn" th:href="@{/reports/new/{residentId}(residentId=${resident.residentId})}">Write Report</a>
+                        </div>
+                        <div class="resident-room" th:if="${resident.residentId == null}">
+                            Resident link unavailable. Ask admin to reassign this resident.
+                        </div>
                     </div>
                     </div>
                 </div>
+                <div class="data-panel">
+                    <h3>Recent Medication Updates</h3>
+                    <div class="panel-list-item" th:if="${#lists.isEmpty(recentMedicationLogs)}">
+                        <div class="panel-title">No medication logs yet.</div>
+                        <div class="panel-subtitle">New medication entries will appear here.</div>
+                    </div>
+                    <div class="panel-list-item" th:each="log : ${recentMedicationLogs}">
+                        <div class="panel-title"
+                             th:text="${log.resident.name + ' - ' + log.medicationName + ' (' + log.dosage + ')'}">Medication</div>
+                        <div class="panel-subtitle"
+                            th:text="${#temporals.format(log.administeredAt, 'MM/dd/yyyy hh:mm a') + ' - by ' + log.administeredByUsername}">Details</div>
+                    </div>
+                </div>
+                </div>
+
+                <section class="dashboard-table-card">
+                    <h3>Medication Logs Table</h3>
+                    <table class="dashboard-table">
+                        <thead>
+                            <tr>
+                                <th>Resident</th>
+                                <th>Medication</th>
+                                <th>Dosage</th>
+                                <th>Time Given</th>
+                                <th>Notes</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:if="${#lists.isEmpty(dashboardMedicationLogs)}">
+                                <td colspan="5">No medication logs available yet.</td>
+                            </tr>
+                            <tr th:each="log : ${dashboardMedicationLogs}">
+                                <td th:text="${log.resident.name}">Resident</td>
+                                <td th:text="${log.medicationName}">Medication</td>
+                                <td th:text="${log.dosage}">Dosage</td>
+                                <td th:text="${#temporals.format(log.administeredAt, 'MM/dd/yyyy hh:mm a')}">Date</td>
+                                <td th:text="${log.notes}">Notes</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </section>
                 
-                <div class="Quick Action Buttons"></div>
             </main>
         </div>
 
-        <script>
-            function logout() {
-                // Create a form to submit logout through Spring Security
-                const form = document.createElement('form');
-                form.method = 'POST';
-                form.action = '/logout';
-                document.body.appendChild(form);
-                form.submit();
-            }
-        </script>
     </body>
 </html>

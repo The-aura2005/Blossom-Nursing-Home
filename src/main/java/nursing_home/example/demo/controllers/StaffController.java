@@ -6,15 +6,18 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import lombok.AllArgsConstructor;
 import nursing_home.example.demo.model.Staff;
 import nursing_home.example.demo.services.StaffService;
 
 @Controller
-@AllArgsConstructor
 public class StaffController {
-    private StaffService staffService;
+    private final StaffService staffService;
+
+    public StaffController(StaffService staffService) {
+        this.staffService = staffService;
+    }
 
     @GetMapping("/addStaff")
     @PreAuthorize("hasRole('ADMIN')")
@@ -25,9 +28,12 @@ public class StaffController {
 
     @PostMapping("/staffs")
     @PreAuthorize("hasRole('ADMIN')")
-    public String saveStaff(@ModelAttribute Staff staff) {
-        staffService.addStaff(staff);
-        staffService.updateStaff(staff);
+    public String saveStaff(@ModelAttribute Staff staff, RedirectAttributes redirectAttributes) {
+        StaffService.StaffCreationResult created = staffService.addStaff(staff);
+        redirectAttributes.addFlashAttribute(
+                "staffCreatedMessage",
+                "Staff added. Login created: username=" + created.username() + ", temporary password="
+                        + created.temporaryPassword());
         return "redirect:/staffs";
     }
 

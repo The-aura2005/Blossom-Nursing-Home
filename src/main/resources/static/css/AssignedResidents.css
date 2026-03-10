@@ -64,6 +64,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    flex-wrap: wrap;
 }
 .quick-btnn {
     border: none;
@@ -72,6 +73,9 @@ body {
     color: black;
     font-size: 15px;
     font-weight: 500;
+    white-space: normal;
+    text-align: center;
+    line-height: 1.2;
 }
 .quick-btnn:hover {
     cursor: pointer;

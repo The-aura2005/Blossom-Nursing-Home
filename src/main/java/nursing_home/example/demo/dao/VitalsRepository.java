@@ -17,4 +17,8 @@ public interface VitalsRepository extends JpaRepository<Vitals, Long> {
             LocalDate toDate);
 
     List<Vitals> findByResidentIdOrderByDateRecordedDescIdDesc(Long residentId);
+
+    List<Vitals> findByResidentIdInOrderByDateRecordedDescIdDesc(List<Long> residentIds);
+
+    List<Vitals> findByRecordedByUsernameOrderByDateRecordedDescIdDesc(String recordedByUsername);
 }

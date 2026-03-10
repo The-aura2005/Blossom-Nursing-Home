@@ -5,6 +5,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.util.Set;
 
 import org.springframework.stereotype.Service;
 
@@ -55,15 +56,22 @@ public class AssignedTaskService {
     }
 
     public List<AssignedTask> getTasksForStaff(String username) {
-        return assignedTaskRepository.findByAssignedToUsernameOrderByCreatedAtDesc(username);
+        return assignedTaskRepository.findByAssignedToUsernameOrderByCreatedAtDesc(username).stream()
+                .map(this::enrichTaskWithCurrentResident)
+                .flatMap(Optional::stream)
+                .toList();
     }
 
     public long getPendingCountForStaff(String username) {
-        return assignedTaskRepository.countByAssignedToUsernameAndStatus(username, "PENDING");
+        return getTasksForStaff(username).stream()
+                .filter(task -> "PENDING".equalsIgnoreCase(task.getStatus()))
+                .count();
     }
 
     public long getCompletedCountForStaff(String username) {
-        return assignedTaskRepository.countByAssignedToUsernameAndStatus(username, "COMPLETED");
+        return getTasksForStaff(username).stream()
+                .filter(task -> "COMPLETED".equalsIgnoreCase(task.getStatus()))
+                .count();
     }
 
     public void completeTask(Long taskId, String username) {
@@ -97,6 +105,7 @@ public class AssignedTaskService {
             ResidentTaskSummaryAccumulator acc = residentMap.computeIfAbsent(key, k -> {
                 String residentStatus = resolveResidentStatus(task.getResidentId());
                 return new ResidentTaskSummaryAccumulator(
+                        task.getResidentId(),
                         task.getResidentName(),
                         task.getRoomNumber(),
                         residentStatus);
@@ -112,6 +121,7 @@ public class AssignedTaskService {
 
         return residentMap.values().stream()
                 .map(acc -> new ResidentTaskSummary(
+                        acc.residentId,
                         acc.residentName,
                         acc.roomNumber,
                         acc.residentStatus,
@@ -119,6 +129,29 @@ public class AssignedTaskService {
                         acc.pendingCount,
                         acc.completedCount))
                 .toList();
+    }
+
+    public boolean isResidentAssignedToStaff(String username, Long residentId) {
+        if (residentId == null) {
+            return false;
+        }
+
+        Set<Long> assignedResidentIds = getAssignedResidentsForStaff(username).stream()
+                .map(ResidentTaskSummary::residentId)
+                .filter(id -> id != null)
+                .collect(java.util.stream.Collectors.toSet());
+
+        return assignedResidentIds.contains(residentId);
+    }
+
+    public Optional<ResidentTaskSummary> getAssignedResidentForStaff(String username, Long residentId) {
+        if (residentId == null) {
+            return Optional.empty();
+        }
+
+        return getAssignedResidentsForStaff(username).stream()
+                .filter(summary -> residentId.equals(summary.residentId()))
+                .findFirst();
     }
 
     public List<Resident> getAllResidentsForAssignment() {
@@ -143,7 +176,25 @@ public class AssignedTaskService {
                 .orElse("Assigned");
     }
 
+    private Optional<AssignedTask> enrichTaskWithCurrentResident(AssignedTask task) {
+        if (task.getResidentId() == null) {
+            return Optional.of(task);
+        }
+
+        Optional<Resident> residentOptional = residentRepository.findById(task.getResidentId());
+        if (residentOptional.isEmpty()) {
+            // Skip stale tasks that point to residents that no longer exist.
+            return Optional.empty();
+        }
+
+        Resident resident = residentOptional.get();
+        task.setResidentName(resident.getName());
+        task.setRoomNumber(String.valueOf(resident.getRoomNumber()));
+        return Optional.of(task);
+    }
+
     public record ResidentTaskSummary(
+            Long residentId,
             String residentName,
             String roomNumber,
             String residentStatus,
@@ -153,6 +204,7 @@ public class AssignedTaskService {
     }
 
     private static class ResidentTaskSummaryAccumulator {
+        private final Long residentId;
         private final String residentName;
         private final String roomNumber;
         private final String residentStatus;
@@ -160,7 +212,9 @@ public class AssignedTaskService {
         private long pendingCount;
         private long completedCount;
 
-        private ResidentTaskSummaryAccumulator(String residentName, String roomNumber, String residentStatus) {
+        private ResidentTaskSummaryAccumulator(Long residentId, String residentName, String roomNumber,
+                String residentStatus) {
+            this.residentId = residentId;
             this.residentName = residentName;
             this.roomNumber = roomNumber;
             this.residentStatus = residentStatus;

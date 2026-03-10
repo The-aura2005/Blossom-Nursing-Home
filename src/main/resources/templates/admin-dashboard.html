@@ -34,8 +34,8 @@
                     <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/billingreports}">BillingReports</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/reports}">Reports</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
                 </ul>
             </aside>
@@ -46,28 +46,28 @@
                         <p>Residents</p>
                         <span class="material-symbols-outlined">person</span>
                     </div>
-                        <span class="text-primary font-weight-bold">50</span>
+                        <span class="text-primary font-weight-bold" th:text="${residentsCount}">0</span>
                 </div>
                  <div class="card">
                     <div class="inner-card">
                         <p>Staff</p>
                         <span class="material-symbols-outlined">group</span>
                     </div>
-                        <span class="text-primary font-weight-bold">30</span>
+                        <span class="text-primary font-weight-bold" th:text="${staffCount}">0</span>
                 </div>
                  <div class="card">
                     <div class="inner-card">
                         <p>Health Reports</p>
                         <span class="material-symbols-outlined">health_metrics</span>
                     </div>
-                        <span class="text-primary font-weight-bold">50</span>
+                        <span class="text-primary font-weight-bold" th:text="${healthReportsCount}">0</span>
                 </div>
                  <div class="card">
                     <div class="inner-card">
-                        <p>Revenue</p>
-                        <span class="material-symbols-outlined">account_balance</span>
+                        <p>Recent Activities</p>
+                        <span class="material-symbols-outlined">event_note</span>
                     </div>
-                        <span class="text-primary font-weight-bold">$10000</span>
+                        <span class="text-primary font-weight-bold" th:text="${#lists.size(recentActivities)}">0</span>
                 </div>
             </div>
             <div class="content-grid">
@@ -82,81 +82,39 @@
                         <th>Actions</th>
                     </tr>
                     <tbody>
-                        <tr>
-                        <td>Laura Wanjala</td>
-                        <td>10</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn-sm btn-edit">Edit</button>
-                                <button class="btn-sm btn-delete">Delete</button>
-                            </div>
-                        </td>
+                        <tr th:if="${#lists.isEmpty(recentResidents)}">
+                            <td colspan="4">No residents in the system yet.</td>
                         </tr>
-                        <tr>
-                        <td>Ombachi <Samp></Samp></td>
-                        <td>10</td>
-                        <td><span class="status-badge status-pending">Pending</span></td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn-sm btn-edit">Edit</button>
-                                <button class="btn-sm btn-delete">Delete</button>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>Weu Mercy</td>
-                        <td>10</td>
-                        <td><span class="status-badge status-active">Active</span></td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn-sm btn-edit">Edit</button>
-                                <button class="btn-sm btn-delete">Delete</button>
-                            </div>
-                        </td>
-                        </tr>
-                        <tr>
-                        <td>Debra Oloo</td>
-                        <td>10</td>
-                        <td><span class="status-badge status-inactive">Inactive</span></td>
-                        <td>
-                            <div class="actions">
-                                <button class="btn-sm btn-edit">Edit</button>
-                                <button class="btn-sm btn-delete">Delete</button>
-                            </div>
-                        </td>
+                        <tr th:each="resident : ${recentResidents}">
+                            <td th:text="${resident.name}">Resident Name</td>
+                            <td th:text="${resident.age}">0</td>
+                            <td><span class="status-badge status-active" th:text="${resident.status}">Active</span></td>
+                            <td>
+                                <div class="actions">
+                                    <a th:href="@{/editResident(id=${resident.id})}" class="btn-sm btn-edit">Edit</a>
+                                    <form th:action="@{/residents/delete(id=${resident.id})}" method="post" style="display: inline;">
+                                        <button class="btn-sm btn-delete" type="submit">Delete</button>
+                                    </form>
+                                </div>
+                            </td>
                         </tr>
                     </tbody>
                     </table>
                 </div>
                 <div class="activity-card">
                     <h3>Recent Activities</h3>
-                    <div class="activity-item">
+                    <div class="activity-item" th:if="${#lists.isEmpty(recentActivities)}">
                         <div class="activity-dot"></div>
                         <div class="activity-content">
-                            <div class="activity-text">New Resident admitted</div>
-                            <div class="activity-day">1 day ago</div>
+                            <div class="activity-text">No activities logged yet.</div>
+                            <div class="activity-time">Waiting for staff updates</div>
                         </div>
                     </div>
-                    <div class="activity-item">
+                    <div class="activity-item" th:each="activity : ${recentActivities}">
                         <div class="activity-dot"></div>
                         <div class="activity-content">
-                            <div class="activity-text">Billing invoice generated</div>
-                            <div class="activity-time">2 days ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-dot"></div>
-                        <div class="activity-content">
-                            <div class="activity-text">Staff schedule modified</div>
-                            <div class="activity-time">6 hours ago</div>
-                        </div>
-                    </div>
-                    <div class="activity-item">
-                        <div class="activity-dot"></div>
-                        <div class="activity-content">
-                            <div class="activity-text">Medical records updated</div>
-                            <div class="activity-time">4 hours ago</div>
+                            <div class="activity-text" th:text="${activity.activityType + ' - ' + activity.resident.name}">Activity</div>
+                            <div class="activity-time" th:text="${#temporals.format(activity.activityDate, 'MM/dd/yyyy') + ' ' + #temporals.format(activity.activityTime, 'hh:mm a')}">Date Time</div>
                         </div>
                     </div>
                 </div>
@@ -174,57 +132,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>Emily Krispie</td>
-                            <td>Nurse</td>
-                            <td>Healthcare</td>
-                            <td><span class="status-badge status-active">Active</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn-sm btn-edit">Edit</button>
-                                    <button class="btn-sm btn-delete">Delete</button>
-                                </div>
-                            </td>
+                        <tr th:if="${#lists.isEmpty(staffInSystem)}">
+                            <td colspan="5">No staff in the system yet.</td>
                         </tr>
-                        <tr>
-                            <td>Stan Akach</td>
-                            <td>Caregiver</td>
-                            <td>Support Staff</td>
-                            <td><span class="status-badge status-active">Active</span></td>
+                        <tr th:each="staff : ${staffInSystem}">
+                            <td th:text="${staff.name}">Staff Name</td>
+                            <td>Care Team</td>
+                            <td th:text="${staff.email}">email@example.com</td>
+                            <td><span class="status-badge status-active" th:text="${staff.status}">Active</span></td>
                             <td>
                                 <div class="action-buttons">
-                                    <button class="btn-sm btn-edit">Edit</button>
-                                    <button class="btn-sm btn-delete">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                         <tr>
-                            <td>Wafula Brian</td>
-                            <td>Accountat</td>
-                            <td>Accountant</td>
-                            <td><span class="status-badge status-active">Active</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn-sm btn-edit">Edit</button>
-                                    <button class="btn-sm btn-delete">Delete</button>
-                                </div>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Lisa Ruth</td>
-                            <td>Administrator</td>
-                            <td>Administration</td>
-                            <td><span class="status-badge status-active">Active</span></td>
-                            <td>
-                                <div class="action-buttons">
-                                    <button class="btn-sm btn-edit">Edit</button>
-                                    <button class="btn-sm btn-delete">Delete</button>
+                                    <a th:href="@{/editStaff(id=${staff.id})}" class="btn-sm btn-edit">Edit</a>
+                                    <form th:action="@{/staffs/delete(id=${staff.id})}" method="post" style="display: inline;">
+                                        <button class="btn-sm btn-delete" type="submit">Delete</button>
+                                    </form>
                                 </div>
                             </td>
                         </tr>
                     </tbody>
                 </table>
             </div>
+
             </main>
 
         </div>

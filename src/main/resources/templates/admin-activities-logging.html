@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Activity Logs</title>
+    <link rel="stylesheet" href="/css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="/js/admin.js"></script>
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
+        <div class="header-left">
+            <h1>Activity Logs (All Staff)</h1>
+        </div>
+        <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
+    </header>
+
+    <aside id="sidebar">
+        <div class="sidebar-title">
+            <div><h3>BlossomHomes</h3></div>
+            <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+        </div>
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/reports}" class="active">Reports</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-container">
+        <div class="data-table" style="margin-bottom: 20px;">
+            <h3>All Activity Logs</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Resident</th>
+                    <th>Activity Type</th>
+                    <th>Notes</th>
+                    <th>Logged By</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(activityHistory)}">
+                    <td colspan="6">No activity logs available.</td>
+                </tr>
+                <tr th:each="log : ${activityHistory}">
+                    <td th:text="${#temporals.format(log.activityDate, 'MM/dd/yyyy')}">01/01/2026</td>
+                    <td th:text="${#temporals.format(log.activityTime, 'hh:mm a')}">09:00 AM</td>
+                    <td th:text="${log.resident.name}">Resident</td>
+                    <td th:text="${log.activityType}">Medication</td>
+                    <td th:text="${log.notes}">Notes</td>
+                    <td th:text="${log.loggedByUsername}">staff</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutLink = document.querySelector('a[href="/logout"]');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
+    });
+</script>
+</body>
+</html>

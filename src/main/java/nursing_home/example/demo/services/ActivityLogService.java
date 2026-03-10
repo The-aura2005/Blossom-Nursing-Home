@@ -40,4 +40,8 @@ public class ActivityLogService {
     public List<ActivityLog> getActivityHistory() {
         return activityLogRepository.findActivityHistoryWithResident();
     }
+
+    public List<ActivityLog> getActivityHistoryForUser(String username) {
+        return activityLogRepository.findByLoggedByUsernameOrderByActivityDateDescActivityTimeDescIdDesc(username);
+    }
 }

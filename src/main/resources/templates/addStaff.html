@@ -10,13 +10,13 @@
         <h1>Add Staff</h1>
         <form th:action="@{/staffs}" th:object="${staff}" method="post" >
             <label for="name">Name</label><br>
-            <input type="text" id="name" name="name"><br>
+            <input type="text" id="name" th:field="*{name}"><br>
              <label for="Contact">contact</label><br>
-            <input type="number" id="phoneNumber" name="phoneNumber"><br>
+            <input type="number" id="phoneNumber" th:field="*{phoneNumber}"><br>
              <label for="email">email</label><br>
-            <input type="string" id="email" name="email"><br>
+            <input type="email" id="email" th:field="*{email}"><br>
              <label for="Status">Status</label><br>
-            <input type="text" id="Status" name="Status"><br>
+            <input type="text" id="Status" th:field="*{status}"><br>
             <button type="submit">Add Staff</button>
         </form>
         </div>

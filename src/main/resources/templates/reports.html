@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Reports - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="js/admin.js"></script>
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
+        <div class="header-left"><h1>Reports</h1></div>
+        <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
+    </header>
+
+    <aside id="sidebar">
+        <div class="sidebar-title">
+            <div><h3>BlossomHomes</h3></div>
+            <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+        </div>
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/reports}" class="active">Reports</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-container">
+        <section class="main-cards" style="margin-bottom: 20px;">
+            <div class="card">
+                <div class="inner-card">
+                    <p>Medical Reports</p>
+                    <span class="material-symbols-outlined">clinical_notes</span>
+                </div>
+                <span class="text-primary font-weight-bold">48</span>
+            </div>
+            <div class="card">
+                <div class="inner-card">
+                    <p>Activity Logs</p>
+                    <span class="material-symbols-outlined">history</span>
+                </div>
+                <span class="text-primary font-weight-bold">132</span>
+            </div>
+            <div class="card">
+                <div class="inner-card">
+                    <p>Vital Reports</p>
+                    <span class="material-symbols-outlined">monitor_heart</span>
+                </div>
+                <span class="text-primary font-weight-bold">76</span>
+            </div>
+            <div class="card">
+                <div class="inner-card">
+                    <p>Medication Reports</p>
+                    <span class="material-symbols-outlined">medication</span>
+                </div>
+                <span class="text-primary font-weight-bold">24</span>
+            </div>
+        </section>
+
+        <section class="data-table" style="margin-bottom: 20px;">
+            <h3>Available Report Modules</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Report Type</th>
+                    <th>Description</th>
+                    <th>Recommended Frequency</th>
+                    <th>Actions</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr>
+                    <td>Medical Reports</td>
+                    <td>Diagnosis updates, treatment summaries, and resident care notes.</td>
+                    <td>Daily</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-edit">View</button>
+                            <button class="btn-sm btn-delete">Export</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Activity Logs</td>
+                    <td>Staff activity timeline including shifts, task completion, and incidents.</td>
+                    <td>Daily</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-edit">View</button>
+                            <button class="btn-sm btn-delete">Export</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Vital Reports</td>
+                    <td>Heart rate, blood pressure, temperature, and other vital trends.</td>
+                    <td>Every Shift</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-edit">View</button>
+                            <button class="btn-sm btn-delete">Export</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Medication Reports</td>
+                    <td>Medication administration history and missed-dose alerts.</td>
+                    <td>Every Shift</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-edit">View</button>
+                            <button class="btn-sm btn-delete">Export</button>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Compliance Reports</td>
+                    <td>Audit-ready summaries for quality and regulatory checks.</td>
+                    <td>Weekly</td>
+                    <td>
+                        <div class="action-buttons">
+                            <button class="btn-sm btn-edit">View</button>
+                            <button class="btn-sm btn-delete">Export</button>
+                        </div>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </section>
+
+        <section class="data-table latest-reports-table" style="margin-bottom: 20px;">
+            <h3>Latest Reports</h3>
+            <div class="latest-reports-grid">
+                <div class="report-column">
+                    <h4>Activity Reports</h4>
+                    <ul class="report-list">
+                        <li th:if="${#lists.isEmpty(latestActivityReports)}">No activity reports available.</li>
+                        <li th:each="activity : ${latestActivityReports}">
+                            <span class="report-primary" th:text="${activity.activityType + ' - ' + activity.resident.name}">Activity</span>
+                            <span class="report-secondary" th:text="${#temporals.format(activity.activityDate, 'MM/dd/yyyy') + ' ' + #temporals.format(activity.activityTime, 'hh:mm a')}">Date Time</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="report-column">
+                    <h4>Residents Added</h4>
+                    <ul class="report-list">
+                        <li th:if="${#lists.isEmpty(latestResidentsAdded)}">No resident additions yet.</li>
+                        <li th:each="resident : ${latestResidentsAdded}">
+                            <span class="report-primary" th:text="${resident.name}">Resident</span>
+                            <span class="report-secondary" th:text="${resident.admissionDate != null ? #temporals.format(resident.admissionDate, 'MM/dd/yyyy') : 'Date not provided'}">Admission Date</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="report-column">
+                    <h4>Vitals Reports</h4>
+                    <ul class="report-list">
+                        <li th:if="${#lists.isEmpty(latestVitalsReports)}">No vitals reports available.</li>
+                        <li th:each="vitals : ${latestVitalsReports}">
+                            <span class="report-primary" th:text="${vitals.resident != null ? vitals.resident.name : 'Resident'}">Resident</span>
+                            <span class="report-secondary" th:text="${#temporals.format(vitals.dateRecorded, 'MM/dd/yyyy') + ' - Temp: ' + vitals.temperature + ', BP: ' + vitals.bloodPressure}">Vitals</span>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="report-column">
+                    <h4>Medication Reports</h4>
+                    <ul class="report-list">
+                        <li th:if="${#lists.isEmpty(latestMedicationReports)}">No medication reports available.</li>
+                        <li th:each="medication : ${latestMedicationReports}">
+                            <span class="report-primary" th:text="${(medication.resident != null ? medication.resident.name : 'Resident') + ' - ' + medication.medicationName}">Medication</span>
+                            <span class="report-secondary" th:text="${#temporals.format(medication.administeredAt, 'MM/dd/yyyy hh:mm a') + ' - ' + medication.dosage}">Date and Dosage</span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </section>
+
+        <section class="activity-card">
+            <h3>Quick Report Access</h3>
+            <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-text"><a th:href="@{/medical}">Open Medical Records</a></div>
+                    <div class="activity-time">Clinical report source</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-text"><a th:href="@{/admin/activitiesLogging}">Open Activity Logs</a></div>
+                    <div class="activity-time">Operations report source</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-text"><a th:href="@{/admin/VitalLoggingTable}">Open Vital Reports</a></div>
+                    <div class="activity-time">Vitals report source</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-text"><a th:href="@{/admin/medications}">Open Medication Reports</a></div>
+                    <div class="activity-time">Medication report source</div>
+                </div>
+            </div>
+            <div class="activity-item">
+                <div class="activity-dot"></div>
+                <div class="activity-content">
+                    <div class="activity-text"><a th:href="@{/admin/incident-reports}">Open Incident Reports</a></div>
+                    <div class="activity-time">Incident report source</div>
+                </div>
+            </div>
+        </section>
+    </main>
+</div>
+
+<script>
+    // Keep logout as POST to match Spring Security defaults.
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutLink = document.querySelector('a[href="/logout"]');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
+    });
+</script>
+</body>
+</html>

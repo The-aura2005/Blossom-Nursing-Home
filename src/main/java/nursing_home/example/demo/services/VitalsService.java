@@ -40,4 +40,19 @@ public class VitalsService {
         return vitalsRepository.findAllByOrderByDateRecordedDescIdDesc();
     }
 
+    public List<Vitals> getVitalsForResident(Long residentId) {
+        return vitalsRepository.findByResidentIdOrderByDateRecordedDescIdDesc(residentId);
+    }
+
+    public List<Vitals> getVitalsForResidents(List<Long> residentIds) {
+        if (residentIds == null || residentIds.isEmpty()) {
+            return List.of();
+        }
+        return vitalsRepository.findByResidentIdInOrderByDateRecordedDescIdDesc(residentIds);
+    }
+
+    public List<Vitals> getVitalsLoggedBy(String username) {
+        return vitalsRepository.findByRecordedByUsernameOrderByDateRecordedDescIdDesc(username);
+    }
+
 }

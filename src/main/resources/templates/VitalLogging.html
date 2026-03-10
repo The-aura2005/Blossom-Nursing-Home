@@ -16,52 +16,51 @@
                 <h1>Vital Logging</h1>
             </div>
             <div class="header-right">
-                <button class="log-out-btn">Log Out</button>
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button class="log-out-btn" type="submit">Log Out</button>
+                </form>
             </div>
         </header>
         <aside class="sidebar">
             <div class="sidebar-title">Staff Dashboard</div>
             <div class="sidebar-menu">
                 <ul>
+                    <li><a th:href="@{/staff-dashboard}">Overview</a></li>
                     <li><a th:href="@{/MyTask}">My Tasks</a></li>
                     <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
-                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/VitalLoggingTable}" class="active">Vital Loggings</a></li>
                     <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
                     <li><a th:href="@{/myReports}">Reports</a></li>
+                    <li><a th:href="@{/medications}">Medication Logs</a></li>
+                    <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
                 </ul>
             </div>
         </aside>
         <main class="main-content">
             <div class="Vitals-container">
-            <h3>Vital Logging</h3>
-            <div class="task-alert" th:if="${vitalsMessage}" th:text="${vitalsMessage}"></div>
-            <form th:action="@{/vitals}" method="post">
-            <div class="dropdown-resident">
-                <label for="Select-Resident">Select Resident:</label>
-                <select name="residentId" required>
-                <option value="">-- Select Resident --</option>
-                <th:block th:each="resident : ${residents}">
-                <option th:value="${resident.id}" th:text="${resident.name}">
-            </option>
-        </th:block>
-    </select>
-            </div>
-            <div class="Record-vitals">
-                <label for="Temperature">Temperature:</label>
-                <input type="number" id="Temperature" name="temperature" placeholder="Enter temperature" required>
-                
-                <label for="Weight">Weight:</label>
-                <input type="number" id="Weight" name="weight" placeholder="Enter weight (kg)" required>
-                
-                <label for="BloodPressure">Blood Pressure:</label>
-                <input type="text" id="BloodPressure" name="bloodPressure" placeholder="Enter blood pressure (e.g., 120/80)" required>
-                
-                <label for="Notes">Notes:</label>
-                <textarea id="Notes" name="notes" placeholder="Enter any additional notes"></textarea>
-                
-                <button type="submit">Submit</button>
-            </div>
-            </form>
+                <h3>Vital Logging</h3>
+                <div class="task-alert" th:if="${vitalsMessage}" th:text="${vitalsMessage}"></div>
+
+                <div th:if="${selectedResident != null}">
+                    <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
+                    <form th:action="@{/vitals}" method="post" class="Record-vitals">
+                        <input type="hidden" name="residentId" th:value="${selectedResident.residentId}">
+
+                        <label for="Temperature">Temperature:</label>
+                        <input type="number" id="Temperature" name="temperature" placeholder="Enter temperature" required>
+
+                        <label for="Weight">Weight:</label>
+                        <input type="number" id="Weight" name="weight" placeholder="Enter weight (kg)" required>
+
+                        <label for="BloodPressure">Blood Pressure:</label>
+                        <input type="text" id="BloodPressure" name="bloodPressure" placeholder="Enter blood pressure (e.g., 120/80)" required>
+
+                        <label for="Notes">Notes:</label>
+                        <textarea id="Notes" name="notes" placeholder="Enter any additional notes"></textarea>
+
+                        <button type="submit">Submit</button>
+                    </form>
+                </div>
             </div>
         </main>
     </div>

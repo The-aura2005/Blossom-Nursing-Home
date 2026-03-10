@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Residents - Admin Dashboard</title>
         <link rel="stylesheet" href="css/admin.css">
         <link rel="stylesheet" href="css/residents.css">
@@ -33,9 +35,10 @@
                     <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/residents}" class="active">Residents</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
+                          <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/billingreports}">BillingReports</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/reports}">Reports</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
                 </ul>
             </aside>
@@ -55,6 +58,8 @@
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th>Age</th>
+                                <th>Gender</th>
+                                <th>Emergency Contact</th>
                                 <th>Room Number</th>
                                 <th>Admission Date</th>
                                 <th>Health Status</th>
@@ -66,6 +71,8 @@
                                 <td th:text="${resident.id}"></td>
                                 <td th:text="${resident.name}"></td>
                                 <td th:text="${resident.age}"></td>
+                                <td th:text="${resident.gender}"></td>
+                                <td th:text="${resident.emergencyContact}"></td>
                                 <td th:text="${resident.roomNumber}"></td>
                                 <td th:text="${#temporals.format(resident.admissionDate,'MM/dd/yyyy')}"></td>
                                 <td><span class="status-badge status-good" th:text="${resident.status}"></span></td>
@@ -83,5 +90,20 @@
             </main>
         </div>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const logoutLink = document.querySelector('a[href="/logout"]');
+                if (logoutLink) {
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/logout';
+                        document.body.appendChild(form);
+                        form.submit();
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

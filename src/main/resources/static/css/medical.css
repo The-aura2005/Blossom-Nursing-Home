@@ -21,6 +21,26 @@
     align-items: end;
 }
 
+.medical-filter-form {
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 12px;
+    align-items: end;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.filter-field-wide {
+    min-width: 260px;
+}
+
+.filter-action-field {
+    justify-content: flex-end;
+}
+
 .filter-form input,
 .filter-form select,
 .inline-form input,
@@ -106,6 +126,10 @@
 
 @media (max-width: 920px) {
     .two-col {
+        grid-template-columns: 1fr;
+    }
+
+    .medical-filter-form {
         grid-template-columns: 1fr;
     }
 }

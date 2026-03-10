@@ -115,3 +115,35 @@ body {
     background-color: #1e90ff;
     transform: scale(0.98);
 }
+
+details {
+    margin-top: 12px;
+}
+
+details summary {
+    cursor: pointer;
+    color: #1e90ff;
+    font-weight: 600;
+}
+
+.activity-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+
+.activity-table thead {
+    background-color: #1e90ff;
+    color: white;
+}
+
+.activity-table th {
+    padding: 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.activity-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e0e0e0;
+}

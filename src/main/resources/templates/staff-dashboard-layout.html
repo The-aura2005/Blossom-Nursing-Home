@@ -20,7 +20,9 @@
                     <h1>Welcome Back,Laura!</h1>
                 </div>
                 <div class="header-right">
-                    <button class="log-out-btn">Log Out</button>
+                    <form th:action="@{/logout}" method="post" style="margin:0;">
+                        <button class="log-out-btn" type="submit">Log Out</button>
+                    </form>
             </header>
             <!-----sidebar--->
             <aside class="sidebar">
@@ -30,9 +32,9 @@
                 <ul>
                     <li><a th:href="@{/MyTask}">My Tasks</a></li>
                     <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
-                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
                     <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
-                    <li><a th:href="@{/my-reports}">Reports</a></li>
+                    <li><a th:href="@{/myReports}">Reports</a></li>
                 </ul>
                 </div>
 

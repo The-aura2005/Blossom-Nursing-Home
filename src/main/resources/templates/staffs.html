@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Staff - Admin Dashboard</title>
         <link rel="stylesheet" href="css/admin.css">
         <link rel="stylesheet" href="css/staff.css">
@@ -33,13 +35,15 @@
                     <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/staffs}" class="active">Staff Management</a></li>
+                          <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/billingreports}">BillingReports</a></li>
-                    <li class="sidebar-list-item"><a th:href="@{/settings}">Settings</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/reports}">Reports</a></li>
+                    <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
                     <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
                 </ul>
             </aside>
             <main class="main-container">
+                <div th:if="${staffCreatedMessage}" style="margin-bottom: 12px; padding: 10px; border-radius: 6px; background: #e8f5e9; color: #1b5e20; font-weight: 600;" th:text="${staffCreatedMessage}"></div>
                 <div class="staff-header">
                     <h2>Staff Management</h2>
                         <a th:href="@{/addStaff}" class="add-staff-btn">
@@ -51,6 +55,7 @@
                 <div class="staff-table-container">
                     <table class="staff-table">
                         <thead>
+                            <tr>
                                 <th>ID</th>
                                 <th>Name</th>
                                 <th >Contact</th>
@@ -60,7 +65,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
                                 <tr th:each="staff :${staffs}">
                                 <td th:text="${staff.id}"></td>
                                 <td th:text="${staff.name}"></td>
@@ -83,5 +87,20 @@
             </main>
         </div>
 
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const logoutLink = document.querySelector('a[href="/logout"]');
+                if (logoutLink) {
+                    logoutLink.addEventListener('click', function(e) {
+                        e.preventDefault();
+                        const form = document.createElement('form');
+                        form.method = 'POST';
+                        form.action = '/logout';
+                        document.body.appendChild(form);
+                        form.submit();
+                    });
+                }
+            });
+        </script>
     </body>
 </html>

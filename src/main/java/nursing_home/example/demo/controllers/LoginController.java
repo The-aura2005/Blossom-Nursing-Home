@@ -38,11 +38,6 @@ public class LoginController {
                     .anyMatch(auth -> auth.getAuthority().equals("ROLE_STAFF"))) {
                 return "redirect:/staff-dashboard";
             }
-            // Check if user has accountant role
-            else if (authentication.getAuthorities().stream()
-                    .anyMatch(auth -> auth.getAuthority().equals("ROLE_ACCOUNTANT"))) {
-                return "redirect:/accountant-dashboard";
-            }
         }
 
         return "no-role";

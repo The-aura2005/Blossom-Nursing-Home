@@ -16,18 +16,23 @@
                 <h1 th:text="${'Welcome Back, ' + loggedInUser + '!'}">Welcome Back!</h1>
             </div>
             <div class="header-right">
-                <button class="log-out-btn">Log Out</button>
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button class="log-out-btn" type="submit">Log Out</button>
+                </form>
             </div>
         </header>
         <aside class="sidebar">
             <div class="sidebar-title">Staff Dashboard</div>
             <div class="sidebar-menu">
                 <ul>
+                    <li><a th:href="@{/staff-dashboard}">Overview</a></li>
                     <li><a th:href="@{/MyTask}">My Tasks</a></li>
                     <li><a th:href="@{/MyAssignedResidents}" class="active">My Assigned Residents</a></li>
-                    <li><a th:href="@{/VitalLogging}">Vital Loggings</a></li>
+                    <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
                     <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
                     <li><a th:href="@{/myReports}">Reports</a></li>
+                    <li><a th:href="@{/medications}">Medication Logs</a></li>
+                    <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
                 </ul>
             </div>
         </aside>
@@ -44,10 +49,14 @@
                         <div class="resident-name" th:text="${resident.residentName}">Resident Name</div>
                         <div class="resident-room" th:text="${'Room ' + resident.roomNumber}">Room 0</div>
                         <div class="resident-status" th:text="${resident.residentStatus}">Assigned</div>
-                        <div class="quick-action-btnn">
-                            <a class="quick-btnn" th:href="@{/VitalLogging}">Log Vitals</a>
-                            <a class="quick-btnn" th:href="@{/activitiesLogging}">Add Activity</a>
-                            <a class="quick-btnn" th:href="@{/myReports}">Write Report</a>
+                        <div class="quick-action-btnn" th:if="${resident.residentId != null}">
+                            <a class="quick-btnn" th:href="@{/VitalLogging(residentId=${resident.residentId})}">Log Vitals</a>
+                            <a class="quick-btnn" th:href="@{/ActivityLogging(residentId=${resident.residentId})}">Add Activity</a>
+                            <a class="quick-btnn" th:href="@{/medications/new/{residentId}(residentId=${resident.residentId})}">Administer Medication</a>
+                            <a class="quick-btnn" th:href="@{/reports/new/{residentId}(residentId=${resident.residentId})}">Write Report</a>
+                        </div>
+                        <div class="resident-room" th:if="${resident.residentId == null}">
+                            Resident link unavailable. Ask admin to reassign this resident.
                         </div>
                         <div class="resident-room" th:text="${resident.pendingCount + ' pending / ' + resident.completedCount + ' completed tasks'}"></div>
                     </div>

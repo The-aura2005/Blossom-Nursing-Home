@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create Incident Report</title>
+    <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/VitalLogging.css">
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="header-left">
+            <h1>Create Incident Report</h1>
+        </div>
+        <div class="header-right">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <button class="log-out-btn" type="submit">Log Out</button>
+            </form>
+        </div>
+    </header>
+    <aside class="sidebar">
+        <div class="sidebar-title">Staff Dashboard</div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a th:href="@{/staff-dashboard}">Overview</a></li>
+                <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
+                <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                <li><a th:href="@{/myReports}">Reports</a></li>
+                <li><a th:href="@{/medications}">Medication Logs</a></li>
+                <li><a th:href="@{/incident-reports}" class="active">Incident Reports</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="Vitals-container" th:if="${selectedResident != null}">
+            <h3>Incident Report</h3>
+            <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
+
+            <form th:action="@{/reports/save}" method="post" class="Record-vitals">
+                <input type="hidden" name="residentId" th:value="${selectedResident.residentId}">
+
+                <label for="title">Title:</label>
+                <input type="text" id="title" name="title" required>
+
+                <label for="description">Description:</label>
+                <textarea id="description" name="description" required></textarea>
+
+                <label for="severity">Severity:</label>
+                <select id="severity" name="severity" required>
+                    <option value="LOW">Low</option>
+                    <option value="MEDIUM">Medium</option>
+                    <option value="HIGH">High</option>
+                    <option value="CRITICAL">Critical</option>
+                </select>
+
+                <button type="submit">Submit Report</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

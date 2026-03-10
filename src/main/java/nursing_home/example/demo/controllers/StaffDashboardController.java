@@ -9,20 +9,43 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.util.List;
+
+import nursing_home.example.demo.model.AssignedTask;
 import nursing_home.example.demo.services.AssignedTaskService;
+import nursing_home.example.demo.services.MedicationLogService;
 
 @Controller
 public class StaffDashboardController {
 
     private final AssignedTaskService assignedTaskService;
+    private final MedicationLogService medicationLogService;
 
-    public StaffDashboardController(AssignedTaskService assignedTaskService) {
+    public StaffDashboardController(AssignedTaskService assignedTaskService,
+            MedicationLogService medicationLogService) {
         this.assignedTaskService = assignedTaskService;
+        this.medicationLogService = medicationLogService;
     }
 
     @GetMapping("/staff-dashboard")
     @PreAuthorize("hasRole('STAFF')")
-    public String staffDashboard() {
+    public String staffDashboard(Authentication authentication, Model model) {
+        String username = authentication.getName();
+        List<AssignedTask> tasks = assignedTaskService.getTasksForStaff(username);
+        var assignedResidents = assignedTaskService.getAssignedResidentsForStaff(username);
+
+        model.addAttribute("loggedInUser", username);
+        model.addAttribute("tasks", tasks);
+        model.addAttribute("dashboardTasks", tasks.stream().limit(5).toList());
+        model.addAttribute("assignedResidents", assignedResidents);
+        model.addAttribute("assignedTaskCount", tasks.size());
+        model.addAttribute("assignedResidentCount", assignedResidents.size());
+        model.addAttribute("pendingCount", assignedTaskService.getPendingCountForStaff(username));
+        model.addAttribute("completedCount", assignedTaskService.getCompletedCountForStaff(username));
+        var medicationLogs = medicationLogService.getLogsByStaffUsername(username);
+        model.addAttribute("medicationLogCount", medicationLogs.size());
+        model.addAttribute("recentMedicationLogs", medicationLogs.stream().limit(5).toList());
+        model.addAttribute("dashboardMedicationLogs", medicationLogs.stream().limit(10).toList());
         return "staff-dashboard";
     }
 
@@ -60,13 +83,57 @@ public class StaffDashboardController {
     @GetMapping("/staff-vital-logging")
     @PreAuthorize("hasRole('STAFF')")
     public String vitalLogging() {
-        return "redirect:/VitalLogging";
+        return "redirect:/VitalLoggingTable";
     }
 
     @GetMapping("/myReports")
     @PreAuthorize("hasRole('STAFF')")
-    public String myreports() {
+    public String myreports(
+            Authentication authentication,
+            @RequestParam(value = "residentId", required = false) Long residentId,
+            Model model) {
+        String username = authentication.getName();
+        List<AssignedTask> tasks = assignedTaskService.getTasksForStaff(username);
+        List<AssignedTask> scopedTasks = tasks.stream()
+                .filter(task -> residentId == null || residentId.equals(task.getResidentId()))
+                .toList();
+
+        List<AssignedTask> completedTasks = scopedTasks.stream()
+                .filter(task -> "COMPLETED".equalsIgnoreCase(task.getStatus()))
+                .limit(10)
+                .toList();
+
+        var assignedResidents = assignedTaskService.getAssignedResidentsForStaff(username).stream()
+                .filter(resident -> residentId == null || residentId.equals(resident.residentId()))
+                .toList();
+
+        long pendingCount = scopedTasks.stream()
+                .filter(task -> "PENDING".equalsIgnoreCase(task.getStatus()))
+                .count();
+
+        long completedCount = scopedTasks.stream()
+                .filter(task -> "COMPLETED".equalsIgnoreCase(task.getStatus()))
+                .count();
+
+        model.addAttribute("loggedInUser", username);
+        model.addAttribute("pendingCount", pendingCount);
+        model.addAttribute("completedCount", completedCount);
+        model.addAttribute("assignedResidents", assignedResidents);
+        model.addAttribute("completedTasks", completedTasks);
+        model.addAttribute("selectedResidentId", residentId);
         return "myReports";
+    }
+
+    @GetMapping("/my-reports")
+    @PreAuthorize("hasRole('STAFF')")
+    public String myReportsAlias() {
+        return "redirect:/myReports";
+    }
+
+    @GetMapping("/MyReports")
+    @PreAuthorize("hasRole('STAFF')")
+    public String myReportsLegacyAlias() {
+        return "redirect:/myReports";
     }
 
     @GetMapping("/staff-dashboard-layout")

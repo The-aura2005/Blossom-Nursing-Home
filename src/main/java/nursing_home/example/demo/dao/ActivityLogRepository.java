@@ -21,4 +21,7 @@ public interface ActivityLogRepository extends JpaRepository<ActivityLog, Long> 
     List<ActivityLog> findByResidentIdAndActivityDateBetweenOrderByActivityDateDescActivityTimeDescIdDesc(
             Long residentId,
             LocalDate fromDate, LocalDate toDate);
+
+    @Query("SELECT a FROM ActivityLog a JOIN FETCH a.resident WHERE a.loggedByUsername = :username ORDER BY a.activityDate DESC, a.activityTime DESC, a.id DESC")
+    List<ActivityLog> findByLoggedByUsernameOrderByActivityDateDescActivityTimeDescIdDesc(String username);
 }

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Incident Reports</title>
+    <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/residents.css">
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="header-left">
+            <h1>Incident Reports</h1>
+        </div>
+        <div class="header-right">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <button class="log-out-btn" type="submit">Log Out</button>
+            </form>
+        </div>
+    </header>
+    <aside class="sidebar">
+        <div class="sidebar-title">Staff Dashboard</div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a th:href="@{/staff-dashboard}">Overview</a></li>
+                <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
+                <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                <li><a th:href="@{/myReports}">Reports</a></li>
+                <li><a th:href="@{/medications}">Medication Logs</a></li>
+                <li><a th:href="@{/incident-reports}" class="active">Incident Reports</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="task-alert" th:if="${incidentMessage}" th:text="${incidentMessage}"></div>
+        <div class="task-alert" th:if="${incidentError}" th:text="${incidentError}"></div>
+        <div class="residents-table-container">
+            <table class="residents-table">
+                <thead>
+                <tr>
+                    <th>Resident</th>
+                    <th>Title</th>
+                    <th>Description</th>
+                    <th>Severity</th>
+                    <th>Staff</th>
+                    <th>Date Created</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(incidentReports)}">
+                    <td colspan="6">No incident reports available.</td>
+                </tr>
+                <tr th:each="report : ${incidentReports}">
+                    <td th:text="${report.resident.name}">Resident</td>
+                    <td th:text="${report.title}">Title</td>
+                    <td th:text="${report.description}">Description</td>
+                    <td th:text="${report.severity}">Severity</td>
+                    <td th:text="${report.staff.username}">Staff</td>
+                    <td th:text="${#temporals.format(report.createdAt, 'MM/dd/yyyy hh:mm a')}">Date</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </main>
+</div>
+</body>
+</html>

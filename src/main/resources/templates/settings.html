@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Settings - Admin Dashboard</title>
+    <link rel="stylesheet" href="css/admin.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    <script src="js/admin.js"></script>
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="menu-icon" onclick="openSidebar()">
+            <span class="material-symbols-outlined">menu</span>
+        </div>
+        <div class="header-left"><h1>Admin Settings</h1></div>
+        <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
+    </header>
+
+    <aside id="sidebar">
+        <div class="sidebar-title">
+            <div><h3>BlossomHomes</h3></div>
+            <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
+        </div>
+        <ul class="sidebar-list">
+            <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/medical}">Medical Records</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/reports}">Reports</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/admin-settings}" class="active">Admin Settings</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
+        </ul>
+    </aside>
+
+    <main class="main-container">
+        <section class="page-intro">
+            <h2>Admin Settings</h2>
+            <p>Manage profile, account security, and alert preferences in one place.</p>
+        </section>
+
+        <section class="data-table" style="margin-bottom: 20px;">
+            <h3>Profile Settings</h3>
+            <p>Update account details for the admin profile.</p>
+            <form>
+                <div class="filter-form">
+                    <input type="text" placeholder="Full Name" value="Admin User">
+                    <input type="email" placeholder="Email" value="admin@blossomhomes.com">
+                    <input type="tel" placeholder="Phone" value="+1 555 555 0101">
+                </div>
+                <button type="button" class="btn-sm btn-edit" style="margin-top: 12px;">Save Profile</button>
+            </form>
+        </section>
+
+        <section class="data-table" style="margin-bottom: 20px;">
+            <h3>Security Settings</h3>
+            <p>Manage password and session controls.</p>
+            <form>
+                <div class="filter-form">
+                    <input type="password" placeholder="Current Password">
+                    <input type="password" placeholder="New Password">
+                    <input type="password" placeholder="Confirm Password">
+                </div>
+                <button type="button" class="btn-sm btn-edit" style="margin-top: 12px;">Update Password</button>
+            </form>
+        </section>
+
+        <section class="data-table">
+            <h3>Notification Settings</h3>
+            <p>Select which alerts the admin account should receive.</p>
+            <form style="display: grid; gap: 10px;">
+                <label><input type="checkbox" checked> Resident admission alerts</label>
+                <label><input type="checkbox" checked> Staff task completion alerts</label>
+                <label><input type="checkbox"> Daily revenue summary emails</label>
+                <button type="button" class="btn-sm btn-edit" style="width: fit-content;">Save Notifications</button>
+            </form>
+        </section>
+    </main>
+</div>
+
+<script>
+    // Keep logout as POST to match Spring Security defaults.
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutLink = document.querySelector('a[href="/logout"]');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
+    });
+</script>
+</body>
+</html>

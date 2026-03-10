@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Administer Medication</title>
+    <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/VitalLogging.css">
+</head>
+<body>
+<div class="grid-container">
+    <header class="header">
+        <div class="header-left">
+            <h1>Administer Medication</h1>
+        </div>
+        <div class="header-right">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <button class="log-out-btn" type="submit">Log Out</button>
+            </form>
+        </div>
+    </header>
+    <aside class="sidebar">
+        <div class="sidebar-title">Staff Dashboard</div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a th:href="@{/staff-dashboard}">Overview</a></li>
+                <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
+                <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                <li><a th:href="@{/myReports}">Reports</a></li>
+                <li><a th:href="@{/medications}" class="active">Medication Logs</a></li>
+                <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
+            </ul>
+        </div>
+    </aside>
+
+    <main class="main-content">
+        <div class="Vitals-container" th:if="${selectedResident != null}">
+            <h3>Medication Logging</h3>
+            <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
+
+            <form th:action="@{/medications/save}" method="post" class="Record-vitals">
+                <input type="hidden" name="residentId" th:value="${selectedResident.residentId}">
+
+                <label for="medicationName">Medication Name:</label>
+                <input type="text" id="medicationName" name="medicationName" required>
+
+                <label for="dosage">Dosage:</label>
+                <input type="text" id="dosage" name="dosage" required>
+
+                <label for="timeGiven">Time Given:</label>
+                <input type="datetime-local" id="timeGiven" name="timeGiven" required>
+
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" placeholder="Enter notes"></textarea>
+
+                <button type="submit">Save Medication Log</button>
+            </form>
+        </div>
+    </main>
+</div>
+</body>
+</html>

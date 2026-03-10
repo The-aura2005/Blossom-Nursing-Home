@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Reports - Admin Dashboard</title>
+    <title>Medical Records - Admin Dashboard</title>
     <link rel="stylesheet" href="css/admin.css">
     <link rel="stylesheet" href="css/medical.css">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
@@ -16,7 +16,7 @@
         <div class="menu-icon" onclick="openSidebar()">
             <span class="material-symbols-outlined">menu</span>
         </div>
-        <div class="header-left"><h1>Medical Reports</h1></div>
+        <div class="header-left"><h1>Medical Records</h1></div>
         <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
     </header>
 
@@ -31,35 +31,49 @@
             <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
             <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
             <li class="sidebar-list-item"><a th:href="@{/medical}" class="active">Medical Records</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/billingreports}">Billing Reports</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/reports}">Reports</a></li>
+            <li class="sidebar-list-item"><a th:href="@{/admin-settings}">Admin Settings</a></li>
             <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
         </ul>
     </aside>
 
     <main class="main-container medical-container">
-        <div class="task-alert" th:if="${medicalMessage}" th:text="${medicalMessage}"></div>
-        <div class="task-alert" th:if="${medicalError}" th:text="${medicalError}"></div>
-        <div class="task-alert" th:if="${report != null and report.infoMessage != null}" th:text="${report.infoMessage}"></div>
+        <section class="page-intro">
+            <h2>Resident Medical Overview</h2>
+            <p>Review complete medical history for one resident at a time using date filters.</p>
+        </section>
+
+        <div class="alert-banner alert-success" th:if="${medicalMessage}" th:text="${medicalMessage}"></div>
+        <div class="alert-banner alert-error" th:if="${medicalError}" th:text="${medicalError}"></div>
+        <div class="alert-banner" th:if="${report != null and report.infoMessage != null}" th:text="${report.infoMessage}"></div>
 
         <section class="filter-card">
-            <h3>Resident-Centric Filters</h3>
-            <form th:action="@{/medical}" method="get" class="filter-form">
-                <label for="residentId">Resident</label>
-                <select id="residentId" name="residentId" required>
-                    <option value="">Choose resident</option>
-                    <option th:each="resident : ${residents}"
-                            th:value="${resident.id}"
-                            th:selected="${report != null and report.resident != null and report.resident.id == resident.id}"
-                            th:text="${resident.name + ' - Room ' + resident.roomNumber}"></option>
-                </select>
+            <h3>Filter Medical Data</h3>
+            <form th:action="@{/medical}" method="get" class="filter-form medical-filter-form">
+                <div class="filter-field filter-field-wide">
+                    <label for="residentId">Resident</label>
+                    <select id="residentId" name="residentId" required>
+                        <option value="">Choose resident</option>
+                        <option th:each="resident : ${residents}"
+                                th:value="${resident.id}"
+                                th:selected="${report != null and report.resident != null and report.resident.id == resident.id}"
+                                th:text="${resident.name + ' - Room ' + resident.roomNumber}"></option>
+                    </select>
+                </div>
 
-                <label for="fromDate">From Date</label>
-                <input id="fromDate" type="date" name="fromDate" th:value="${report != null and report.fromDate != null ? report.fromDate : ''}">
+                <div class="filter-field">
+                    <label for="fromDate">From Date</label>
+                    <input id="fromDate" type="date" name="fromDate" th:value="${report != null and report.fromDate != null ? report.fromDate : ''}">
+                </div>
 
-                <label for="toDate">To Date</label>
-                <input id="toDate" type="date" name="toDate" th:value="${report != null and report.toDate != null ? report.toDate : ''}">
+                <div class="filter-field">
+                    <label for="toDate">To Date</label>
+                    <input id="toDate" type="date" name="toDate" th:value="${report != null and report.toDate != null ? report.toDate : ''}">
+                </div>
 
-                <button type="submit" class="action-btn">Apply Filter</button>
+                <div class="filter-field filter-action-field">
+                    <button type="submit" class="action-btn">Apply Filter</button>
+                </div>
             </form>
         </section>
 
@@ -71,72 +85,17 @@
         </section>
 
         <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Resident Basic Info</h3>
+            <h3>Resident Snapshot</h3>
             <div class="resident-info-grid">
                 <div><strong>Name:</strong> <span th:text="${report.resident.name}"></span></div>
                 <div><strong>Age:</strong> <span th:text="${report.resident.age}"></span></div>
-                <div><strong>Gender:</strong> Not Available</div>
-                <div><strong>Room/Bed:</strong> <span th:text="${'Room ' + report.resident.roomNumber}"></span></div>
+                <div><strong>Room:</strong> <span th:text="${'Room ' + report.resident.roomNumber}"></span></div>
                 <div><strong>Status:</strong> <span th:text="${report.resident.status}"></span></div>
-                <div><strong>Emergency Contact:</strong> Not Available</div>
-            </div>
-        </section>
-
-        <section class="two-col" th:if="${report != null and report.resident != null}">
-            <div class="data-card">
-                <h3>Medical Conditions</h3>
-                <div class="sub-section">
-                    <h4>Chronic Illnesses</h4>
-                    <ul>
-                        <li th:if="${#lists.isEmpty(report.chronicIllnesses)}">No chronic illnesses recorded.</li>
-                        <li th:each="illness : ${report.chronicIllnesses}" th:text="${illness}"></li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <h4>Allergies</h4>
-                    <ul>
-                        <li th:if="${#lists.isEmpty(report.allergies)}">No allergies recorded.</li>
-                        <li th:each="allergy : ${report.allergies}" th:text="${allergy}"></li>
-                    </ul>
-                </div>
-                <form th:action="@{/medical/conditions}" method="post" class="inline-form">
-                    <input type="hidden" name="residentId" th:value="${report.resident.id}">
-                    <input type="hidden" name="fromDate" th:value="${report.fromDate}">
-                    <input type="hidden" name="toDate" th:value="${report.toDate}">
-                    <select name="conditionType" required>
-                        <option value="">Condition type</option>
-                        <option value="CHRONIC_ILLNESS">Chronic Illness</option>
-                        <option value="ALLERGY">Allergy</option>
-                    </select>
-                    <input type="text" name="description" placeholder="Add condition/allergy" required>
-                    <button type="submit" class="action-btn">Save</button>
-                </form>
-            </div>
-
-            <div class="data-card">
-                <h3>Activity Summary Report</h3>
-                <ul>
-                    <li th:if="${#maps.isEmpty(report.activitySummary)}">No activity summary in selected period.</li>
-                    <li th:each="entry : ${report.activitySummary}">
-                        <span th:text="${entry.key}"></span>
-                        <strong th:text="${entry.value}"></strong>
-                    </li>
-                </ul>
             </div>
         </section>
 
         <section class="data-card" th:if="${report != null and report.resident != null}">
             <h3>Medications Administered</h3>
-            <form th:action="@{/medical/medications}" method="post" class="inline-form">
-                <input type="hidden" name="residentId" th:value="${report.resident.id}">
-                <input type="hidden" name="fromDate" th:value="${report.fromDate}">
-                <input type="hidden" name="toDate" th:value="${report.toDate}">
-                <input type="text" name="medicationName" placeholder="Medication" required>
-                <input type="text" name="dosage" placeholder="Dosage" required>
-                <input type="text" name="administeredByUsername" placeholder="Administered by" required>
-                <input type="text" name="notes" placeholder="Notes">
-                <button type="submit" class="action-btn">Add Medication</button>
-            </form>
             <table class="report-table">
                 <thead>
                 <tr><th>Date/Time</th><th>Medication</th><th>Dosage</th><th>Staff</th><th>Notes</th></tr>
@@ -158,16 +117,15 @@
             <h3>Vital Signs</h3>
             <table class="report-table">
                 <thead>
-                <tr><th>Date</th><th>Temperature</th><th>Blood Pressure</th><th>Pulse</th><th>Oxygen Saturation</th><th>Notes</th></tr>
+                <tr><th>Date</th><th>Temperature</th><th>Blood Pressure</th><th>Weight</th><th>Notes</th></tr>
                 </thead>
                 <tbody>
-                <tr th:if="${#lists.isEmpty(report.vitals)}"><td colspan="6">No vitals in selected period.</td></tr>
+                <tr th:if="${#lists.isEmpty(report.vitals)}"><td colspan="5">No vitals in selected period.</td></tr>
                 <tr th:each="vital : ${report.vitals}" th:classappend="${#lists.contains(report.abnormalVitals, vital) ? ' abnormal-row' : ''}">
                     <td th:text="${#temporals.format(vital.dateRecorded, 'MM/dd/yyyy')}"></td>
                     <td th:text="${vital.temperature + ' C'}"></td>
                     <td th:text="${vital.bloodPressure}"></td>
-                    <td>N/A</td>
-                    <td>N/A</td>
+                    <td th:text="${vital.weight}"></td>
                     <td th:text="${vital.notes}"></td>
                 </tr>
                 </tbody>
@@ -192,478 +150,33 @@
                 </tbody>
             </table>
         </section>
-    </main>
-</div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Reports - Admin Dashboard</title>
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/medical.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <script src="js/admin.js"></script>
-</head>
-<body>
-<div class="grid-container">
-    <header class="header">
-        <div class="menu-icon" onclick="openSidebar()">
-            <span class="material-symbols-outlined">menu</span>
-        </div>
-        <div class="header-left"><h1>Medical Reports</h1></div>
-        <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
-    </header>
-
-    <aside id="sidebar">
-        <div class="sidebar-title">
-            <div><h3>BlossomHomes</h3></div>
-            <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
-        </div>
-        <ul class="sidebar-list">
-            <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/medical}" class="active">Medical Records</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/billingreports}">Billing Reports</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
-        </ul>
-    </aside>
-
-    <main class="main-container medical-container">
-        <div class="task-alert" th:if="${medicalMessage}" th:text="${medicalMessage}"></div>
-        <div class="task-alert" th:if="${medicalError}" th:text="${medicalError}"></div>
-        <div class="task-alert" th:if="${report != null and report.infoMessage != null}" th:text="${report.infoMessage}"></div>
-
-        <section class="filter-card">
-            <h3>Resident-Centric Filters</h3>
-            <form th:action="@{/medical}" method="get" class="filter-form">
-                <label for="residentId">Resident</label>
-                <select id="residentId" name="residentId" required>
-                    <option value="">Choose resident</option>
-                    <option th:each="resident : ${residents}"
-                            th:value="${resident.id}"
-                            th:selected="${report != null and report.resident != null and report.resident.id == resident.id}"
-                            th:text="${resident.name + ' - Room ' + resident.roomNumber}"></option>
-                </select>
-
-                <label for="fromDate">From Date</label>
-                <input id="fromDate" type="date" name="fromDate" th:value="${report != null and report.fromDate != null ? report.fromDate : ''}">
-
-                <label for="toDate">To Date</label>
-                <input id="toDate" type="date" name="toDate" th:value="${report != null and report.toDate != null ? report.toDate : ''}">
-
-                <button type="submit" class="action-btn">Apply Filter</button>
-            </form>
-        </section>
-
-        <section class="summary-grid" th:if="${report != null and report.resident != null}">
-            <div class="summary-card"><h4>Abnormal Vitals</h4><p th:text="${report.summary.abnormalVitalsCount}">0</p></div>
-            <div class="summary-card"><h4>Total Activity Logs</h4><p th:text="${report.summary.activitiesCount}">0</p></div>
-            <div class="summary-card"><h4>Medication Entries</h4><p th:text="${report.summary.medicationsCount}">0</p></div>
-            <div class="summary-card"><h4>Vitals Records</h4><p th:text="${report.summary.totalVitalsCount}">0</p></div>
-        </section>
 
         <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Resident Basic Info</h3>
-            <div class="resident-info-grid">
-                <div><strong>Name:</strong> <span th:text="${report.resident.name}"></span></div>
-                <div><strong>Age:</strong> <span th:text="${report.resident.age}"></span></div>
-                <div><strong>Gender:</strong> Not Available</div>
-                <div><strong>Room/Bed:</strong> <span th:text="${'Room ' + report.resident.roomNumber}"></span></div>
-                <div><strong>Status:</strong> <span th:text="${report.resident.status}"></span></div>
-                <div><strong>Emergency Contact:</strong> Not Available</div>
+            <h3>Related Modules</h3>
+            <div class="module-links">
+                <a th:href="@{/admin/VitalLoggingTable}" class="btn-sm btn-edit">All Vital Logs</a>
+                <a th:href="@{/admin/activitiesLogging}" class="btn-sm btn-edit">All Activity Logs</a>
+                <a th:href="@{/admin/medications}" class="btn-sm btn-edit">Medication Logs</a>
+                <a th:href="@{/admin/incident-reports}" class="btn-sm btn-edit">Incident Reports</a>
             </div>
-        </section>
-
-        <section class="two-col" th:if="${report != null and report.resident != null}">
-            <div class="data-card">
-                <h3>Medical Conditions</h3>
-                <div class="sub-section">
-                    <h4>Chronic Illnesses</h4>
-                    <ul>
-                        <li th:if="${#lists.isEmpty(report.chronicIllnesses)}">No chronic illnesses recorded.</li>
-                        <li th:each="illness : ${report.chronicIllnesses}" th:text="${illness}"></li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <h4>Allergies</h4>
-                    <ul>
-                        <li th:if="${#lists.isEmpty(report.allergies)}">No allergies recorded.</li>
-                        <li th:each="allergy : ${report.allergies}" th:text="${allergy}"></li>
-                    </ul>
-                </div>
-                <form th:action="@{/medical/conditions}" method="post" class="inline-form">
-                    <input type="hidden" name="residentId" th:value="${report.resident.id}">
-                    <input type="hidden" name="fromDate" th:value="${report.fromDate}">
-                    <input type="hidden" name="toDate" th:value="${report.toDate}">
-                    <select name="conditionType" required>
-                        <option value="">Condition type</option>
-                        <option value="CHRONIC_ILLNESS">Chronic Illness</option>
-                        <option value="ALLERGY">Allergy</option>
-                    </select>
-                    <input type="text" name="description" placeholder="Add condition/allergy" required>
-                    <button type="submit" class="action-btn">Save</button>
-                </form>
-            </div>
-
-            <div class="data-card">
-                <h3>Activity Summary Report</h3>
-                <ul>
-                    <li th:if="${#maps.isEmpty(report.activitySummary)}">No activity summary in selected period.</li>
-                    <li th:each="entry : ${report.activitySummary}">
-                        <span th:text="${entry.key}"></span>
-                        <strong th:text="${entry.value}"></strong>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Medications Administered</h3>
-            <form th:action="@{/medical/medications}" method="post" class="inline-form">
-                <input type="hidden" name="residentId" th:value="${report.resident.id}">
-                <input type="hidden" name="fromDate" th:value="${report.fromDate}">
-                <input type="hidden" name="toDate" th:value="${report.toDate}">
-                <input type="text" name="medicationName" placeholder="Medication" required>
-                <input type="text" name="dosage" placeholder="Dosage" required>
-                <input type="text" name="administeredByUsername" placeholder="Administered by" required>
-                <input type="text" name="notes" placeholder="Notes">
-                <button type="submit" class="action-btn">Add Medication</button>
-            </form>
-            <table class="report-table">
-                <thead>
-                <tr><th>Date/Time</th><th>Medication</th><th>Dosage</th><th>Staff</th><th>Notes</th></tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.medications)}"><td colspan="5">No medication entries in selected period.</td></tr>
-                <tr th:each="med : ${report.medications}">
-                    <td th:text="${#temporals.format(med.administeredAt, 'MM/dd/yyyy hh:mm a')}"></td>
-                    <td th:text="${med.medicationName}"></td>
-                    <td th:text="${med.dosage}"></td>
-                    <td th:text="${med.administeredByUsername}"></td>
-                    <td th:text="${med.notes}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Vital Signs</h3>
-            <table class="report-table">
-                <thead>
-                <tr><th>Date</th><th>Temperature</th><th>Blood Pressure</th><th>Pulse</th><th>Oxygen Saturation</th><th>Notes</th></tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.vitals)}"><td colspan="6">No vitals in selected period.</td></tr>
-                <tr th:each="vital : ${report.vitals}" th:classappend="${#lists.contains(report.abnormalVitals, vital) ? ' abnormal-row' : ''}">
-                    <td th:text="${#temporals.format(vital.dateRecorded, 'MM/dd/yyyy')}"></td>
-                    <td th:text="${vital.temperature + ' C'}"></td>
-                    <td th:text="${vital.bloodPressure}"></td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td th:text="${vital.notes}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Activity Logs</h3>
-            <table class="report-table">
-                <thead>
-                <tr><th>Date</th><th>Time</th><th>Activity</th><th>Notes</th><th>Logged By</th></tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.activityLogs)}"><td colspan="5">No activity logs in selected period.</td></tr>
-                <tr th:each="activity : ${report.activityLogs}">
-                    <td th:text="${#temporals.format(activity.activityDate, 'MM/dd/yyyy')}"></td>
-                    <td th:text="${#temporals.format(activity.activityTime, 'hh:mm a')}"></td>
-                    <td th:text="${activity.activityType}"></td>
-                    <td th:text="${activity.notes}"></td>
-                    <td th:text="${activity.loggedByUsername}"></td>
-                </tr>
-                </tbody>
-            </table>
         </section>
     </main>
 </div>
-</body>
-</html>
-<!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Medical Reports - Admin Dashboard</title>
-    <link rel="stylesheet" href="css/admin.css">
-    <link rel="stylesheet" href="css/medical.css">
-    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
-    <script src="js/admin.js"></script>
-</head>
-<body>
-<div class="grid-container">
-    <header class="header">
-        <div class="menu-icon" onclick="openSidebar()">
-            <span class="material-symbols-outlined">menu</span>
-        </div>
-        <div class="header-left"><h1>Medical Reports</h1></div>
-        <div class="header-right"><span class="material-symbols-outlined">account_box</span></div>
-    </header>
 
-    <aside id="sidebar">
-        <div class="sidebar-title">
-            <div><h3>BlossomHomes</h3></div>
-            <span class="material-symbols-outlined" onclick="closeSideBar()">close</span>
-        </div>
-        <ul class="sidebar-list">
-            <li class="sidebar-list-item"><a th:href="@{/admin-dashboard}">Dashboard</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/residents}">Residents</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/staffs}">Staff Management</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/assign-task}">Assign Tasks</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/medical}" class="active">Medical Records</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/billingreports}">Billing Reports</a></li>
-            <li class="sidebar-list-item"><a th:href="@{/logout}">Logout</a></li>
-        </ul>
-    </aside>
-
-    <main class="main-container medical-container">
-        <div class="task-alert" th:if="${medicalMessage}" th:text="${medicalMessage}"></div>
-        <div class="task-alert" th:if="${medicalError}" th:text="${medicalError}"></div>
-        <div class="task-alert" th:if="${report != null and report.infoMessage != null}" th:text="${report.infoMessage}"></div>
-
-        <section class="filter-card">
-            <h3>Resident-Centric Filters</h3>
-            <form th:action="@{/medical}" method="get" class="filter-form">
-                <label for="residentId">Resident</label>
-                <select id="residentId" name="residentId" required>
-                    <option value="">Choose resident</option>
-                    <option th:each="resident : ${residents}"
-                            th:value="${resident.id}"
-                            th:selected="${report != null and report.resident != null and report.resident.id == resident.id}"
-                            th:text="${resident.name + ' - Room ' + resident.roomNumber}"></option>
-                </select>
-
-                <label for="fromDate">From Date</label>
-                <input id="fromDate" type="date" name="fromDate" th:value="${report != null and report.fromDate != null ? report.fromDate : ''}">
-
-                <label for="toDate">To Date</label>
-                <input id="toDate" type="date" name="toDate" th:value="${report != null and report.toDate != null ? report.toDate : ''}">
-
-                <button type="submit" class="action-btn">Apply Filter</button>
-            </form>
-        </section>
-
-        <section class="summary-grid" th:if="${report != null and report.resident != null}">
-            <div class="summary-card">
-                <h4>Abnormal Vitals</h4>
-                <p th:text="${report.summary.abnormalVitalsCount}">0</p>
-            </div>
-            <div class="summary-card">
-                <h4>Total Activity Logs</h4>
-                <p th:text="${report.summary.activitiesCount}">0</p>
-            </div>
-            <div class="summary-card">
-                <h4>Medication Entries</h4>
-                <p th:text="${report.summary.medicationsCount}">0</p>
-            </div>
-            <div class="summary-card">
-                <h4>Vitals Records</h4>
-                <p th:text="${report.summary.totalVitalsCount}">0</p>
-            </div>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Resident Basic Info</h3>
-            <div class="resident-info-grid">
-                <div><strong>Name:</strong> <span th:text="${report.resident.name}">Resident</span></div>
-                <div><strong>Age:</strong> <span th:text="${report.resident.age}">0</span></div>
-                <div><strong>Gender:</strong> Not Available</div>
-                <div><strong>Room/Bed:</strong> <span th:text="${'Room ' + report.resident.roomNumber}">Room</span></div>
-                <div><strong>Status:</strong> <span th:text="${report.resident.status}">Active</span></div>
-                <div><strong>Emergency Contact:</strong> Not Available</div>
-            </div>
-        </section>
-
-        <section class="two-col" th:if="${report != null and report.resident != null}">
-            <div class="data-card">
-                <h3>Medical Conditions</h3>
-                <div class="sub-section">
-                    <h4>Chronic Illnesses</h4>
-                    <ul>
-                        <li th:if="${#lists.isEmpty(report.chronicIllnesses)}">No chronic illnesses recorded.</li>
-                        <li th:each="illness : ${report.chronicIllnesses}" th:text="${illness}"></li>
-                    </ul>
-                </div>
-                <div class="sub-section">
-                    <h4>Allergies</h4>
-                    <ul>
-                        <li th:if="${#lists.isEmpty(report.allergies)}">No allergies recorded.</li>
-                        <li th:each="allergy : ${report.allergies}" th:text="${allergy}"></li>
-                    </ul>
-                </div>
-
-                <form th:action="@{/medical/conditions}" method="post" class="inline-form">
-                    <input type="hidden" name="residentId" th:value="${report.resident.id}">
-                    <input type="hidden" name="fromDate" th:value="${report.fromDate}">
-                    <input type="hidden" name="toDate" th:value="${report.toDate}">
-                    <select name="conditionType" required>
-                        <option value="">Condition type</option>
-                        <option value="CHRONIC_ILLNESS">Chronic Illness</option>
-                        <option value="ALLERGY">Allergy</option>
-                    </select>
-                    <input type="text" name="description" placeholder="Add condition/allergy" required>
-                    <button type="submit" class="action-btn">Save</button>
-                </form>
-            </div>
-
-            <div class="data-card">
-                <h3>Activity Summary Report</h3>
-                <ul>
-                    <li th:if="${#maps.isEmpty(report.activitySummary)}">No activity summary in selected period.</li>
-                    <li th:each="entry : ${report.activitySummary}">
-                        <span th:text="${entry.key}">Type</span>
-                        <strong th:text="${entry.value}">0</strong>
-                    </li>
-                </ul>
-            </div>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Medications Administered</h3>
-            <form th:action="@{/medical/medications}" method="post" class="inline-form">
-                <input type="hidden" name="residentId" th:value="${report.resident.id}">
-                <input type="hidden" name="fromDate" th:value="${report.fromDate}">
-                <input type="hidden" name="toDate" th:value="${report.toDate}">
-                <input type="text" name="medicationName" placeholder="Medication" required>
-                <input type="text" name="dosage" placeholder="Dosage" required>
-                <input type="text" name="administeredByUsername" placeholder="Administered by" required>
-                <input type="text" name="notes" placeholder="Notes">
-                <button type="submit" class="action-btn">Add Medication</button>
-            </form>
-            <table class="report-table">
-                <thead>
-                <tr>
-                    <th>Date/Time</th>
-                    <th>Medication</th>
-                    <th>Dosage</th>
-                    <th>Staff</th>
-                    <th>Notes</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.medications)}">
-                    <td colspan="5">No medication entries in selected period.</td>
-                </tr>
-                <tr th:each="med : ${report.medications}">
-                    <td th:text="${#temporals.format(med.administeredAt, 'MM/dd/yyyy hh:mm a')}"></td>
-                    <td th:text="${med.medicationName}"></td>
-                    <td th:text="${med.dosage}"></td>
-                    <td th:text="${med.administeredByUsername}"></td>
-                    <td th:text="${med.notes}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Vital Signs</h3>
-            <table class="report-table">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Temperature</th>
-                    <th>Blood Pressure</th>
-                    <th>Pulse</th>
-                    <th>Oxygen Saturation</th>
-                    <th>Notes</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.vitals)}">
-                    <td colspan="6">No vitals in selected period.</td>
-                </tr>
-                <tr th:each="vital : ${report.vitals}" th:classappend="${#lists.contains(report.abnormalVitals, vital) ? ' abnormal-row' : ''}">
-                    <td th:text="${#temporals.format(vital.dateRecorded, 'MM/dd/yyyy')}"></td>
-                    <td th:text="${vital.temperature + ' C'}"></td>
-                    <td th:text="${vital.bloodPressure}"></td>
-                    <td>N/A</td>
-                    <td>N/A</td>
-                    <td th:text="${vital.notes}"></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Activity Logs</h3>
-            <table class="report-table">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Type</th>
-                    <th>Notes</th>
-                    <th>Logged By</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.activitySummary) and #lists.isEmpty(report.medications) and #lists.isEmpty(report.vitals)}">
-                    <td colspan="5">No records found in selected period.</td>
-                </tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary) == false and #lists.isEmpty(report.vitals) == false}" th:remove="all"></tr>
-                <tr th:each="activity : ${#lists.isEmpty(report.resident) ? {} : ${T(java.util.Collections).emptyList()}}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary) == false}" th:remove="all"></tr>
-                </tbody>
-            </table>
-            <table class="report-table">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Notes</th>
-                    <th>Staff</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.resident) }" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.vitals)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.medications)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary) }" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary)}" th:remove="all"></tr>
-            </table>
-        </section>
-
-        <section class="data-card" th:if="${report != null and report.resident != null}">
-            <h3>Detailed Activity Logs</h3>
-            <table class="report-table">
-                <thead>
-                <tr>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Activity</th>
-                    <th>Notes</th>
-                    <th>Logged By</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr th:if="${#lists.isEmpty(report.activitySummary) and #lists.isEmpty(report.vitals) and #lists.isEmpty(report.medications)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary)}" th:remove="all"></tr>
-                <tr th:if="${#lists.isEmpty(report.activitySummary)}" th:remove="all"></tr>
-            </tbody>
-            </table>
-        </section>
-    </main>
-</div>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const logoutLink = document.querySelector('a[href="/logout"]');
+        if (logoutLink) {
+            logoutLink.addEventListener('click', function(e) {
+                e.preventDefault();
+                const form = document.createElement('form');
+                form.method = 'POST';
+                form.action = '/logout';
+                document.body.appendChild(form);
+                form.submit();
+            });
+        }
+    });
+</script>
 </body>
 </html>

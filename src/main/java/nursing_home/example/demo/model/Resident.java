@@ -19,22 +19,38 @@ public class Resident {
     private Long id;
     private String name;
     private int age;
+    private String gender;
     private int roomNumber;
     private LocalDate admissionDate;
+    private long EmergencyContact;
     private String status;
     @OneToMany(mappedBy = "resident" , cascade= CascadeType.ALL)
     private List<Vitals> vitals;
 
      public Resident(){}
-    public Resident(String name, int age, int roomNumber, LocalDate admissionDate, String status) {
+    public Resident(String name, int age, String gender, int roomNumber, LocalDate admissionDate, String status,long EmergencyContact) {
         this.name = name;
         this.age = age;
+        this.gender = gender;
         this.roomNumber = roomNumber;
         this.admissionDate = admissionDate;
+        this.EmergencyContact = EmergencyContact;
         this.status = status;
+    }
+    public long getEmergencyContact() {
+        return EmergencyContact;
+    }
+    public void setEmergencyContact(long emergencyContact) {
+        EmergencyContact = emergencyContact;
     }
     public Long getId() {
         return id;
+    }
+    public String getGender() {
+        return gender;
+    }
+    public void setGender(String gender) {
+        this.gender = gender;
     }
     public void setId(Long id) {
         this.id = id;
