@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import nursing_home.example.demo.model.AssignedTask;
 import nursing_home.example.demo.services.AssignedTaskService;
 
+import java.util.Comparator;
+
 @Controller
 public class TaskManagementController {
 
@@ -26,7 +28,11 @@ public class TaskManagementController {
         model.addAttribute("task", new AssignedTask());
         model.addAttribute("residents", assignedTaskService.getAllResidentsForAssignment());
         model.addAttribute("staffUsernames", assignedTaskService.getStaffUsernames());
-        model.addAttribute("assignedTasks", assignedTaskService.getAllTasks());
+        model.addAttribute("assignedTasks", assignedTaskService.getAllTasks().stream()
+                .filter(task -> "PENDING".equalsIgnoreCase(task.getStatus()))
+                .sorted(Comparator.comparing(AssignedTask::getCreatedAt,
+                        Comparator.nullsLast(Comparator.reverseOrder())))
+                .toList());
         return "assign-task";
     }
 
@@ -37,7 +43,11 @@ public class TaskManagementController {
         model.addAttribute("task", new AssignedTask());
         model.addAttribute("residents", assignedTaskService.getAllResidentsForAssignment());
         model.addAttribute("staffUsernames", assignedTaskService.getStaffUsernames());
-        model.addAttribute("assignedTasks", assignedTaskService.getAllTasks());
+        model.addAttribute("assignedTasks", assignedTaskService.getAllTasks().stream()
+                .filter(taskRow -> "PENDING".equalsIgnoreCase(taskRow.getStatus()))
+                .sorted(Comparator.comparing(AssignedTask::getCreatedAt,
+                        Comparator.nullsLast(Comparator.reverseOrder())))
+                .toList());
         model.addAttribute("successMessage", "Task assigned successfully.");
         return "assign-task";
     }

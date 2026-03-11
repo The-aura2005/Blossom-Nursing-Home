@@ -76,7 +76,7 @@
                 </section>
 
                 <section class="table-card">
-                    <h3>Assigned Tasks</h3>
+                    <h3>Active Assigned Tasks</h3>
                     <table>
                         <thead>
                             <tr>
@@ -91,7 +91,7 @@
                         </thead>
                         <tbody>
                             <tr th:if="${#lists.isEmpty(assignedTasks)}">
-                                <td colspan="7">No tasks assigned yet.</td>
+                                <td colspan="7">No pending tasks. Completed tasks are hidden from this list.</td>
                             </tr>
                             <tr th:each="taskRow : ${assignedTasks}">
                                 <td th:text="${taskRow.title}"></td>

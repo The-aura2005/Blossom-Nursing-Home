@@ -43,28 +43,28 @@
                     <p>Medical Reports</p>
                     <span class="material-symbols-outlined">clinical_notes</span>
                 </div>
-                <span class="text-primary font-weight-bold">48</span>
+                <span class="text-primary font-weight-bold" th:text="${medicalReportsCount}">0</span>
             </div>
             <div class="card">
                 <div class="inner-card">
                     <p>Activity Logs</p>
                     <span class="material-symbols-outlined">history</span>
                 </div>
-                <span class="text-primary font-weight-bold">132</span>
+                <span class="text-primary font-weight-bold" th:text="${activityLogsCount}">0</span>
             </div>
             <div class="card">
                 <div class="inner-card">
                     <p>Vital Reports</p>
                     <span class="material-symbols-outlined">monitor_heart</span>
                 </div>
-                <span class="text-primary font-weight-bold">76</span>
+                <span class="text-primary font-weight-bold" th:text="${vitalReportsCount}">0</span>
             </div>
             <div class="card">
                 <div class="inner-card">
                     <p>Medication Reports</p>
                     <span class="material-symbols-outlined">medication</span>
                 </div>
-                <span class="text-primary font-weight-bold">24</span>
+                <span class="text-primary font-weight-bold" th:text="${medicationReportsCount}">0</span>
             </div>
         </section>
 
@@ -86,7 +86,7 @@
                     <td>Daily</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-sm btn-edit">View</button>
+                            <a class="btn-sm btn-edit" th:href="@{/medical}">View</a>
                             <button class="btn-sm btn-delete">Export</button>
                         </div>
                     </td>
@@ -97,7 +97,7 @@
                     <td>Daily</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-sm btn-edit">View</button>
+                            <a class="btn-sm btn-edit" th:href="@{/admin/activitiesLogging}">View</a>
                             <button class="btn-sm btn-delete">Export</button>
                         </div>
                     </td>
@@ -108,7 +108,7 @@
                     <td>Every Shift</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-sm btn-edit">View</button>
+                            <a class="btn-sm btn-edit" th:href="@{/admin/VitalLoggingTable}">View</a>
                             <button class="btn-sm btn-delete">Export</button>
                         </div>
                     </td>
@@ -119,7 +119,7 @@
                     <td>Every Shift</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-sm btn-edit">View</button>
+                            <a class="btn-sm btn-edit" th:href="@{/admin/medications}">View</a>
                             <button class="btn-sm btn-delete">Export</button>
                         </div>
                     </td>
@@ -130,7 +130,7 @@
                     <td>Weekly</td>
                     <td>
                         <div class="action-buttons">
-                            <button class="btn-sm btn-edit">View</button>
+                            <a class="btn-sm btn-edit" th:href="@{/admin/incident-reports}">View</a>
                             <button class="btn-sm btn-delete">Export</button>
                         </div>
                     </td>
