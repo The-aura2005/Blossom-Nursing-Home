@@ -38,6 +38,14 @@ public class LoginController {
                     .anyMatch(auth -> auth.getAuthority().equals("ROLE_STAFF"))) {
                 return "redirect:/staff-dashboard";
             }
+            else if(authentication.getAuthorities().stream()
+                    .anyMatch(auth -> auth.getAuthority().equals("ROLE_ACCOUNTANT"))){
+                        return "redirect:/accountant-dashboard";
+                    }
+            else if(authentication.getAuthorities().stream()
+                    .anyMatch(auth -> auth.getAuthority().equals("ROLE_INVENTORY_MANAGER"))){
+                        return "redirect:/inventory-dashboard";
+                    }
         }
 
         return "no-role";
