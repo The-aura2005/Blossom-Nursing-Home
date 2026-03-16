@@ -23,9 +23,12 @@
             <div class="sidebar-title">Accountant Dashboard</div>
             <div class="sidebar-menu">
                 <ul>
-                    <li><a href="#billing" class="active">Billing</a></li>
-                    <li><a href="#payments">Payments</a></li>
-                    <li><a href="#reports">Reports</a></li>
+                    <li><a th:href="@{/billing}" class="active">Billing</a></li>
+                    <li><a th:href="@{/resident-payments}">Resident Payments</a></li>
+                    <li><a th:href="@{/staff-payments}">Staff Payments</a></li>
+                    <li><a th:href="@{/invoices}">Invoices & Billing</a></li>
+                    <li><a th:href="@{/inventory}">Inventory Purchases</a></li>
+                    <li><a th:href="@{/reports}">Reports</a></li>
                 </ul>
             </div>
         </aside>

@@ -67,6 +67,11 @@ public class SecurityConfig {
                                                                 "/admin/incident-reports")
                                                 .hasRole("ADMIN")
 
+                                                .requestMatchers("/accountant-dashboard","/accountant-dashboard.html"
+                                                ,"/invoices","/invoices.html","/resident-payments","/resident-payments.html",
+                                                "/staff-payments","/staff-payments.html","/report-payments","/report-payments.html")
+                                                .hasRole("ACCOUNTANT")
+
                                                 // All other requests require authentication
                                                 .anyRequest().authenticated())
                                 .formLogin(form -> form
