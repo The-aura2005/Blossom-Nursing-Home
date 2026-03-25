@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Invoices and Billing</title>
+	<link rel="stylesheet" href="/css/accountant-dashboard.css">
+</head>
+<body>
+<div class="grid-container">
+	<header class="header">
+		<div class="header-left">
+			<h1>Invoices and Billing</h1>
+		</div>
+		<div class="header-right">
+			<form th:action="@{/logout}" method="post" style="margin: 0;">
+				<button class="log-out-btn" type="submit">Log Out</button>
+			</form>
+		</div>
+	</header>
+
+	<aside class="sidebar">
+		<div class="sidebar-title">Accountant Dashboard</div>
+		<div class="sidebar-menu">
+			<ul>
+				<li><a th:href="@{/accountant-dashboard}">Overview</a></li>
+				<li><a th:href="@{/resident-payments}">Resident Payments</a></li>
+				<li><a th:href="@{/staff-payments}">Staff Payments</a></li>
+				<li><a th:href="@{/invoices}" class="active">Invoices &amp; Billing</a></li>
+				<li><a th:href="@{/inventory-payments}">Inventory Purchases</a></li>
+				<li><a th:href="@{/report-payments}">Reports</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="main-content">
+		<section class="quick-actions">
+			<div class="quick-actions-title">
+				<h3>Billing Actions</h3>
+			</div>
+			<div class="quick-action-card">
+				<button class="quick-btn" type="button">Create Invoice</button>
+				<button class="quick-btn" type="button">Mark as Paid</button>
+				<button class="quick-btn" type="button">Send Invoice</button>
+				<button class="quick-btn" type="button">Export Billing</button>
+			</div>
+		</section>
+
+		<section class="main-cards">
+			<article class="card">
+				<h3>Total Invoiced</h3>
+				<p>$81,200</p>
+				<span class="card-label">Current month issued amount</span>
+			</article>
+			<article class="card">
+				<h3>Outstanding Invoices</h3>
+				<p>18</p>
+				<span class="card-label">Invoices not yet paid</span>
+			</article>
+			<article class="card">
+				<h3>Overdue Accounts</h3>
+				<p>5</p>
+				<span class="card-label">Require immediate follow-up</span>
+			</article>
+		</section>
+
+		<section class="table-container">
+			<h3>Recent Invoices</h3>
+			<table>
+				<thead>
+				<tr>
+					<th>Invoice ID</th>
+					<th>Resident</th>
+					<th>Issue Date</th>
+					<th>Due Date</th>
+					<th>Amount</th>
+					<th>Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>INV-3220</td>
+					<td>Elsa Turner</td>
+					<td>2026-03-10</td>
+					<td>2026-03-20</td>
+					<td>$2,250.00</td>
+					<td><span class="status-badge status-paid">Paid</span></td>
+				</tr>
+				<tr>
+					<td>INV-3221</td>
+					<td>Sam Wilkes</td>
+					<td>2026-03-11</td>
+					<td>2026-03-21</td>
+					<td>$1,900.00</td>
+					<td><span class="status-badge status-pending">Pending</span></td>
+				</tr>
+				<tr>
+					<td>INV-3222</td>
+					<td>Renee Gates</td>
+					<td>2026-03-11</td>
+					<td>2026-03-21</td>
+					<td>$2,040.00</td>
+					<td><span class="status-badge status-pending">Pending</span></td>
+				</tr>
+				<tr>
+					<td>INV-3223</td>
+					<td>Frank Duran</td>
+					<td>2026-03-08</td>
+					<td>2026-03-18</td>
+					<td>$2,180.00</td>
+					<td><span class="status-badge status-overdue">Overdue</span></td>
+				</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section class="table-container">
+			<h3>Monthly Billing Summary</h3>
+			<table>
+				<thead>
+				<tr>
+					<th>Month</th>
+					<th>Total Invoiced</th>
+					<th>Total Collected</th>
+					<th>Outstanding</th>
+					<th>Collection Rate</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>January 2026</td>
+					<td>$79,500</td>
+					<td>$74,300</td>
+					<td>$5,200</td>
+					<td>93%</td>
+				</tr>
+				<tr>
+					<td>February 2026</td>
+					<td>$80,750</td>
+					<td>$76,120</td>
+					<td>$4,630</td>
+					<td>94%</td>
+				</tr>
+				<tr>
+					<td>March 2026</td>
+					<td>$81,200</td>
+					<td>$67,680</td>
+					<td>$13,520</td>
+					<td>83%</td>
+				</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+</div>
+</body>
+</html>

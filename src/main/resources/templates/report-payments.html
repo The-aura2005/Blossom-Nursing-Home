@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Payment Reports</title>
+	<link rel="stylesheet" href="/css/accountant-dashboard.css">
+</head>
+<body>
+<div class="grid-container">
+	<header class="header">
+		<div class="header-left">
+			<h1>Reports</h1>
+		</div>
+		<div class="header-right">
+			<form th:action="@{/logout}" method="post" style="margin: 0;">
+				<button class="log-out-btn" type="submit">Log Out</button>
+			</form>
+		</div>
+	</header>
+
+	<aside class="sidebar">
+		<div class="sidebar-title">Accountant Dashboard</div>
+		<div class="sidebar-menu">
+			<ul>
+				<li><a th:href="@{/accountant-dashboard}">Overview</a></li>
+				<li><a th:href="@{/resident-payments}">Resident Payments</a></li>
+				<li><a th:href="@{/staff-payments}">Staff Payments</a></li>
+				<li><a th:href="@{/invoices}">Invoices &amp; Billing</a></li>
+				<li><a th:href="@{/inventory-payments}">Inventory Purchases</a></li>
+				<li><a th:href="@{/report-payments}" class="active">Reports</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="main-content">
+		<section class="quick-actions">
+			<div class="quick-actions-title">
+				<h3>Reporting Actions</h3>
+			</div>
+			<div class="quick-action-card">
+				<button class="quick-btn" type="button">Generate Monthly Report</button>
+				<button class="quick-btn" type="button">Export PDF</button>
+				<button class="quick-btn" type="button">Export CSV</button>
+				<button class="quick-btn" type="button">Share Summary</button>
+			</div>
+		</section>
+
+		<section class="main-cards">
+			<article class="card">
+				<h3>Revenue Trend</h3>
+				<p>+6.8%</p>
+				<span class="card-label">Compared with previous month</span>
+			</article>
+			<article class="card">
+				<h3>Expense Trend</h3>
+				<p>+3.1%</p>
+				<span class="card-label">Operational spending change</span>
+			</article>
+			<article class="card">
+				<h3>Collection Efficiency</h3>
+				<p>92%</p>
+				<span class="card-label">Invoices collected on time</span>
+			</article>
+		</section>
+
+		<section class="table-container">
+			<h3>Monthly Financial Summary</h3>
+			<table>
+				<thead>
+				<tr>
+					<th>Month</th>
+					<th>Resident Collections</th>
+					<th>Staff Payroll</th>
+					<th>Inventory Spending</th>
+					<th>Net Balance</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>January 2026</td>
+					<td>$74,300</td>
+					<td>$41,220</td>
+					<td>$16,980</td>
+					<td>$16,100</td>
+				</tr>
+				<tr>
+					<td>February 2026</td>
+					<td>$76,120</td>
+					<td>$42,040</td>
+					<td>$17,300</td>
+					<td>$16,780</td>
+				</tr>
+				<tr>
+					<td>March 2026</td>
+					<td>$67,680</td>
+					<td>$40,960</td>
+					<td>$18,920</td>
+					<td>$7,800</td>
+				</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section class="table-container">
+			<h3>Available Report Packages</h3>
+			<table>
+				<thead>
+				<tr>
+					<th>Report</th>
+					<th>Coverage</th>
+					<th>Frequency</th>
+					<th>Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>Resident Payment Aging</td>
+					<td>Outstanding resident balances by age</td>
+					<td>Weekly</td>
+					<td><span class="status-badge status-paid">Ready</span></td>
+				</tr>
+				<tr>
+					<td>Payroll Audit Sheet</td>
+					<td>Staff payment verification and adjustments</td>
+					<td>Bi-weekly</td>
+					<td><span class="status-badge status-pending">Scheduled</span></td>
+				</tr>
+				<tr>
+					<td>Supplier Spend Analysis</td>
+					<td>Inventory purchases by category and vendor</td>
+					<td>Monthly</td>
+					<td><span class="status-badge status-paid">Ready</span></td>
+				</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+</div>
+</body>
+</html>

@@ -11,32 +11,41 @@ public class AccountantDashboard {
     public String accountantDashboard() {
         return "accountant-dashboard";
     }
+
     @GetMapping("/resident-payments")
     @PreAuthorize("hasRole('ACCOUNTANT')")
     public String residentPayments() {
         return "resident-payments";
     }
+
     @GetMapping("/staff-payments")
     @PreAuthorize("hasRole('ACCOUNTANT')")
-    public String staffPayments(){
+    public String staffPayments() {
         return "staff-payments";
     }
+
     @GetMapping("/invoices")
     @PreAuthorize("hasRole('ACCOUNTANT')")
-    public String ivoices(){
+    public String ivoices() {
         return "invoices";
     }
+
     @GetMapping("/inventory-payments")
     @PreAuthorize("hasRole('ACCOUNTANT')")
-    public String inventoryPayments(){
+    public String inventoryPayments() {
         return "inventory-payments";
     }
-    @GetMapping("/report-payments")
+
+    @GetMapping("/inventory-manager")
     @PreAuthorize("hasRole('ACCOUNTANT')")
-    public String reportPayments(){
-        return "report-payments";
+    public String inventoryManager() {
+        return "inventory-manager";
     }
 
-
+    @GetMapping("/report-payments")
+    @PreAuthorize("hasRole('ACCOUNTANT')")
+    public String reportPayments() {
+        return "report-payments";
+    }
 
 }

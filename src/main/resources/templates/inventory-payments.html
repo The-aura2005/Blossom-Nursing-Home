@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Inventory Purchases</title>
+	<link rel="stylesheet" href="/css/accountant-dashboard.css">
+</head>
+<body>
+<div class="grid-container">
+	<header class="header">
+		<div class="header-left">
+			<h1>Inventory Purchases</h1>
+		</div>
+		<div class="header-right">
+			<form th:action="@{/logout}" method="post" style="margin: 0;">
+				<button class="log-out-btn" type="submit">Log Out</button>
+			</form>
+		</div>
+	</header>
+
+	<aside class="sidebar">
+		<div class="sidebar-title">Accountant Dashboard</div>
+		<div class="sidebar-menu">
+			<ul>
+				<li><a th:href="@{/accountant-dashboard}">Overview</a></li>
+				<li><a th:href="@{/resident-payments}">Resident Payments</a></li>
+				<li><a th:href="@{/staff-payments}">Staff Payments</a></li>
+				<li><a th:href="@{/invoices}">Invoices &amp; Billing</a></li>
+				<li><a th:href="@{/inventory-payments}" class="active">Inventory Purchases</a></li>
+				<li><a th:href="@{/report-payments}">Reports</a></li>
+			</ul>
+		</div>
+	</aside>
+
+	<main class="main-content">
+		<section class="quick-actions">
+			<div class="quick-actions-title">
+				<h3>Inventory Actions</h3>
+			</div>
+			<div class="quick-action-card">
+				<button class="quick-btn" type="button">Create Purchase Order</button>
+				<button class="quick-btn" type="button">Approve Request</button>
+				<button class="quick-btn" type="button">Record Supplier Payment</button>
+				<button class="quick-btn" type="button">Download PO List</button>
+			</div>
+		</section>
+
+		<section class="main-cards">
+			<article class="card">
+				<h3>Purchases This Month</h3>
+				<p>$18,920</p>
+				<span class="card-label">Total inventory expenses</span>
+			</article>
+			<article class="card">
+				<h3>Pending Approvals</h3>
+				<p>9</p>
+				<span class="card-label">Purchase orders awaiting sign-off</span>
+			</article>
+			<article class="card">
+				<h3>Unpaid Supplier Bills</h3>
+				<p>$6,340</p>
+				<span class="card-label">Open payable to vendors</span>
+			</article>
+		</section>
+
+		<section class="table-container">
+			<h3>Recent Purchase Orders</h3>
+			<table>
+				<thead>
+				<tr>
+					<th>PO Number</th>
+					<th>Supplier</th>
+					<th>Category</th>
+					<th>Order Date</th>
+					<th>Amount</th>
+					<th>Status</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>PO-5501</td>
+					<td>Health Supply Co.</td>
+					<td>Medical Consumables</td>
+					<td>2026-03-15</td>
+					<td>$2,860.00</td>
+					<td><span class="status-badge status-paid">Approved</span></td>
+				</tr>
+				<tr>
+					<td>PO-5502</td>
+					<td>Kitchen Essentials</td>
+					<td>Food &amp; Nutrition</td>
+					<td>2026-03-16</td>
+					<td>$1,420.00</td>
+					<td><span class="status-badge status-pending">Pending</span></td>
+				</tr>
+				<tr>
+					<td>PO-5503</td>
+					<td>CleanCare Ltd.</td>
+					<td>Housekeeping Supplies</td>
+					<td>2026-03-16</td>
+					<td>$1,180.00</td>
+					<td><span class="status-badge status-pending">Pending</span></td>
+				</tr>
+				<tr>
+					<td>PO-5504</td>
+					<td>Facility Maintainers</td>
+					<td>Maintenance Parts</td>
+					<td>2026-03-12</td>
+					<td>$3,640.00</td>
+					<td><span class="status-badge status-overdue">Delayed</span></td>
+				</tr>
+				</tbody>
+			</table>
+		</section>
+
+		<section class="table-container">
+			<h3>Supplier Payment Schedule</h3>
+			<table>
+				<thead>
+				<tr>
+					<th>Supplier</th>
+					<th>Invoice Ref</th>
+					<th>Due Date</th>
+					<th>Amount Due</th>
+					<th>Priority</th>
+				</tr>
+				</thead>
+				<tbody>
+				<tr>
+					<td>Health Supply Co.</td>
+					<td>HS-8112</td>
+					<td>2026-03-22</td>
+					<td>$2,860.00</td>
+					<td><span class="status-badge status-pending">High</span></td>
+				</tr>
+				<tr>
+					<td>CleanCare Ltd.</td>
+					<td>CC-4407</td>
+					<td>2026-03-24</td>
+					<td>$1,180.00</td>
+					<td><span class="status-badge status-paid">Normal</span></td>
+				</tr>
+				</tbody>
+			</table>
+		</section>
+	</main>
+</div>
+</body>
+</html>

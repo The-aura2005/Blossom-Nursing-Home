@@ -67,9 +67,14 @@ public class SecurityConfig {
                                                                 "/admin/incident-reports")
                                                 .hasRole("ADMIN")
 
-                                                .requestMatchers("/accountant-dashboard","/accountant-dashboard.html"
-                                                ,"/invoices","/invoices.html","/resident-payments","/resident-payments.html",
-                                                "/staff-payments","/staff-payments.html","/report-payments","/report-payments.html")
+                                                .requestMatchers("/accountant-dashboard", "/accountant-dashboard.html",
+                                                                "/invoices", "/invoices.html", "/resident-payments",
+                                                                "/resident-payments.html",
+                                                                "/staff-payments", "/staff-payments.html",
+                                                                "/report-payments", "/report-payments.html",
+                                                                "/inventory-payments", "/inventory-payments.html",
+                                                                "/inventory-manager", "/inventory-manager.html",
+                                                                "/api/items/**", "/api/suppliers/**", "/api/logs/**")
                                                 .hasRole("ACCOUNTANT")
 
                                                 // All other requests require authentication

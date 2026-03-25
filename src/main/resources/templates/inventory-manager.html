@@ -1,11 +1,719 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Inventory Manager Dashboard</title>
-    </head>
-    <body>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory Manager Dashboard</title>
+    <style>
+        :root {
+            --bg: #f4f6fb;
+            --panel: #ffffff;
+            --text: #1b1f2a;
+            --muted: #667085;
+            --line: #e6e8ef;
+            --brand: #0a5d8f;
+            --brand-soft: #dff3ff;
+            --ok: #16a34a;
+            --warn: #d97706;
+            --danger: #dc2626;
+            --shadow: 0 12px 30px rgba(12, 20, 33, 0.08);
+            --radius: 14px;
+        }
 
-        <h1>Inventory Manager Dashboard</h1>
-        
-    </body>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+            background: radial-gradient(circle at 20% 0%, #eef8ff 0%, var(--bg) 45%, #f7f9fc 100%);
+            color: var(--text);
+        }
+
+        .layout {
+            min-height: 100vh;
+            display: grid;
+            grid-template-columns: 250px 1fr;
+        }
+
+        .sidebar {
+            background: #102a43;
+            color: #e8f2ff;
+            padding: 20px 16px;
+            position: sticky;
+            top: 0;
+            height: 100vh;
+        }
+
+        .sidebar h2 {
+            margin: 0 0 20px;
+            font-size: 18px;
+            line-height: 1.3;
+        }
+
+        .menu {
+            display: grid;
+            gap: 8px;
+        }
+
+        .menu button {
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 10px;
+            background: transparent;
+            color: #e8f2ff;
+            text-align: left;
+            padding: 10px 12px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .menu button.active,
+        .menu button:hover {
+            background: rgba(255, 255, 255, 0.16);
+            border-color: rgba(255, 255, 255, 0.3);
+        }
+
+        .content {
+            padding: 24px;
+        }
+
+        .header {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 20px;
+            margin-bottom: 18px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(3, minmax(160px, 1fr));
+            gap: 12px;
+            margin-bottom: 18px;
+        }
+
+        .card {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .card strong {
+            display: block;
+            margin-top: 6px;
+            font-size: 30px;
+        }
+
+        .section {
+            background: var(--panel);
+            border: 1px solid var(--line);
+            border-radius: var(--radius);
+            box-shadow: var(--shadow);
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .section h3 {
+            margin-top: 0;
+        }
+
+        .toolbar {
+            display: grid;
+            grid-template-columns: 1fr 200px auto;
+            gap: 10px;
+            margin-bottom: 12px;
+        }
+
+        input,
+        select,
+        textarea,
+        button {
+            font: inherit;
+        }
+
+        input,
+        select,
+        textarea {
+            width: 100%;
+            border: 1px solid #ccd3de;
+            border-radius: 9px;
+            padding: 10px 12px;
+        }
+
+        .btn {
+            border: 0;
+            border-radius: 9px;
+            padding: 10px 14px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .btn-primary {
+            background: var(--brand);
+            color: #fff;
+        }
+
+        .btn-danger {
+            background: var(--danger);
+            color: #fff;
+        }
+
+        .btn-secondary {
+            background: #e7eef9;
+            color: #1b2b49;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th,
+        td {
+            border-bottom: 1px solid var(--line);
+            padding: 10px 8px;
+            text-align: left;
+            vertical-align: top;
+            font-size: 14px;
+        }
+
+        th {
+            color: var(--muted);
+            font-weight: 600;
+        }
+
+        .status {
+            display: inline-block;
+            border-radius: 999px;
+            padding: 4px 10px;
+            font-size: 12px;
+            font-weight: 700;
+            letter-spacing: 0.2px;
+        }
+
+        .status-in {
+            background: #dcfce7;
+            color: #166534;
+        }
+
+        .status-low {
+            background: #fef3c7;
+            color: #92400e;
+        }
+
+        .status-out {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+
+        .alerts {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(220px, 1fr));
+            gap: 10px;
+        }
+
+        .alert-box {
+            border-radius: 10px;
+            padding: 12px;
+            background: #fff;
+            border: 1px solid var(--line);
+        }
+
+        .alert-box.low {
+            border-left: 5px solid var(--warn);
+            background: #fffaf0;
+        }
+
+        .alert-box.out {
+            border-left: 5px solid var(--danger);
+            background: #fff5f5;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+        .grid-2 {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+        }
+
+        .form-actions {
+            margin-top: 12px;
+            display: flex;
+            gap: 8px;
+        }
+
+        @media (max-width: 980px) {
+            .layout {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                height: auto;
+                position: static;
+            }
+
+            .cards {
+                grid-template-columns: 1fr;
+            }
+
+            .toolbar {
+                grid-template-columns: 1fr;
+            }
+
+            .alerts,
+            .grid-2 {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <h2>Inventory Manager Dashboard</h2>
+            <div class="menu">
+                <button class="menu-btn active" data-section="dashboardSection">Dashboard</button>
+                <button class="menu-btn" data-section="inventorySection">Inventory</button>
+                <button class="menu-btn" data-section="suppliersSection">Suppliers</button>
+                <button class="menu-btn" data-section="logsSection">Logs</button>
+            </div>
+        </aside>
+
+        <main class="content">
+            <section class="header">
+                <div>
+                    <h1>Inventory Manager Dashboard</h1>
+                    <p>Manage stock, suppliers, and activity history in one place.</p>
+                </div>
+                <button class="btn btn-primary" id="openAddFormBtn">Add Item</button>
+            </section>
+
+            <section id="dashboardSection" class="panel-section">
+                <div class="cards">
+                    <article class="card">
+                        <p>Total Items</p>
+                        <strong id="totalItemsCard">0</strong>
+                    </article>
+                    <article class="card">
+                        <p>Low Stock Count</p>
+                        <strong id="lowStockCard">0</strong>
+                    </article>
+                    <article class="card">
+                        <p>Out of Stock Count</p>
+                        <strong id="outOfStockCard">0</strong>
+                    </article>
+                </div>
+
+                <div class="section">
+                    <h3>Alerts</h3>
+                    <div class="alerts">
+                        <div class="alert-box low">
+                            <strong>Low Stock Items</strong>
+                            <ul id="lowStockList"></ul>
+                        </div>
+                        <div class="alert-box out">
+                            <strong>Out of Stock Items</strong>
+                            <ul id="outOfStockList"></ul>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section id="inventorySection" class="panel-section section hidden">
+                <h3>Inventory</h3>
+                <div class="toolbar">
+                    <input type="search" id="searchInput" placeholder="Search by item name">
+                    <select id="categoryFilter">
+                        <option value="">All Categories</option>
+                        <option value="Medical">Medical</option>
+                        <option value="Medication">Medication</option>
+                        <option value="Food">Food</option>
+                        <option value="Cleaning">Cleaning</option>
+                    </select>
+                    <button class="btn btn-primary" id="openAddFormBtnSecondary">Add Item</button>
+                </div>
+
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Category</th>
+                                <th>Quantity</th>
+                                <th>Status</th>
+                                <th>Supplier</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="inventoryTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="itemFormSection" class="panel-section section hidden">
+                <h3 id="itemFormTitle">Add Inventory Item</h3>
+                <form id="itemForm">
+                    <input type="hidden" id="itemId">
+                    <div class="grid-2">
+                        <div>
+                            <label for="name">Name</label>
+                            <input id="name" required>
+                        </div>
+                        <div>
+                            <label for="category">Category</label>
+                            <select id="category" required>
+                                <option value="Medical">Medical</option>
+                                <option value="Medication">Medication</option>
+                                <option value="Food">Food</option>
+                                <option value="Cleaning">Cleaning</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="quantity">Quantity</label>
+                            <input id="quantity" type="number" min="0" required>
+                        </div>
+                        <div>
+                            <label for="unit">Unit</label>
+                            <input id="unit" placeholder="Boxes, Units, Liters" required>
+                        </div>
+                        <div>
+                            <label for="minThreshold">Min Threshold</label>
+                            <input id="minThreshold" type="number" min="0" required>
+                        </div>
+                        <div>
+                            <label for="supplier">Supplier</label>
+                            <select id="supplier"></select>
+                        </div>
+                    </div>
+                    <div class="form-actions">
+                        <button class="btn btn-primary" type="submit">Save Item</button>
+                        <button class="btn btn-secondary" type="button" id="cancelItemForm">Cancel</button>
+                    </div>
+                </form>
+            </section>
+
+            <section id="suppliersSection" class="panel-section section hidden">
+                <h3>Suppliers</h3>
+                <form id="supplierForm" class="grid-2" style="margin-bottom: 14px;">
+                    <div>
+                        <label for="supplierName">Supplier Name</label>
+                        <input id="supplierName" required>
+                    </div>
+                    <div>
+                        <label for="supplierContact">Contact Info</label>
+                        <input id="supplierContact" required>
+                    </div>
+                    <div class="form-actions" style="grid-column: 1 / -1; margin-top: 0;">
+                        <button class="btn btn-primary" type="submit">Add Supplier</button>
+                    </div>
+                </form>
+
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Contact Info</th>
+                            </tr>
+                        </thead>
+                        <tbody id="supplierTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section id="logsSection" class="panel-section section hidden">
+                <h3>Activity Log</h3>
+                <div style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Action</th>
+                                <th>Item</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        const API = {
+            items: "/api/items",
+            suppliers: "/api/suppliers",
+            logs: "/api/logs"
+        };
+
+        const state = {
+            items: [],
+            suppliers: [],
+            logs: []
+        };
+
+        const tableBody = document.getElementById("inventoryTableBody");
+        const supplierTableBody = document.getElementById("supplierTableBody");
+        const logTableBody = document.getElementById("logTableBody");
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const supplierSelect = document.getElementById("supplier");
+        const itemForm = document.getElementById("itemForm");
+        const supplierForm = document.getElementById("supplierForm");
+
+        function getStatus(item) {
+            if (item.quantity === 0) return "OUT OF STOCK";
+            if (item.quantity <= item.minThreshold) return "LOW STOCK";
+            return "IN STOCK";
+        }
+
+        function getStatusClass(status) {
+            if (status === "OUT OF STOCK") return "status status-out";
+            if (status === "LOW STOCK") return "status status-low";
+            return "status status-in";
+        }
+
+        function switchSection(sectionId) {
+            document.querySelectorAll(".panel-section").forEach(section => {
+                section.classList.toggle("hidden", section.id !== sectionId);
+            });
+            document.querySelectorAll(".menu-btn").forEach(btn => {
+                btn.classList.toggle("active", btn.dataset.section === sectionId);
+            });
+        }
+
+        function renderOverview() {
+            const low = state.items.filter(i => i.quantity > 0 && i.quantity <= i.minThreshold);
+            const out = state.items.filter(i => i.quantity === 0);
+
+            document.getElementById("totalItemsCard").textContent = state.items.length;
+            document.getElementById("lowStockCard").textContent = low.length;
+            document.getElementById("outOfStockCard").textContent = out.length;
+
+            document.getElementById("lowStockList").innerHTML = low.length
+                ? low.map(i => `<li>${i.name} (${i.quantity})</li>`).join("")
+                : "<li>No low stock items</li>";
+
+            document.getElementById("outOfStockList").innerHTML = out.length
+                ? out.map(i => `<li>${i.name}</li>`).join("")
+                : "<li>No out of stock items</li>";
+        }
+
+        function renderInventoryTable() {
+            const searchTerm = searchInput.value.trim().toLowerCase();
+            const category = categoryFilter.value;
+
+            const filtered = state.items.filter(item => {
+                const nameMatch = item.name.toLowerCase().includes(searchTerm);
+                const categoryMatch = !category || item.category === category;
+                return nameMatch && categoryMatch;
+            });
+
+            tableBody.innerHTML = filtered.map(item => {
+                const status = getStatus(item);
+                return `
+                    <tr>
+                        <td>${item.name}</td>
+                        <td>${item.category}</td>
+                        <td>${item.quantity} ${item.unit || ""}</td>
+                        <td><span class="${getStatusClass(status)}">${status}</span></td>
+                        <td>${item.supplier ? item.supplier.name : "-"}</td>
+                        <td>
+                            <button class="btn btn-secondary" onclick="editItem(${item.id})">Edit</button>
+                            <button class="btn btn-danger" onclick="deleteItem(${item.id})">Delete</button>
+                        </td>
+                    </tr>
+                `;
+            }).join("");
+        }
+
+        function renderSuppliers() {
+            supplierTableBody.innerHTML = state.suppliers.map(supplier => `
+                <tr>
+                    <td>${supplier.name}</td>
+                    <td>${supplier.contactInfo}</td>
+                </tr>
+            `).join("");
+
+            const options = ['<option value="">Select Supplier (Optional)</option>']
+                .concat(state.suppliers.map(supplier => `<option value="${supplier.id}">${supplier.name}</option>`));
+            supplierSelect.innerHTML = options.join("");
+        }
+
+        function renderLogs() {
+            logTableBody.innerHTML = state.logs.map(log => `
+                <tr>
+                    <td>${log.action}</td>
+                    <td>${log.itemName}</td>
+                    <td>${new Date(log.timestamp).toLocaleString()}</td>
+                </tr>
+            `).join("");
+        }
+
+        async function fetchJson(url, options) {
+            const response = await fetch(url, {
+                headers: { "Content-Type": "application/json" },
+                ...options
+            });
+            if (!response.ok) {
+                throw new Error(`Request failed: ${response.status}`);
+            }
+            return response.status === 204 ? null : response.json();
+        }
+
+        async function loadData() {
+            try {
+                const [items, suppliers, logs] = await Promise.all([
+                    fetchJson(API.items),
+                    fetchJson(API.suppliers),
+                    fetchJson(API.logs)
+                ]);
+
+                state.items = items;
+                state.suppliers = suppliers;
+                state.logs = logs;
+
+                renderOverview();
+                renderInventoryTable();
+                renderSuppliers();
+                renderLogs();
+            } catch (error) {
+                alert("Unable to load dashboard data. Check that you are logged in and backend is running.");
+                console.error(error);
+            }
+        }
+
+        async function saveItem(event) {
+            event.preventDefault();
+            const itemId = document.getElementById("itemId").value;
+
+            const supplierId = supplierSelect.value;
+            const payload = {
+                name: document.getElementById("name").value.trim(),
+                category: document.getElementById("category").value,
+                quantity: Number(document.getElementById("quantity").value),
+                unit: document.getElementById("unit").value.trim(),
+                minThreshold: Number(document.getElementById("minThreshold").value),
+                supplier: supplierId ? { id: Number(supplierId) } : null
+            };
+
+            const isEdit = Boolean(itemId);
+            const url = isEdit ? `${API.items}/${itemId}` : API.items;
+            const method = isEdit ? "PUT" : "POST";
+
+            try {
+                await fetchJson(url, { method, body: JSON.stringify(payload) });
+                resetItemForm();
+                switchSection("inventorySection");
+                await loadData();
+            } catch (error) {
+                alert("Unable to save item.");
+                console.error(error);
+            }
+        }
+
+        window.editItem = function (id) {
+            const item = state.items.find(i => i.id === id);
+            if (!item) return;
+
+            document.getElementById("itemFormTitle").textContent = "Edit Inventory Item";
+            document.getElementById("itemId").value = item.id;
+            document.getElementById("name").value = item.name;
+            document.getElementById("category").value = item.category;
+            document.getElementById("quantity").value = item.quantity;
+            document.getElementById("unit").value = item.unit || "";
+            document.getElementById("minThreshold").value = item.minThreshold;
+            supplierSelect.value = item.supplier ? String(item.supplier.id) : "";
+
+            switchSection("itemFormSection");
+        };
+
+        window.deleteItem = async function (id) {
+            if (!confirm("Delete this item?")) return;
+
+            try {
+                await fetchJson(`${API.items}/${id}`, { method: "DELETE" });
+                await loadData();
+            } catch (error) {
+                alert("Unable to delete item.");
+                console.error(error);
+            }
+        };
+
+        function resetItemForm() {
+            document.getElementById("itemFormTitle").textContent = "Add Inventory Item";
+            itemForm.reset();
+            document.getElementById("itemId").value = "";
+        }
+
+        async function addSupplier(event) {
+            event.preventDefault();
+            const payload = {
+                name: document.getElementById("supplierName").value.trim(),
+                contactInfo: document.getElementById("supplierContact").value.trim()
+            };
+
+            try {
+                await fetchJson(API.suppliers, {
+                    method: "POST",
+                    body: JSON.stringify(payload)
+                });
+                supplierForm.reset();
+                await loadData();
+            } catch (error) {
+                alert("Unable to add supplier.");
+                console.error(error);
+            }
+        }
+
+        document.querySelectorAll(".menu-btn").forEach(btn => {
+            btn.addEventListener("click", () => switchSection(btn.dataset.section));
+        });
+
+        document.getElementById("openAddFormBtn").addEventListener("click", () => {
+            resetItemForm();
+            switchSection("itemFormSection");
+        });
+
+        document.getElementById("openAddFormBtnSecondary").addEventListener("click", () => {
+            resetItemForm();
+            switchSection("itemFormSection");
+        });
+
+        document.getElementById("cancelItemForm").addEventListener("click", () => {
+            resetItemForm();
+            switchSection("inventorySection");
+        });
+
+        searchInput.addEventListener("input", renderInventoryTable);
+        categoryFilter.addEventListener("change", renderInventoryTable);
+        itemForm.addEventListener("submit", saveItem);
+        supplierForm.addEventListener("submit", addSupplier);
+
+        loadData();
+    </script>
+</body>
 </html>
