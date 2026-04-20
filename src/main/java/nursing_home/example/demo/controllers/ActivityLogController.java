@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import nursing_home.example.demo.services.ActivityLogService;
-import nursing_home.example.demo.services.AssignedTaskService;
+import nursing_home.example.demo.model.services.ActivityLogService;
+import nursing_home.example.demo.model.services.AssignedTaskService;
 
 @Controller
 public class ActivityLogController {

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.http.HttpMethod;
 
 @Configuration
 @EnableWebSecurity
@@ -46,6 +47,7 @@ public class SecurityConfig {
                                                                 "/activitiesLogging", "/activitiesLogging.html",
                                                                 "/ActivityLogging", "/activitiesLogging/add",
                                                                 "/medications/new/**", "/medications/save",
+                                                                "/inventory/issue/new/**", "/inventory/issue/save",
                                                                 "/reports/new/**", "/reports/save",
                                                                 "/medications", "/incident-reports")
                                                 .hasRole("STAFF")
@@ -68,14 +70,21 @@ public class SecurityConfig {
                                                 .hasRole("ADMIN")
 
                                                 .requestMatchers("/accountant-dashboard", "/accountant-dashboard.html",
-                                                                "/invoices", "/invoices.html", "/resident-payments",
+                                                                "/resident-payments",
                                                                 "/resident-payments.html",
                                                                 "/staff-payments", "/staff-payments.html",
                                                                 "/report-payments", "/report-payments.html",
-                                                                "/inventory-payments", "/inventory-payments.html",
-                                                                "/inventory-manager", "/inventory-manager.html",
-                                                                "/api/items/**", "/api/suppliers/**", "/api/logs/**")
+                                                                "/inventory-payments", "/inventory-payments.html")
                                                 .hasRole("ACCOUNTANT")
+                                                .requestMatchers("/inventory-manager", "/inventory-manager.html")
+                                                .hasRole("INVENTORY_MANAGER")
+
+                                                .requestMatchers(HttpMethod.GET, "/api/items/available")
+                                                .hasRole("STAFF")
+                                                .requestMatchers(HttpMethod.POST, "/api/items/issue")
+                                                .hasRole("STAFF")
+                                                .requestMatchers("/api/items/**", "/api/suppliers/**", "/api/logs/**")
+                                                .hasRole("INVENTORY_MANAGER")
 
                                                 // All other requests require authentication
                                                 .anyRequest().authenticated())

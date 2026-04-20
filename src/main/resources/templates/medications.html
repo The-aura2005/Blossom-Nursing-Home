@@ -5,13 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Medication Logs</title>
     <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/unified-dashboard-theme.css">
     <link rel="stylesheet" href="/css/residents.css">
 </head>
 <body>
 <div class="grid-container">
     <header class="header">
         <div class="header-left">
-            <h1>Medication Logs</h1>
+            <h1 th:text="${loggedInUser != null ? 'Welcome Back, ' + loggedInUser + '!' : 'Welcome Back!'}">Welcome Back!</h1>
         </div>
         <div class="header-right">
             <form th:action="@{/logout}" method="post" style="margin:0;">
@@ -38,6 +39,8 @@
     <main class="main-content">
         <div class="task-alert" th:if="${medicationMessage}" th:text="${medicationMessage}"></div>
         <div class="task-alert" th:if="${medicationError}" th:text="${medicationError}"></div>
+        <div class="task-alert" th:if="${inventoryMessage}" th:text="${inventoryMessage}"></div>
+        <div class="task-alert" th:if="${inventoryError}" th:text="${inventoryError}"></div>
         <div class="residents-table-container">
             <table class="residents-table">
                 <thead>

@@ -1,4 +1,4 @@
-package nursing_home.example.demo.services;
+package nursing_home.example.demo.model.services;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;

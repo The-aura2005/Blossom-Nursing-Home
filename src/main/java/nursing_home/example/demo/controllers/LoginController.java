@@ -44,7 +44,7 @@ public class LoginController {
                     }
             else if(authentication.getAuthorities().stream()
                     .anyMatch(auth -> auth.getAuthority().equals("ROLE_INVENTORY_MANAGER"))){
-                        return "redirect:/inventory-dashboard";
+                        return "redirect:/inventory-manager";
                     }
         }
 

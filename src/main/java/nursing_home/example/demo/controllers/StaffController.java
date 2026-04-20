@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import nursing_home.example.demo.model.Staff;
-import nursing_home.example.demo.services.StaffService;
+import nursing_home.example.demo.model.services.StaffService;
 
 @Controller
 public class StaffController {

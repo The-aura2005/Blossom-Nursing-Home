@@ -1,5 +1,6 @@
 package nursing_home.example.demo.inventory.model;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -27,6 +28,7 @@ public class InventoryItem {
     private int quantity;
     private String unit;
     private int minThreshold;
+    private BigDecimal purchaseCost;
 
     @ManyToOne
     @JoinColumn(name = "supplier_id")
@@ -99,6 +101,14 @@ public class InventoryItem {
 
     public void setMinThreshold(int minThreshold) {
         this.minThreshold = minThreshold;
+    }
+
+    public BigDecimal getPurchaseCost() {
+        return purchaseCost;
+    }
+
+    public void setPurchaseCost(BigDecimal purchaseCost) {
+        this.purchaseCost = purchaseCost;
     }
 
     public Supplier getSupplier() {

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Administer Medication</title>
+    <title>Issue Inventory Item</title>
     <link rel="stylesheet" href="/css/staff-dashboard.css">
     <link rel="stylesheet" href="/css/unified-dashboard-theme.css">
     <link rel="stylesheet" href="/css/VitalLogging.css">
@@ -37,26 +37,31 @@
     </aside>
 
     <main class="main-content">
+        <div class="task-alert" th:if="${inventoryError}" th:text="${inventoryError}"></div>
         <div class="Vitals-container" th:if="${selectedResident != null}">
-            <h3>Medication Logging</h3>
+            <h3>Record Item Given To Resident</h3>
             <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
 
-            <form th:action="@{/medications/save}" method="post" class="Record-vitals">
+            <form th:action="@{/inventory/issue/save}" method="post" class="Record-vitals">
                 <input type="hidden" name="residentId" th:value="${selectedResident.residentId}">
 
-                <label for="medicationName">Medication Name:</label>
-                <input type="text" id="medicationName" name="medicationName" required>
+                <label for="itemId">Item:</label>
+                <select id="itemId" name="itemId" required>
+                    <option value="">Select item</option>
+                    <option th:each="item : ${availableItems}"
+                            th:value="${item.id}"
+                            th:text="${item.name + ' (' + item.quantity + ' ' + (item.unit != null ? item.unit : 'units') + ' in stock)'}">
+                        Item
+                    </option>
+                </select>
 
-                <label for="dosage">Dosage:</label>
-                <input type="text" id="dosage" name="dosage" required>
-
-                <label for="timeGiven">Time Given:</label>
-                <input type="datetime-local" id="timeGiven" name="timeGiven" required>
+                <label for="quantity">Quantity Given:</label>
+                <input type="number" id="quantity" name="quantity" min="1" required>
 
                 <label for="notes">Notes:</label>
-                <textarea id="notes" name="notes" placeholder="Enter notes"></textarea>
+                <textarea id="notes" name="notes" placeholder="Optional notes (for example shift details)"></textarea>
 
-                <button type="submit">Save Medication Log</button>
+                <button type="submit">Record Issuance</button>
             </form>
         </div>
     </main>

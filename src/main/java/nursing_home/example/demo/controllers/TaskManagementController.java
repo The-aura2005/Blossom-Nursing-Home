@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import nursing_home.example.demo.model.AssignedTask;
-import nursing_home.example.demo.services.AssignedTaskService;
+import nursing_home.example.demo.model.services.AssignedTaskService;
 
 import java.util.Comparator;
 

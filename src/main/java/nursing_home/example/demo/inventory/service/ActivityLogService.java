@@ -20,6 +20,21 @@ public class ActivityLogService {
         InventoryActivityLog log = new InventoryActivityLog();
         log.setAction(action);
         log.setItemName(itemName);
+        log.setQuantityChanged(0);
+        activityLogRepository.save(log);
+    }
+
+    public void logIssue(String itemName, int quantityIssued, String staffUsername, Long residentId,
+            String residentName,
+            String notes) {
+        InventoryActivityLog log = new InventoryActivityLog();
+        log.setAction("ISSUE");
+        log.setItemName(itemName);
+        log.setQuantityChanged(quantityIssued);
+        log.setStaffUsername(staffUsername);
+        log.setResidentId(residentId);
+        log.setResidentName(residentName);
+        log.setNotes(notes);
         activityLogRepository.save(log);
     }
 

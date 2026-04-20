@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Payment Reports</title>
 	<link rel="stylesheet" href="/css/accountant-dashboard.css">
+	<link rel="stylesheet" href="/css/unified-dashboard-theme.css">
 </head>
 <body>
 <div class="grid-container">
@@ -26,7 +27,6 @@
 				<li><a th:href="@{/accountant-dashboard}">Overview</a></li>
 				<li><a th:href="@{/resident-payments}">Resident Payments</a></li>
 				<li><a th:href="@{/staff-payments}">Staff Payments</a></li>
-				<li><a th:href="@{/invoices}">Invoices &amp; Billing</a></li>
 				<li><a th:href="@{/inventory-payments}">Inventory Purchases</a></li>
 				<li><a th:href="@{/report-payments}" class="active">Reports</a></li>
 			</ul>
@@ -34,103 +34,38 @@
 	</aside>
 
 	<main class="main-content">
-		<section class="quick-actions">
-			<div class="quick-actions-title">
-				<h3>Reporting Actions</h3>
-			</div>
-			<div class="quick-action-card">
-				<button class="quick-btn" type="button">Generate Monthly Report</button>
-				<button class="quick-btn" type="button">Export PDF</button>
-				<button class="quick-btn" type="button">Export CSV</button>
-				<button class="quick-btn" type="button">Share Summary</button>
-			</div>
-		</section>
-
-		<section class="main-cards">
-			<article class="card">
-				<h3>Revenue Trend</h3>
-				<p>+6.8%</p>
-				<span class="card-label">Compared with previous month</span>
-			</article>
-			<article class="card">
-				<h3>Expense Trend</h3>
-				<p>+3.1%</p>
-				<span class="card-label">Operational spending change</span>
-			</article>
-			<article class="card">
-				<h3>Collection Efficiency</h3>
-				<p>92%</p>
-				<span class="card-label">Invoices collected on time</span>
-			</article>
-		</section>
-
 		<section class="table-container">
-			<h3>Monthly Financial Summary</h3>
+			<h3>Financial Report</h3>
+			<form method="get" th:action="@{/report-payments}" style="margin-bottom: 16px; display: flex; gap: 12px; align-items: end; flex-wrap: wrap;">
+				<div>
+					<label for="fromDate">From</label>
+					<input type="date" id="fromDate" name="fromDate" th:value="${fromDate}">
+				</div>
+				<div>
+					<label for="toDate">To</label>
+					<input type="date" id="toDate" name="toDate" th:value="${toDate}">
+				</div>
+				<button class="btn-primary" type="submit">Apply Filter</button>
+				<a class="btn-secondary" th:href="@{/report-payments}" style="padding: 10px 20px; text-decoration:none;">Reset</a>
+			</form>
 			<table>
 				<thead>
 				<tr>
-					<th>Month</th>
-					<th>Resident Collections</th>
-					<th>Staff Payroll</th>
-					<th>Inventory Spending</th>
-					<th>Net Balance</th>
+					<th>Type</th>
+					<th>Description</th>
+					<th>Amount</th>
+					<th>Date</th>
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<td>January 2026</td>
-					<td>$74,300</td>
-					<td>$41,220</td>
-					<td>$16,980</td>
-					<td>$16,100</td>
+				<tr th:if="${#lists.isEmpty(reportRows)}">
+					<td colspan="4">No records found for the selected dates.</td>
 				</tr>
-				<tr>
-					<td>February 2026</td>
-					<td>$76,120</td>
-					<td>$42,040</td>
-					<td>$17,300</td>
-					<td>$16,780</td>
-				</tr>
-				<tr>
-					<td>March 2026</td>
-					<td>$67,680</td>
-					<td>$40,960</td>
-					<td>$18,920</td>
-					<td>$7,800</td>
-				</tr>
-				</tbody>
-			</table>
-		</section>
-
-		<section class="table-container">
-			<h3>Available Report Packages</h3>
-			<table>
-				<thead>
-				<tr>
-					<th>Report</th>
-					<th>Coverage</th>
-					<th>Frequency</th>
-					<th>Status</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>Resident Payment Aging</td>
-					<td>Outstanding resident balances by age</td>
-					<td>Weekly</td>
-					<td><span class="status-badge status-paid">Ready</span></td>
-				</tr>
-				<tr>
-					<td>Payroll Audit Sheet</td>
-					<td>Staff payment verification and adjustments</td>
-					<td>Bi-weekly</td>
-					<td><span class="status-badge status-pending">Scheduled</span></td>
-				</tr>
-				<tr>
-					<td>Supplier Spend Analysis</td>
-					<td>Inventory purchases by category and vendor</td>
-					<td>Monthly</td>
-					<td><span class="status-badge status-paid">Ready</span></td>
+				<tr th:each="row : ${reportRows}">
+					<td th:text="${row.type}">Income</td>
+					<td th:text="${row.description}">Resident invoice</td>
+					<td th:text="${#numbers.formatDecimal(row.amount, 1, 2)}">0.00</td>
+					<td th:text="${row.date}">2026-04-20</td>
 				</tr>
 				</tbody>
 			</table>

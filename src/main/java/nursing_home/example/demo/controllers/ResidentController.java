@@ -3,7 +3,8 @@ package nursing_home.example.demo.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import nursing_home.example.demo.model.Resident;
-import nursing_home.example.demo.services.ResidentService;
+import nursing_home.example.demo.model.services.ResidentService;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;

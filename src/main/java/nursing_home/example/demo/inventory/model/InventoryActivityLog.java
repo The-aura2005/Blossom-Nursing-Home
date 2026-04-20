@@ -19,6 +19,11 @@ public class InventoryActivityLog {
 
     private String action;
     private String itemName;
+    private Integer quantityChanged;
+    private String staffUsername;
+    private Long residentId;
+    private String residentName;
+    private String notes;
     private LocalDateTime timestamp;
 
     @PrePersist
@@ -50,6 +55,46 @@ public class InventoryActivityLog {
 
     public void setItemName(String itemName) {
         this.itemName = itemName;
+    }
+
+    public Integer getQuantityChanged() {
+        return quantityChanged;
+    }
+
+    public void setQuantityChanged(Integer quantityChanged) {
+        this.quantityChanged = quantityChanged;
+    }
+
+    public String getStaffUsername() {
+        return staffUsername;
+    }
+
+    public void setStaffUsername(String staffUsername) {
+        this.staffUsername = staffUsername;
+    }
+
+    public Long getResidentId() {
+        return residentId;
+    }
+
+    public void setResidentId(Long residentId) {
+        this.residentId = residentId;
+    }
+
+    public String getResidentName() {
+        return residentName;
+    }
+
+    public void setResidentName(String residentName) {
+        this.residentName = residentName;
+    }
+
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
     }
 
     public LocalDateTime getTimestamp() {

@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Resident Payments</title>
     <link rel="stylesheet" href="/css/accountant-dashboard.css">
+    <link rel="stylesheet" href="/css/unified-dashboard-theme.css">
 </head>
 <body>
 <div class="grid-container">
@@ -26,7 +27,6 @@
                 <li><a th:href="@{/accountant-dashboard}">Overview</a></li>
                 <li><a th:href="@{/resident-payments}" class="active">Resident Payments</a></li>
                 <li><a th:href="@{/staff-payments}">Staff Payments</a></li>
-                <li><a th:href="@{/invoices}">Invoices &amp; Billing</a></li>
                 <li><a th:href="@{/inventory-payments}">Inventory Purchases</a></li>
                 <li><a th:href="@{/report-payments}">Reports</a></li>
             </ul>
@@ -34,118 +34,84 @@
     </aside>
 
     <main class="main-content">
-        <section class="quick-actions">
-            <div class="quick-actions-title">
-                <h3>Resident Payment Actions</h3>
-            </div>
-            <div class="quick-action-card">
-                <button class="quick-btn" type="button">Record Payment</button>
-                <button class="quick-btn" type="button">Print Receipt</button>
-                <button class="quick-btn" type="button">Send Reminder</button>
-                <button class="quick-btn" type="button">Export Payments</button>
-            </div>
-        </section>
+        <div class="table-container" th:if="${residentPaymentMessage}">
+            <strong th:text="${residentPaymentMessage}">Success</strong>
+        </div>
+        <div class="table-container" th:if="${residentPaymentError}">
+            <strong th:text="${residentPaymentError}">Error</strong>
+        </div>
 
-        <section class="main-cards">
-            <article class="card">
-                <h3>Payments This Month</h3>
-                <p>$62,480</p>
-                <span class="card-label">Resident collections received</span>
-            </article>
-            <article class="card">
-                <h3>Outstanding Balance</h3>
-                <p>$14,210</p>
-                <span class="card-label">Open resident balances</span>
-            </article>
-            <article class="card">
-                <h3>Pending Verifications</h3>
-                <p>6</p>
-                <span class="card-label">Payments awaiting confirmation</span>
-            </article>
+        <section class="table-container">
+            <h3>Create Invoice for Resident</h3>
+            <form th:action="@{/resident-payments/invoices}" method="post">
+                <table>
+                    <tbody>
+                    <tr>
+                        <td>Resident</td>
+                        <td>
+                            <select name="residentId" required>
+                                <option value="">Select resident</option>
+                                <option th:each="resident : ${residents}"
+                                        th:value="${resident.id}"
+                                        th:text="${resident.name + ' (Room ' + resident.roomNumber + ')'}">Resident</option>
+                            </select>
+                        </td>
+                        <td>Amount</td>
+                        <td><input type="number" name="amount" step="0.01" min="0.01" required></td>
+                    </tr>
+                    <tr>
+                        <td>Due Date</td>
+                        <td><input type="date" name="dueDate"></td>
+                        <td>Description</td>
+                        <td><input type="text" name="description" placeholder="Monthly care invoice"></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">
+                            <button class="btn-primary" type="submit">Create Invoice</button>
+                        </td>
+                    </tr>
+                    </tbody>
+                </table>
+            </form>
         </section>
 
         <section class="table-container">
-            <h3>Resident Payment Ledger</h3>
+            <h3>Resident Invoices</h3>
             <table>
                 <thead>
                 <tr>
-                    <th>Payment ID</th>
-                    <th>Resident Name</th>
                     <th>Invoice ID</th>
+                    <th>Resident Name</th>
                     <th>Amount</th>
-                    <th>Method</th>
-                    <th>Date</th>
-                    <th>Status</th>
-                </tr>
-                </thead>
-                <tbody>
-                <tr>
-                    <td>RP-1022</td>
-                    <td>Helen Brooks</td>
-                    <td>INV-3208</td>
-                    <td>$2,300.00</td>
-                    <td>Bank Transfer</td>
-                    <td>2026-03-18</td>
-                    <td><span class="status-badge status-paid">Completed</span></td>
-                </tr>
-                <tr>
-                    <td>RP-1023</td>
-                    <td>George Ramos</td>
-                    <td>INV-3210</td>
-                    <td>$1,750.00</td>
-                    <td>Credit Card</td>
-                    <td>2026-03-18</td>
-                    <td><span class="status-badge status-pending">Pending</span></td>
-                </tr>
-                <tr>
-                    <td>RP-1024</td>
-                    <td>Martha Quinn</td>
-                    <td>INV-3212</td>
-                    <td>$2,080.00</td>
-                    <td>Cash</td>
-                    <td>2026-03-17</td>
-                    <td><span class="status-badge status-paid">Completed</span></td>
-                </tr>
-                <tr>
-                    <td>RP-1025</td>
-                    <td>Leon Park</td>
-                    <td>INV-3214</td>
-                    <td>$1,950.00</td>
-                    <td>Check</td>
-                    <td>2026-03-17</td>
-                    <td><span class="status-badge status-overdue">Needs Follow-up</span></td>
-                </tr>
-                </tbody>
-            </table>
-        </section>
-
-        <section class="table-container">
-            <h3>Upcoming Due Payments</h3>
-            <table>
-                <thead>
-                <tr>
-                    <th>Resident</th>
-                    <th>Room</th>
+                    <th>Invoice Date</th>
                     <th>Due Date</th>
-                    <th>Amount Due</th>
                     <th>Status</th>
+                    <th>Actions</th>
                 </tr>
                 </thead>
                 <tbody>
-                <tr>
-                    <td>Joyce Hale</td>
-                    <td>116</td>
-                    <td>2026-03-22</td>
-                    <td>$2,100.00</td>
-                    <td><span class="status-badge status-pending">Upcoming</span></td>
+                <tr th:if="${#lists.isEmpty(invoices)}">
+                    <td colspan="8">No invoices created yet.</td>
                 </tr>
-                <tr>
-                    <td>Arthur Blake</td>
-                    <td>121</td>
-                    <td>2026-03-23</td>
-                    <td>$1,980.00</td>
-                    <td><span class="status-badge status-pending">Upcoming</span></td>
-                </tr>
+                <tr th:each="invoice : ${invoices}">
+                    <td th:text="${invoice.id}">1</td>
+                    <td th:text="${invoice.resident.name}">Resident</td>
+                    <td th:text="${#numbers.formatDecimal(invoice.amount, 1, 2)}">0.00</td>
+                    <td th:text="${invoice.invoiceDate}">2026-04-20</td>
+                    <td th:text="${invoice.dueDate}">2026-05-20</td>
+                    <td>
+                        <span class="status-badge"
+                              th:classappend="${invoice.status.name() == 'PAID' ? ' status-paid' : ' status-pending'}"
+                              th:text="${invoice.status}">UNPAID</span>
+                    </td>
+                    <td>
+                        <form th:if="${invoice.status.name() == 'UNPAID'}"
+                              th:action="@{/resident-payments/invoices/{invoiceId}/mark-paid(invoiceId=${invoice.id})}"
+                              method="post" style="display:inline;">
+                            <button class="btn-primary" type="submit">Mark as Paid (M-Pesa)</button>
+                        </form>
+                        <span th:if="${invoice.status.name() == 'PAID'}" th:text="${invoice.paymentMethod}">M-Pesa</span>
+                    </td>
                 </tbody>
             </table>
         </section>

@@ -12,8 +12,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import nursing_home.example.demo.model.ResidentMedicalCondition.ConditionType;
-import nursing_home.example.demo.services.MedicalReportService;
-import nursing_home.example.demo.services.MedicalReportService.MedicalReportView;
+import nursing_home.example.demo.model.services.MedicalReportService;
+import nursing_home.example.demo.model.services.MedicalReportService.MedicalReportView;
 
 @Controller
 public class MedicalReportController {

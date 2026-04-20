@@ -1,15 +1,19 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
     <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Vital Logging Table</title>
+        
         <link rel="stylesheet" href="/css/staff-dashboard.css">
+        <link rel="stylesheet" href="/css/unified-dashboard-theme.css">
         <link rel="stylesheet" href="/css/residents.css">
     </head>
     <body>
         <div class="grid-container">
         <header class="header">
             <div class="header-left">
-                <h1>Vitals History</h1>
+                <h1 th:text="${loggedInUser != null ? 'Welcome Back, ' + loggedInUser + '!' : 'Welcome Back!'}">Welcome Back!</h1>
             </div>
             <div class="header-right">
                 <form th:action="@{/logout}" method="post" style="margin:0;">

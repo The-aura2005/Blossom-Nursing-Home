@@ -5,153 +5,96 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Accountant Dashboard</title>
     <link rel="stylesheet" href="/css/accountant-dashboard.css">
+    <link rel="stylesheet" href="/css/unified-dashboard-theme.css">
 </head>
 <body>
     <div class="grid-container">
-        <!-- Header -->
         <header class="header">
             <div class="header-left">
-                <h1>Welcome Back, Accountant!</h1>
+                <h1>Accountant Dashboard</h1>
             </div>
             <div class="header-right">
-                <button class="log-out-btn" onclick="logout()">Log Out</button>
+                <form th:action="@{/logout}" method="post" style="margin: 0;">
+                    <button class="log-out-btn" type="submit">Log Out</button>
+                </form>
             </div>
         </header>
 
-        <!-- Sidebar -->
         <aside class="sidebar">
             <div class="sidebar-title">Accountant Dashboard</div>
             <div class="sidebar-menu">
                 <ul>
-                    <li><a th:href="@{/billing}" class="active">Billing</a></li>
+                    <li><a th:href="@{/accountant-dashboard}" class="active">Overview</a></li>
                     <li><a th:href="@{/resident-payments}">Resident Payments</a></li>
                     <li><a th:href="@{/staff-payments}">Staff Payments</a></li>
-                    <li><a th:href="@{/invoices}">Invoices & Billing</a></li>
-                    <li><a th:href="@{/inventory}">Inventory Purchases</a></li>
-                    <li><a th:href="@{/reports}">Reports</a></li>
+                    <li><a th:href="@{/inventory-payments}">Inventory Purchases</a></li>
+                    <li><a th:href="@{/report-payments}">Reports</a></li>
                 </ul>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Quick Actions -->
-            <div class="quick-actions">
-                <div class="quick-actions-title"><h3>Quick Actions</h3></div>
+            <section class="quick-actions">
+                <div class="quick-actions-title">
+                    <h3>Quick Actions</h3>
+                </div>
                 <div class="quick-action-card">
-                    <button class="quick-btn">Generate Invoice</button>
-                    <button class="quick-btn">Record Payment</button>
-                    <button class="quick-btn">View Reports</button>
-                    <button class="quick-btn">Export Data</button>
+                    <a class="quick-btn" th:href="@{/resident-payments}">Create Invoice</a>
+                    <a class="quick-btn" th:href="@{/staff-payments}">Generate Payroll</a>
+                    <a class="quick-btn" th:href="@{/inventory-payments}">View Supplier Expenses</a>
+                    <a class="quick-btn" th:href="@{/report-payments}">Open Reports</a>
                 </div>
-            </div>
+            </section>
 
-            <!-- Dashboard Stats Cards -->
-            <div class="main-cards">
-                <div class="card">
-                    <h3>Outstanding Invoices</h3>
-                    <p th:text="${totalOutstanding}">$0.00</p>
-                    <span class="card-label">Total Amount Due</span>
-                </div>
-                <div class="card">
-                    <h3>Payments Received</h3>
-                    <p th:text="${totalPayments}">$0.00</p>
-                    <span class="card-label">This Month</span>
-                </div>
-                <div class="card">
-                    <h3>Pending Payments</h3>
-                    <p th:text="${pendingPayments}">0</p>
-                    <span class="card-label">Awaiting Processing</span>
-                </div>
-            </div>
+            <section class="main-cards">
+                <article class="card">
+                    <h3>Outstanding Resident Invoices</h3>
+                    <p th:text="${#numbers.formatDecimal(summary.outstandingInvoices, 1, 2)}">0.00</p>
+                    <span class="card-label">Unpaid resident billing amount</span>
+                </article>
+                <article class="card">
+                    <h3>Resident Income Received</h3>
+                    <p th:text="${#numbers.formatDecimal(summary.residentIncomeReceived, 1, 2)}">0.00</p>
+                    <span class="card-label">Total paid invoices</span>
+                </article>
+                <article class="card">
+                    <h3>Unpaid Payroll Records</h3>
+                    <p th:text="${summary.unpaidPayrollCount}">0</p>
+                    <span class="card-label">Staff salaries pending payment</span>
+                </article>
+                <article class="card">
+                    <h3>Supplier Stock Expenses</h3>
+                    <p th:text="${#numbers.formatDecimal(summary.supplierExpensesTotal, 1, 2)}">0.00</p>
+                    <span class="card-label">Recorded inventory purchase costs</span>
+                </article>
+            </section>
 
-            <!-- Billing Section -->
-            <div id="billing" class="table-container">
-                <h3>Billing Information</h3>
+            <section class="table-container">
+                <h3>Operations Snapshot</h3>
                 <table>
                     <thead>
-                        <tr>
-                            <th>Invoice ID</th>
-                            <th>Patient Name</th>
-                            <th>Amount</th>
-                            <th>Invoice Date</th>
-                            <th>Due Date</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
+                    <tr>
+                        <th>Module</th>
+                        <th>Records</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="invoice : ${invoices}">
-                            <td th:text="${invoice.id}">INV-001</td>
-                            <td th:text="${invoice.patientName}">John Doe</td>
-                            <td th:text="${'$' + invoice.amount}">$1,500.00</td>
-                            <td th:text="${invoice.invoiceDate}">2026-01-15</td>
-                            <td th:text="${invoice.dueDate}">2026-02-15</td>
-                            <td>
-                                <span th:class="'status-badge ' + ${invoice.status == 'paid' ? 'status-paid' : invoice.status == 'pending' ? 'status-pending' : 'status-overdue'}"
-                                      th:text="${invoice.status}">Pending</span>
-                            </td>
-                            <td>
-                                <button class="btn-primary" onclick="viewInvoice(this)">View</button>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>Resident Invoices</td>
+                        <td th:text="${invoiceCount}">0</td>
+                    </tr>
+                    <tr>
+                        <td>Staff Payroll Entries</td>
+                        <td th:text="${payrollCount}">0</td>
+                    </tr>
+                    <tr>
+                        <td>Supplier Expense Entries</td>
+                        <td th:text="${supplierExpenseCount}">0</td>
+                    </tr>
                     </tbody>
                 </table>
-            </div>
-
-            <!-- Payments Section -->
-            <div id="payments" class="table-container">
-                <h3>Payment Records</h3>
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Payment ID</th>
-                            <th>Patient Name</th>
-                            <th>Amount Paid</th>
-                            <th>Payment Date</th>
-                            <th>Payment Method</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr th:each="payment : ${payments}">
-                            <td th:text="${payment.id}">PAY-001</td>
-                            <td th:text="${payment.patientName}">Jane Smith</td>
-                            <td th:text="${'$' + payment.amount}">$1,000.00</td>
-                            <td th:text="${payment.paymentDate}">2026-01-20</td>
-                            <td th:text="${payment.method}">Credit Card</td>
-                            <td>
-                                <span th:class="'status-badge ' + ${payment.status == 'completed' ? 'status-paid' : 'status-pending'}"
-                                      th:text="${payment.status}">Completed</span>
-                            </td>
-                            <td>
-                                <button class="btn-secondary" onclick="viewPayment(this)">Details</button>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
+            </section>
         </main>
     </div>
-
-    <script>
-        function viewInvoice(button) {
-            alert('View invoice details - To be implemented');
-        }
-
-        function viewPayment(button) {
-            alert('View payment details - To be implemented');
-        }
-
-        function logout() {
-            // Create a form to submit logout through Spring Security
-            const form = document.createElement('form');
-            form.method = 'POST';
-            form.action = '/logout';
-            document.body.appendChild(form);
-            form.submit();
-        }
-    </script>
 </body>
 </html>

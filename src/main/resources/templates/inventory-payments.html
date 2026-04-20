@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Inventory Purchases</title>
 	<link rel="stylesheet" href="/css/accountant-dashboard.css">
+	<link rel="stylesheet" href="/css/unified-dashboard-theme.css">
 </head>
 <body>
 <div class="grid-container">
@@ -26,7 +27,6 @@
 				<li><a th:href="@{/accountant-dashboard}">Overview</a></li>
 				<li><a th:href="@{/resident-payments}">Resident Payments</a></li>
 				<li><a th:href="@{/staff-payments}">Staff Payments</a></li>
-				<li><a th:href="@{/invoices}">Invoices &amp; Billing</a></li>
 				<li><a th:href="@{/inventory-payments}" class="active">Inventory Purchases</a></li>
 				<li><a th:href="@{/report-payments}">Reports</a></li>
 			</ul>
@@ -34,112 +34,26 @@
 	</aside>
 
 	<main class="main-content">
-		<section class="quick-actions">
-			<div class="quick-actions-title">
-				<h3>Inventory Actions</h3>
-			</div>
-			<div class="quick-action-card">
-				<button class="quick-btn" type="button">Create Purchase Order</button>
-				<button class="quick-btn" type="button">Approve Request</button>
-				<button class="quick-btn" type="button">Record Supplier Payment</button>
-				<button class="quick-btn" type="button">Download PO List</button>
-			</div>
-		</section>
-
-		<section class="main-cards">
-			<article class="card">
-				<h3>Purchases This Month</h3>
-				<p>$18,920</p>
-				<span class="card-label">Total inventory expenses</span>
-			</article>
-			<article class="card">
-				<h3>Pending Approvals</h3>
-				<p>9</p>
-				<span class="card-label">Purchase orders awaiting sign-off</span>
-			</article>
-			<article class="card">
-				<h3>Unpaid Supplier Bills</h3>
-				<p>$6,340</p>
-				<span class="card-label">Open payable to vendors</span>
-			</article>
-		</section>
-
 		<section class="table-container">
-			<h3>Recent Purchase Orders</h3>
-			<table>
-				<thead>
-				<tr>
-					<th>PO Number</th>
-					<th>Supplier</th>
-					<th>Category</th>
-					<th>Order Date</th>
-					<th>Amount</th>
-					<th>Status</th>
-				</tr>
-				</thead>
-				<tbody>
-				<tr>
-					<td>PO-5501</td>
-					<td>Health Supply Co.</td>
-					<td>Medical Consumables</td>
-					<td>2026-03-15</td>
-					<td>$2,860.00</td>
-					<td><span class="status-badge status-paid">Approved</span></td>
-				</tr>
-				<tr>
-					<td>PO-5502</td>
-					<td>Kitchen Essentials</td>
-					<td>Food &amp; Nutrition</td>
-					<td>2026-03-16</td>
-					<td>$1,420.00</td>
-					<td><span class="status-badge status-pending">Pending</span></td>
-				</tr>
-				<tr>
-					<td>PO-5503</td>
-					<td>CleanCare Ltd.</td>
-					<td>Housekeeping Supplies</td>
-					<td>2026-03-16</td>
-					<td>$1,180.00</td>
-					<td><span class="status-badge status-pending">Pending</span></td>
-				</tr>
-				<tr>
-					<td>PO-5504</td>
-					<td>Facility Maintainers</td>
-					<td>Maintenance Parts</td>
-					<td>2026-03-12</td>
-					<td>$3,640.00</td>
-					<td><span class="status-badge status-overdue">Delayed</span></td>
-				</tr>
-				</tbody>
-			</table>
-		</section>
-
-		<section class="table-container">
-			<h3>Supplier Payment Schedule</h3>
+			<h3>Supplier Payments (Inventory Purchases)</h3>
 			<table>
 				<thead>
 				<tr>
 					<th>Supplier</th>
-					<th>Invoice Ref</th>
-					<th>Due Date</th>
-					<th>Amount Due</th>
-					<th>Priority</th>
+					<th>Item</th>
+					<th>Cost</th>
+					<th>Date</th>
 				</tr>
 				</thead>
 				<tbody>
-				<tr>
-					<td>Health Supply Co.</td>
-					<td>HS-8112</td>
-					<td>2026-03-22</td>
-					<td>$2,860.00</td>
-					<td><span class="status-badge status-pending">High</span></td>
+				<tr th:if="${#lists.isEmpty(supplierExpenses)}">
+					<td colspan="4">No supplier expense entries yet. Add stock in Inventory Manager with supplier and purchase cost.</td>
 				</tr>
-				<tr>
-					<td>CleanCare Ltd.</td>
-					<td>CC-4407</td>
-					<td>2026-03-24</td>
-					<td>$1,180.00</td>
-					<td><span class="status-badge status-paid">Normal</span></td>
+				<tr th:each="expense : ${supplierExpenses}">
+					<td th:text="${expense.supplierName}">Supplier</td>
+					<td th:text="${expense.itemName}">Item</td>
+					<td th:text="${#numbers.formatDecimal(expense.cost, 1, 2)}">0.00</td>
+					<td th:text="${expense.expenseDate}">2026-04-20</td>
 				</tr>
 				</tbody>
 			</table>

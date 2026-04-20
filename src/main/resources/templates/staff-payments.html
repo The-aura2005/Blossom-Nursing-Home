@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Staff Payments</title>
 	<link rel="stylesheet" href="/css/accountant-dashboard.css">
+	<link rel="stylesheet" href="/css/unified-dashboard-theme.css">
 </head>
 <body>
 	<div class="grid-container">
@@ -26,7 +27,6 @@
 					<li><a th:href="@{/accountant-dashboard}">Overview</a></li>
 					<li><a th:href="@{/resident-payments}">Resident Payments</a></li>
 					<li><a th:href="@{/staff-payments}" class="active">Staff Payments</a></li>
-					<li><a th:href="@{/invoices}">Invoices &amp; Billing</a></li>
 					<li><a th:href="@{/inventory-payments}">Inventory Purchases</a></li>
 					<li><a th:href="@{/report-payments}">Reports</a></li>
 				</ul>
@@ -34,141 +34,83 @@
 		</aside>
 
 		<main class="main-content">
-			<section class="quick-actions">
-				<div class="quick-actions-title">
-					<h3>Payroll Actions</h3>
-				</div>
-				<div class="quick-action-card">
-					<button class="quick-btn" type="button">Run Payroll</button>
-					<button class="quick-btn" type="button">Approve Overtime</button>
-					<button class="quick-btn" type="button">Download Payslips</button>
-					<button class="quick-btn" type="button">Export Payroll Report</button>
-				</div>
-			</section>
+			<div class="table-container" th:if="${staffPaymentMessage}">
+				<strong th:text="${staffPaymentMessage}">Success</strong>
+			</div>
+			<div class="table-container" th:if="${staffPaymentError}">
+				<strong th:text="${staffPaymentError}">Error</strong>
+			</div>
 
-			<section class="main-cards">
-				<article class="card">
-					<h3>Payroll This Week</h3>
-					<p>$24,860</p>
-					<span class="card-label">Total scheduled staff payout</span>
-				</article>
-				<article class="card">
-					<h3>Pending Approvals</h3>
-					<p>8</p>
-					<span class="card-label">Timesheets awaiting review</span>
-				</article>
-				<article class="card">
-					<h3>Processed Payments</h3>
-					<p>41</p>
-					<span class="card-label">Completed in current cycle</span>
-				</article>
+			<section class="table-container">
+				<h3>Generate Payroll for Month</h3>
+				<form th:action="@{/staff-payments/generate-payroll}" method="post">
+					<input type="text" name="payrollMonth" th:value="${defaultPayrollMonth}" required>
+					<button class="btn-primary" type="submit">Generate Payroll</button>
+				</form>
 			</section>
 
 			<section class="table-container">
-				<h3>Upcoming Payroll Schedule</h3>
+				<h3>Staff List and Salary</h3>
 				<table>
 					<thead>
 						<tr>
 							<th>Staff ID</th>
-							<th>Employee Name</th>
-							<th>Role</th>
-							<th>Hours</th>
-							<th>Gross Pay</th>
-							<th>Pay Date</th>
+							<th>Name</th>
 							<th>Status</th>
+							<th>Estimated Salary</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>STF-104</td>
-							<td>Maria Santos</td>
-							<td>Registered Nurse</td>
-							<td>40</td>
-							<td>$1,920.00</td>
-							<td>2026-03-20</td>
-							<td><span class="status-badge status-pending">Pending</span></td>
+						<tr th:if="${#lists.isEmpty(staffSalaryViews)}">
+							<td colspan="4">No staff available for payroll.</td>
 						</tr>
-						<tr>
-							<td>STF-118</td>
-							<td>James Carter</td>
-							<td>Caregiver</td>
-							<td>36</td>
-							<td>$1,260.00</td>
-							<td>2026-03-20</td>
-							<td><span class="status-badge status-pending">Pending</span></td>
-						</tr>
-						<tr>
-							<td>STF-126</td>
-							<td>Nina Reyes</td>
-							<td>Dietary Aide</td>
-							<td>32</td>
-							<td>$896.00</td>
-							<td>2026-03-20</td>
-							<td><span class="status-badge status-paid">Approved</span></td>
-						</tr>
-						<tr>
-							<td>STF-133</td>
-							<td>David Hall</td>
-							<td>Maintenance Staff</td>
-							<td>38</td>
-							<td>$1,178.00</td>
-							<td>2026-03-20</td>
-							<td><span class="status-badge status-overdue">Needs Review</span></td>
+						<tr th:each="row : ${staffSalaryViews}">
+							<td th:text="${row.staff.id}">1</td>
+							<td th:text="${row.staff.name}">Name</td>
+							<td th:text="${row.staff.status}">ACTIVE</td>
+							<td th:text="${#numbers.formatDecimal(row.salaryAmount, 1, 2)}">0.00</td>
 						</tr>
 					</tbody>
 				</table>
 			</section>
 
 			<section class="table-container">
-				<h3>Recent Staff Payment Records</h3>
+				<h3>Payroll Records</h3>
 				<table>
 					<thead>
 						<tr>
-							<th>Payment ID</th>
-							<th>Employee</th>
-							<th>Department</th>
-							<th>Net Pay</th>
-							<th>Method</th>
-							<th>Date Paid</th>
+							<th>Payroll ID</th>
+							<th>Staff</th>
+							<th>Month</th>
+							<th>Amount</th>
+							<th>Date</th>
 							<th>Status</th>
+							<th>Actions</th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>PAY-4402</td>
-							<td>Angela Cruz</td>
-							<td>Nursing</td>
-							<td>$1,640.20</td>
-							<td>Direct Deposit</td>
-							<td>2026-03-13</td>
-							<td><span class="status-badge status-paid">Completed</span></td>
+						<tr th:if="${#lists.isEmpty(payrollRows)}">
+							<td colspan="7">No payroll records generated yet.</td>
 						</tr>
-						<tr>
-							<td>PAY-4403</td>
-							<td>Brian Foster</td>
-							<td>Administration</td>
-							<td>$1,285.00</td>
-							<td>Bank Transfer</td>
-							<td>2026-03-13</td>
-							<td><span class="status-badge status-paid">Completed</span></td>
-						</tr>
-						<tr>
-							<td>PAY-4404</td>
-							<td>Liza Gomez</td>
-							<td>Housekeeping</td>
-							<td>$980.40</td>
-							<td>Direct Deposit</td>
-							<td>2026-03-13</td>
-							<td><span class="status-badge status-paid">Completed</span></td>
-						</tr>
-						<tr>
-							<td>PAY-4405</td>
-							<td>Thomas Reed</td>
-							<td>Security</td>
-							<td>$1,105.75</td>
-							<td>Check</td>
-							<td>2026-03-13</td>
-							<td><span class="status-badge status-pending">Queued</span></td>
+						<tr th:each="payroll : ${payrollRows}">
+							<td th:text="${payroll.id}">1</td>
+							<td th:text="${payroll.staff.name}">Staff</td>
+							<td th:text="${payroll.payrollMonth}">April 2026</td>
+							<td th:text="${#numbers.formatDecimal(payroll.salaryAmount, 1, 2)}">0.00</td>
+							<td th:text="${payroll.payrollDate}">2026-04-20</td>
+							<td>
+								<span class="status-badge"
+									  th:classappend="${payroll.status.name() == 'PAID' ? ' status-paid' : ' status-pending'}"
+									  th:text="${payroll.status}">UNPAID</span>
+							</td>
+							<td>
+								<form th:if="${payroll.status.name() == 'UNPAID'}"
+									  th:action="@{/staff-payments/{payrollId}/mark-paid(payrollId=${payroll.id})}"
+									  method="post" style="display:inline;">
+									<button class="btn-primary" type="submit">Mark Salary as Paid</button>
+								</form>
+								<span th:if="${payroll.status.name() == 'PAID'}">Paid</span>
+							</td>
 						</tr>
 					</tbody>
 				</table>

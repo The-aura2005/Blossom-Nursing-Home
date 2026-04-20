@@ -12,8 +12,8 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.util.List;
 
 import nursing_home.example.demo.model.AssignedTask;
-import nursing_home.example.demo.services.AssignedTaskService;
-import nursing_home.example.demo.services.MedicationLogService;
+import nursing_home.example.demo.model.services.AssignedTaskService;
+import nursing_home.example.demo.model.services.MedicationLogService;
 
 @Controller
 public class StaffDashboardController {

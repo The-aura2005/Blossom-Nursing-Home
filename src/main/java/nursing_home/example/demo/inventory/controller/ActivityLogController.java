@@ -2,6 +2,7 @@ package nursing_home.example.demo.inventory.controller;
 
 import java.util.List;
 
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -20,6 +21,7 @@ public class ActivityLogController {
     }
 
     @GetMapping
+    @PreAuthorize("hasRole('INVENTORY_MANAGER')")
     public List<InventoryActivityLog> getAllLogs() {
         return activityLogService.getAllLogs();
     }
