@@ -1,7 +1,7 @@
 package nursing_home.example.demo.inventory.model;
 
 public class InventoryIssueRequest {
-
+    //attributes of inventory issues request what it has.
     private Long itemId;
     private Long residentId;
     private Integer quantity;

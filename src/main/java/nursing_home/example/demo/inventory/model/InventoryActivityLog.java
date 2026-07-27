@@ -12,7 +12,7 @@ import jakarta.persistence.Table;
 @Entity
 @Table(name = "inventory_activity_logs")
 public class InventoryActivityLog {
-
+   //attributes of inventory activity log.
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

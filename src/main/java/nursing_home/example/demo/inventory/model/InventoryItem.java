@@ -18,7 +18,7 @@ import jakarta.persistence.Transient;
 @Entity
 @Table(name = "inventory_items")
 public class InventoryItem {
-
+    //attributes of inventory item
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

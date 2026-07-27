@@ -10,6 +10,7 @@ import jakarta.persistence.Table;
 @Table(name = "inventory_suppliers")
 public class Supplier {
 
+    //attributes of supplier
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -7,13 +7,13 @@ import java.util.List;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import nursing_home.example.demo.dao.ResidentRepository;
+import nursing_home.example.demo.accountant.service.SupplierExpenseService;
+import nursing_home.example.demo.admin.Model.Resident;
+import nursing_home.example.demo.admin.Repository.ResidentRepository;
 import nursing_home.example.demo.inventory.model.InventoryItem;
 import nursing_home.example.demo.inventory.model.Supplier;
 import nursing_home.example.demo.inventory.repository.InventoryRepository;
 import nursing_home.example.demo.inventory.repository.SupplierRepository;
-import nursing_home.example.demo.model.Resident;
-import nursing_home.example.demo.model.services.SupplierExpenseService;
 
 @Service
 public class InventoryService {
@@ -71,7 +71,7 @@ public class InventoryService {
         InventoryItem existing = inventoryRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("Inventory item not found"));
         String itemName = existing.getName();
-        inventoryRepository.delete(existing);
+        inventoryRepository.deleteById(id);
         activityLogService.logAction("DELETE", itemName);
     }
 

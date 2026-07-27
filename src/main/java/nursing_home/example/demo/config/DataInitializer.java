@@ -8,11 +8,11 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import nursing_home.example.demo.dao.NursingHomeUserRepository;
-import nursing_home.example.demo.dao.StaffRepository;
-import nursing_home.example.demo.model.NursingHomeUser;
-import nursing_home.example.demo.model.NursingHomeUserRole;
-import nursing_home.example.demo.model.Staff;
+import nursing_home.example.demo.admin.Model.NursingHomeUser;
+import nursing_home.example.demo.admin.Model.NursingHomeUserRole;
+import nursing_home.example.demo.admin.Repository.NursingHomeUserRepository;
+import nursing_home.example.demo.staff.Repository.StaffRepository;
+import nursing_home.example.demo.staff.model.Staff;
 
 @Component
 public class DataInitializer implements CommandLineRunner {

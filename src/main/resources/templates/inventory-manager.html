@@ -20,6 +20,7 @@
         </aside>
 
         <main class="content">
+            <!---header witth title and description for the inventory manager dashboard-->
             <section class="header">
                 <div>
                     <h1>Inventory Manager Dashboard</h1>
@@ -32,7 +33,7 @@
                     </form>
                 </div>
             </section>
-
+            <!---cards for stock counts daily usage an weekly usage -->
             <section id="dashboardSection" class="panel-section">
                 <div class="cards">
                     <article class="card">
@@ -56,7 +57,7 @@
                         <strong id="weeklyUsageCard">0</strong>
                     </article>
                 </div>
-
+                <!---alerts for low stock items and items in stock-->
                 <div class="section">
                     <h3>Alerts</h3>
                     <div class="alerts">
@@ -71,7 +72,7 @@
                     </div>
                 </div>
             </section>
-
+            <!--inventory section for searching items by id-->
             <section id="inventorySection" class="panel-section section hidden">
                 <h3>Inventory</h3>
                 <div class="toolbar">
@@ -272,7 +273,8 @@
                 ? out.map(i => `<li>${i.name}</li>`).join("")
                 : "<li>No out of stock items</li>";
         }
-
+//method to render the inventory table based on search and category filter 
+//
         function renderInventoryTable() {
             const searchTerm = searchInput.value.trim().toLowerCase();
             const category = categoryFilter.value;

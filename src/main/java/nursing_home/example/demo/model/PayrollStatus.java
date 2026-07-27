@@ -1,6 +1,0 @@
-package nursing_home.example.demo.model;
-
-public enum PayrollStatus {
-    PAID,
-    UNPAID
-}
