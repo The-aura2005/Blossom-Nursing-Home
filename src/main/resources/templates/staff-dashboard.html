@@ -43,8 +43,8 @@
                 <div class="quick-actions">
                     <div class="quick-actions-title"><h3>Quick Actions</h3></div>
                     <div class="quick-action-card">
-                    <a class="quick-btn" th:href="@{/VitalLoggingTable}">Log Vitals</a>
-                    <a class="quick-btn" th:href="@{/activitiesLogging}">Add Activity</a>
+                    <a class="quick-btn" th:href="@{/VitalLogging}">Log Vitals</a>
+                    <a class="quick-btn" th:href="@{/ActivityLogging}">Add Activity</a>
                     <a class="quick-btn" th:href="@{/myReports}">Write Report</a>
                     <a class="quick-btn" th:href="@{/medications}">Medication Logs</a>
                     <a class="quick-btn" th:href="@{/incident-reports}">Incident Reports</a>
@@ -100,7 +100,6 @@
                         <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
                         <div class="resident-name" th:text="${resident.residentName}">Resident Name</div>
                         <div class="resident-room" th:text="${'Room ' + resident.roomNumber}">Room 0</div>
-                        <div class="resident-status" th:text="${resident.residentStatus}">Status</div>
                         <div class="quick-action-btnn" th:if="${resident.residentId != null}">
                             <a class="quick-btnn" th:href="@{/VitalLogging(residentId=${resident.residentId})}">Log Vitals</a>
                             <a class="quick-btnn" th:href="@{/ActivityLogging(residentId=${resident.residentId})}">Add Activity</a>

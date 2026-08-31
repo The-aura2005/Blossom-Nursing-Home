@@ -1,6 +1,7 @@
 package nursing_home.example.demo.staff.model;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -9,6 +10,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
 import nursing_home.example.demo.admin.Model.Resident;
 
 @Entity
@@ -17,7 +19,7 @@ public class Vitals {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int temperature;
+    private double temperature;
     private String bloodPressure;
     private int weight;
     private LocalDate dateRecorded;
@@ -26,6 +28,12 @@ public class Vitals {
     @ManyToOne
     @JoinColumn(name = "resident_id")
     private Resident resident;
+    @Transient
+    private String alertStatus = "NORMAL";
+    @Transient
+    private String alertMessage = "No abnormal values detected.";
+    @Transient
+    private List<String> alertMessages = List.of();
 
     public Vitals(LocalDate dateRecorded) {
         this.dateRecorded = dateRecorded;
@@ -51,18 +59,18 @@ public class Vitals {
 
     }
 
-    public Vitals(int temperature, String bloodPressure, int weight, String notes) {
+    public Vitals(double temperature, String bloodPressure, int weight, String notes) {
         this.temperature = temperature;
         this.bloodPressure = bloodPressure;
         this.weight = weight;
         this.notes = notes;
     }
 
-    public int getTemperature() {
+    public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(int temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
@@ -104,6 +112,30 @@ public class Vitals {
 
     public void setRecordedByUsername(String recordedByUsername) {
         this.recordedByUsername = recordedByUsername;
+    }
+
+    public String getAlertStatus() {
+        return alertStatus;
+    }
+
+    public void setAlertStatus(String alertStatus) {
+        this.alertStatus = alertStatus;
+    }
+
+    public String getAlertMessage() {
+        return alertMessage;
+    }
+
+    public void setAlertMessage(String alertMessage) {
+        this.alertMessage = alertMessage;
+    }
+
+    public List<String> getAlertMessages() {
+        return alertMessages;
+    }
+
+    public void setAlertMessages(List<String> alertMessages) {
+        this.alertMessages = alertMessages == null ? List.of() : List.copyOf(alertMessages);
     }
 
 }

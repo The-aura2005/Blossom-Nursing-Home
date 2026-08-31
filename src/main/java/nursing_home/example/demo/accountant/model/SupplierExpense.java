@@ -10,11 +10,14 @@ import jakarta.persistence.Id;
 import jakarta.persistence.PrePersist;
 import jakarta.persistence.Table;
 
+//@entity indicates this class is a JPA entity and it will be mapped to a db table
+//there will be a table called supplier_expense in the db to store supplier expense records
 @Entity
 @Table(name = "supplier_expenses")
 public class SupplierExpense {
 
     @Id
+    //it will nbe automatically generated
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
@@ -29,6 +32,7 @@ public class SupplierExpense {
             expenseDate = LocalDate.now();
         }
     }
+    //getters  and  settters
 
     public Long getId() {
         return id;
@@ -67,7 +71,6 @@ public class SupplierExpense {
     }
 
     public void setId(long longValue) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'setId'");
+        this.id = longValue;
     }
 }

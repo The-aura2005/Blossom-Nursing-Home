@@ -56,7 +56,7 @@ public class MedicationLogController {
         return "medication_form";
     }
 
-    @PostMapping("/medications/save")
+    @PostMapping("/medication")
     @PreAuthorize("hasRole('STAFF')")
     public String saveMedication(
             @RequestParam Long residentId,
@@ -74,6 +74,7 @@ public class MedicationLogController {
 
         medicationLogService.saveMedicationLog(residentId, authentication.getName(), medicationName, dosage, timeGiven,
                 notes);
+        assignedTaskService.completeNextPendingTaskForResident(residentId, authentication.getName());
         redirectAttributes.addFlashAttribute("medicationMessage", "Medication logged successfully.");
         return "redirect:/medications";
     }

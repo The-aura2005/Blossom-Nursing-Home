@@ -58,26 +58,22 @@ body {
     border-radius: 4px;
     display: inline-block;
 }
-.quick-action-btnn {
-    margin: 5px;
-    padding: 5px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
+.btn-assigned {
+    margin-top :15px;
+   
 }
-.quick-btnn {
-    border: none;
-    border-radius: 10px;
-    padding: 10px;
-    color: black;
-    font-size: 15px;
-    font-weight: 500;
-    white-space: normal;
-    text-align: center;
-    line-height: 1.2;
+
+.view-details {
+    display:inline-block;
+    background-color: #70a1ff;
+    color: white;
+    text-decoration:none;
+    font-size:16px;
+    margin:5px;
+    padding:6px 12px;
+    border-radius:10px;
+    transition: background-color 0.3s ease;
 }
-.quick-btnn:hover {
-    cursor: pointer;
-    background-color: #a4b0be;
+.view-details:hover {
+    background-color: #1e90ff;
 }

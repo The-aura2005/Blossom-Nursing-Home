@@ -76,7 +76,6 @@
                                 <td th:text="${resident.emergencyContact}"></td>
                                 <td th:text="${resident.roomNumber}"></td>
                                 <td th:text="${#temporals.format(resident.admissionDate,'MM/dd/yyyy')}"></td>
-                                <td><span class="status-badge status-good" th:text="${resident.status}"></span></td>
                                 <td class="action-buttons">
                                     <a th:href="@{/editResident(id=${resident.id})}" class="btn-edit" title="edit"><span class="material-symbols-outlined">edit</span></a>
                                     <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>

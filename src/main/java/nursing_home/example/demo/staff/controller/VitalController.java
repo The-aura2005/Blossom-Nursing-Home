@@ -61,6 +61,7 @@ public class VitalController {
     @PreAuthorize("hasRole('STAFF')")
     public String vitalLoggingTable(Model model, Authentication authentication) {
         model.addAttribute("vitalsList", vitalsService.getVitalsLoggedBy(authentication.getName()));
+        model.addAttribute("loggedInUser", authentication.getName());
         return "VitalLoggingTable";
     }
 
@@ -75,7 +76,7 @@ public class VitalController {
     @PreAuthorize("hasAnyRole('STAFF')")
     public String addVitals(
             @RequestParam Long residentId,
-            @RequestParam int temperature,
+            @RequestParam double temperature,
             @RequestParam String bloodPressure,
             @RequestParam int weight,
             @RequestParam(required = false) String notes,
@@ -89,6 +90,7 @@ public class VitalController {
         }
 
         vitalsService.addVitals(residentId, temperature, bloodPressure, weight, notes, authentication.getName());
+        assignedTaskService.completeNextPendingTaskForResident(residentId, authentication.getName());
         redirectAttributes.addFlashAttribute("vitalsMessage", "Vitals logged successfully.");
         return "redirect:/VitalLoggingTable";
     }

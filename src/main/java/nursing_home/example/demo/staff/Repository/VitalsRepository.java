@@ -25,7 +25,7 @@ public class VitalsRepository {
     private final RowMapper<Vitals> rowMapper = (rs, rowNum) -> {
         Vitals v = new Vitals();
         v.setId(rs.getLong("id"));
-        v.setTemperature(rs.getInt("temperature"));
+        v.setTemperature(rs.getDouble("temperature"));
         v.setBloodPressure(rs.getString("blood_pressure"));
         v.setWeight(rs.getInt("weight"));
         Date d = rs.getDate("date_recorded");
@@ -86,7 +86,7 @@ public class VitalsRepository {
             KeyHolder kh = new GeneratedKeyHolder();
             jdbcTemplate.update(conn -> {
                 var ps = conn.prepareStatement(sql, new String[] { "id" });
-                ps.setInt(1, v.getTemperature());
+                ps.setDouble(1, v.getTemperature());
                 ps.setString(2, v.getBloodPressure());
                 ps.setInt(3, v.getWeight());
                 ps.setDate(4, v.getDateRecorded() != null ? Date.valueOf(v.getDateRecorded()) : null);

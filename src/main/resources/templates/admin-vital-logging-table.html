@@ -53,11 +53,12 @@
                     <th>Weight</th>
                     <th>Date Recorded</th>
                     <th>Logged By</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(vitalsList)}">
-                    <td colspan="7">No vital logs available.</td>
+                    <td colspan="8">No vital logs available.</td>
                 </tr>
                 <tr th:each="vitals : ${vitalsList}">
                     <td th:text="${vitals.resident.id}">1</td>
@@ -67,6 +68,7 @@
                     <td th:text="${vitals.weight}">0</td>
                     <td th:text="${#temporals.format(vitals.dateRecorded, 'MM/dd/yyyy')}">01/01/2026</td>
                     <td th:text="${vitals.recordedByUsername}">staff</td>
+                    <td th:text="${vitals.alertStatus + (vitals.alertStatus != 'NORMAL' ? ' - ' + vitals.alertMessage : '')}">NORMAL</td>
                 </tr>
                 </tbody>
             </table>

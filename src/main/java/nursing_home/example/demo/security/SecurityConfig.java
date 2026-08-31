@@ -16,17 +16,24 @@ import org.springframework.http.HttpMethod;
 @Configuration
 @EnableWebSecurity
 public class SecurityConfig {
+        //autowired is used to inject the UserDetailsService bean into the securityConfig class.
 
         @Autowired
+        //tells spring how to load user from db when user wants to log in
         private UserDetailsService userDetailsService;
-
+        
+        //@Bean tells spring to manage the password encoder and make it available for dependency injection in other parts of application.
         @Bean
+        //passwords are hashed using bcrypt algorithm
         public PasswordEncoder passwordEncoder() {
                 return new BCryptPasswordEncoder();
         }
 
         @Bean
+        //this method configures the security filer chain.Decides authentication and authorization
+        //HTTpSecurity allows to configure qeb based security
         public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
+                //disables csrf protection for the application
                 httpSecurity.csrf(csrf -> csrf.disable())
                                 .authorizeHttpRequests(auth -> auth
                                                 // Permit public access to index page and static resources
@@ -34,6 +41,7 @@ public class SecurityConfig {
                                                                 "/static/**", "/css/**", "/js/**",
                                                                 "/images/**")
                                                 .permitAll()
+                                                //requestMtchers is a method that targets specific url
                                                 .requestMatchers("/loginn", "/login", "/dashboard-redirect",
                                                                 "/loginn.html",
                                                                 "/login-error.html")
@@ -98,6 +106,7 @@ public class SecurityConfig {
                 return httpSecurity.build();
         }
 
+        //this component checks username and password against the database and authenticates the user if they match.
         @Bean
         public AuthenticationProvider authenticationProvider() {
                 DaoAuthenticationProvider provider = new DaoAuthenticationProvider(userDetailsService);

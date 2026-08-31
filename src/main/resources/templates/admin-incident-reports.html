@@ -51,11 +51,12 @@
                     <th>Severity</th>
                     <th>Staff</th>
                     <th>Date Created</th>
+                    <th>Status</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:if="${#lists.isEmpty(incidentReports)}">
-                    <td colspan="6">No incident reports available.</td>
+                    <td colspan="7">No incident reports available.</td>
                 </tr>
                 <tr th:each="report : ${incidentReports}">
                     <td th:text="${report.resident.name}">Resident</td>
@@ -64,6 +65,7 @@
                     <td th:text="${report.severity}">Severity</td>
                     <td th:text="${report.staff.username}">Staff</td>
                     <td th:text="${#temporals.format(report.createdAt, 'MM/dd/yyyy hh:mm a')}">Date</td>
+                    <td>Incident Reported</td>
                 </tr>
                 </tbody>
             </table>

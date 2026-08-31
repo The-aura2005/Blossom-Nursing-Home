@@ -104,6 +104,7 @@ public class AccountantService {
         }
         return createdCount;
     }
+    //@transactional means that method will be executed in a transaction
 
     @Transactional
     public void markPayrollPaid(Long payrollId) {
@@ -117,7 +118,7 @@ public class AccountantService {
     public List<StaffPayroll> getAllPayroll() {
         return staffPayrollRepository.findAllByOrderByPayrollDateDescIdDesc();
     }
-
+    //stream is used to convert 
     public List<StaffSalaryView> getStaffSalaryViews() {
         return staffRepository.findAll().stream()
                 .map(staff -> new StaffSalaryView(staff, estimateStaffSalary(staff)))

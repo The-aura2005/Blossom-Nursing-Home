@@ -25,18 +25,37 @@ public class IncidentReportRepository {
     private final RowMapper<IncidentReport> rowMapper = (rs, rowNum) -> {
         IncidentReport ir = new IncidentReport();
         ir.setId(rs.getLong("id"));
-        long residentId = rs.getLong("resident_id"); if (!rs.wasNull()) { Resident r = new Resident(); r.setId(residentId); ir.setResident(r); }
-        long staffId = rs.getLong("staff_id"); if (!rs.wasNull()) { NursingHomeUser u = new NursingHomeUser(); u.setId(staffId); ir.setStaff(u); }
+        long residentId = rs.getLong("resident_id");
+        if (!rs.wasNull()) {
+            Resident r = new Resident();
+            r.setId(residentId);
+            ir.setResident(r);
+        }
+        long staffId = rs.getLong("staff_id");
+        if (!rs.wasNull()) {
+            NursingHomeUser u = new NursingHomeUser();
+            u.setId(staffId);
+            ir.setStaff(u);
+        }
         ir.setTitle(rs.getString("title"));
         ir.setDescription(rs.getString("description"));
         ir.setSeverity(rs.getString("severity"));
-        Timestamp t = rs.getTimestamp("created_at"); if (t != null) ir.setCreatedAt(t.toLocalDateTime());
+        Timestamp t = rs.getTimestamp("created_at");
+        if (t != null)
+            ir.setCreatedAt(t.toLocalDateTime());
         return ir;
     };
 
     public List<IncidentReport> findByResidentIdOrderByCreatedAtDesc(Long residentId) {
         String sql = "SELECT * FROM incident_reports WHERE resident_id = ? ORDER BY created_at DESC";
         return jdbcTemplate.query(sql, rowMapper, residentId);
+    }
+
+    public List<IncidentReport> findByResidentIdAndCreatedAtBetweenOrderByCreatedAtDesc(
+            Long residentId, java.time.LocalDateTime fromDateTime, java.time.LocalDateTime toDateTime) {
+        String sql = "SELECT * FROM incident_reports WHERE resident_id = ? AND created_at BETWEEN ? AND ? ORDER BY created_at DESC";
+        return jdbcTemplate.query(sql, rowMapper, residentId, Timestamp.valueOf(fromDateTime),
+                Timestamp.valueOf(toDateTime));
     }
 
     public List<IncidentReport> findByStaffIdOrderByCreatedAtDesc(Long staffId) {
@@ -63,11 +82,15 @@ public class IncidentReportRepository {
                 ps.setTimestamp(6, ir.getCreatedAt() != null ? Timestamp.valueOf(ir.getCreatedAt()) : null);
                 return ps;
             }, kh);
-            Number k = kh.getKey(); if (k != null) ir.setId(k.longValue());
+            Number k = kh.getKey();
+            if (k != null)
+                ir.setId(k.longValue());
             return ir;
         }
         String sql = "UPDATE incident_reports SET resident_id=?, staff_id=?, title=?, description=?, severity=?, created_at=? WHERE id = ?";
-        jdbcTemplate.update(sql, ir.getResident() != null ? ir.getResident().getId() : null, ir.getStaff() != null ? ir.getStaff().getId() : null, ir.getTitle(), ir.getDescription(), ir.getSeverity(), ir.getCreatedAt() != null ? Timestamp.valueOf(ir.getCreatedAt()) : null, ir.getId());
+        jdbcTemplate.update(sql, ir.getResident() != null ? ir.getResident().getId() : null,
+                ir.getStaff() != null ? ir.getStaff().getId() : null, ir.getTitle(), ir.getDescription(),
+                ir.getSeverity(), ir.getCreatedAt() != null ? Timestamp.valueOf(ir.getCreatedAt()) : null, ir.getId());
         return ir;
     }
 
@@ -75,7 +98,8 @@ public class IncidentReportRepository {
         String sql = "DELETE FROM incident_reports WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
-     public List<IncidentReport> findAll() {
+
+    public List<IncidentReport> findAll() {
         String sql = "SELECT * FROM incident_reports";
         return jdbcTemplate.query(sql, rowMapper);
     }

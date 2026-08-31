@@ -78,7 +78,6 @@
                     <table>
                     <tr>
                         <th>Name</th>
-                        <th>Status</th>
                         <th>Room</th>
                         <th>Actions</th>
                     </tr>
@@ -89,7 +88,6 @@
                         <tr th:each="resident : ${recentResidents}">
                             <td th:text="${resident.name}">Resident Name</td>
                             <td th:text="${resident.age}">0</td>
-                            <td><span class="status-badge status-active" th:text="${resident.status}">Active</span></td>
                             <td>
                                 <div class="actions">
                                     <a th:href="@{/editResident(id=${resident.id})}" class="btn-sm btn-edit">Edit</a>

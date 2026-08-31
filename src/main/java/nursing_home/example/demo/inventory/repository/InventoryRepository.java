@@ -21,7 +21,7 @@ public class InventoryRepository {
     public InventoryRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
+//rowmapper maps each row of database to the java object InventorItem
     private final RowMapper<InventoryItem> rowMapper = (rs, rowNum) -> {
         InventoryItem i = new InventoryItem();
         i.setId(rs.getLong("id"));
@@ -36,22 +36,28 @@ public class InventoryRepository {
         java.sql.Timestamp ts = rs.getTimestamp("created_at"); if (ts != null) i.setCreatedAt(ts.toLocalDateTime());
         return i;
     };
+    //fnd all inventory items from the database
 
     public List<InventoryItem> findAll() {
         String sql = "SELECT * FROM inventory_items";
         return jdbcTemplate.query(sql, rowMapper);
     }
 
+    //find inventory item by id
+    //optional handles case where item may not exist in dtatbase
     public Optional<InventoryItem> findById(Long id) {
         String sql = "SELECT * FROM inventory_items WHERE id = ?";
+        //stream is used to convert the result of the query into a stream of InventoryItem objects
+        //findfirst is used to retrieve first element of stream
         return jdbcTemplate.query(sql, rowMapper, id).stream().findFirst();
     }
 
     public List<InventoryItem> findLowStockItems() {
+        //this sql query select items whose quantity is less than or equal to min_threshhold and greater than 0
         String sql = "SELECT * FROM inventory_items WHERE quantity <= min_threshold AND quantity > 0";
         return jdbcTemplate.query(sql, rowMapper);
     }
-
+   //? this sign is used for users to provide the value for parameter when using the system
     public List<InventoryItem> findByQuantity(int quantity) {
         String sql = "SELECT * FROM inventory_items WHERE quantity = ?";
         return jdbcTemplate.query(sql, rowMapper, quantity);

@@ -47,15 +47,15 @@ public class IncidentReportService {
     }
 
     public List<IncidentReport> getAllReports() {
-        return incidentReportRepository.findAll();
+        return enrichResidents(incidentReportRepository.findAll());
     }
 
     public List<IncidentReport> getReportsByResident(Long residentId) {
-        return incidentReportRepository.findByResidentIdOrderByCreatedAtDesc(residentId);
+        return enrichResidents(incidentReportRepository.findByResidentIdOrderByCreatedAtDesc(residentId));
     }
 
     public List<IncidentReport> getReportsByStaff(Long staffId) {
-        return incidentReportRepository.findByStaffIdOrderByCreatedAtDesc(staffId);
+        return enrichResidents(incidentReportRepository.findByStaffIdOrderByCreatedAtDesc(staffId));
     }
 
     public List<IncidentReport> getReportsByStaffUsername(String username) {
@@ -64,5 +64,14 @@ public class IncidentReportService {
             return List.of();
         }
         return getReportsByStaff(staff.getId());
+    }
+
+    private List<IncidentReport> enrichResidents(List<IncidentReport> reports) {
+        return reports.stream().map(report -> {
+            if (report.getResident() != null && report.getResident().getId() != null) {
+                residentRepository.findById(report.getResident().getId()).ifPresent(report::setResident);
+            }
+            return report;
+        }).toList();
     }
 }

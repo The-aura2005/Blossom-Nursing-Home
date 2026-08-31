@@ -62,12 +62,15 @@ public class DataInitializer implements CommandLineRunner {
 
         backfillMissingStaffUsers();
     }
+    //this method fixes incomplete data.
 
     private void backfillMissingStaffUsers() {
+        //Looks at all staff records
         List<Staff> staffRecords = staffRepository.findAll();
         if (staffRecords.isEmpty()) {
             return;
         }
+        //
 
         long staffUsersCount = userRepository.findByNursingHomeUserRole(NursingHomeUserRole.STAFF).size();
         long missingAccounts = staffRecords.size() - staffUsersCount;
@@ -95,6 +98,7 @@ public class DataInitializer implements CommandLineRunner {
                     + " -> username: " + username + " temporary password: " + temporaryPassword);
         }
     }
+    //generate username from staff members email 
 
     private String generateUniqueUsername(Staff staff) {
         String baseUsername = "staff";
@@ -118,9 +122,9 @@ public class DataInitializer implements CommandLineRunner {
 
         return username;
     }
-
+//generates a temporary password from the four last digits of the staff phone number
     private String buildTemporaryPassword(Staff staff) {
-        int phoneTail = Math.abs(staff.getPhoneNumber()) % 10000;
-        return "Staff@" + String.format("%04d", phoneTail);
+        int phoneTail = Math.abs(staff.getPhoneNumber()) % 10000;//maths.abs returns a positive value of the phone number.
+        return "Staff@" + String.format("%04d", phoneTail);//string.format allows you to format cleanly.
     }
 }

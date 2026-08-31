@@ -34,6 +34,7 @@ public class ActivityLogRepository {
         }
         a.setActivityType(rs.getString("activity_type"));
         a.setNotes(rs.getString("notes"));
+        a.setIntakePercentage((Integer) rs.getObject("intake_percentage"));
         Date d = rs.getDate("activity_date");
         if (d != null)
             a.setActivityDate(d.toLocalDate());
@@ -75,17 +76,18 @@ public class ActivityLogRepository {
 
     public ActivityLog save(ActivityLog a) {
         if (a.getId() == null) {
-            String sql = "INSERT INTO activity_logs(resident_id, activity_type, notes, activity_date, activity_time, logged_by_username, created_at) VALUES(?,?,?,?,?,?,?)";
+            String sql = "INSERT INTO activity_logs(resident_id, activity_type, notes, intake_percentage, activity_date, activity_time, logged_by_username, created_at) VALUES(?,?,?,?,?,?,?,?)";
             KeyHolder kh = new GeneratedKeyHolder();
             jdbcTemplate.update(conn -> {
                 var ps = conn.prepareStatement(sql, new String[] { "id" });
                 ps.setObject(1, a.getResident() != null ? a.getResident().getId() : null);
                 ps.setString(2, a.getActivityType());
                 ps.setString(3, a.getNotes());
-                ps.setDate(4, a.getActivityDate() != null ? Date.valueOf(a.getActivityDate()) : null);
-                ps.setTime(5, a.getActivityTime() != null ? Time.valueOf(a.getActivityTime()) : null);
-                ps.setString(6, a.getLoggedByUsername());
-                ps.setTimestamp(7, a.getCreatedAt() != null ? Timestamp.valueOf(a.getCreatedAt()) : null);
+                ps.setObject(4, a.getIntakePercentage());
+                ps.setDate(5, a.getActivityDate() != null ? Date.valueOf(a.getActivityDate()) : null);
+                ps.setTime(6, a.getActivityTime() != null ? Time.valueOf(a.getActivityTime()) : null);
+                ps.setString(7, a.getLoggedByUsername());
+                ps.setTimestamp(8, a.getCreatedAt() != null ? Timestamp.valueOf(a.getCreatedAt()) : null);
                 return ps;
             }, kh);
             Number k = kh.getKey();
@@ -93,9 +95,10 @@ public class ActivityLogRepository {
                 a.setId(k.longValue());
             return a;
         }
-        String sql = "UPDATE activity_logs SET resident_id=?, activity_type=?, notes=?, activity_date=?, activity_time=?, logged_by_username=?, created_at=? WHERE id = ?";
+        String sql = "UPDATE activity_logs SET resident_id=?, activity_type=?, notes=?, intake_percentage=?, activity_date=?, activity_time=?, logged_by_username=?, created_at=? WHERE id = ?";
         jdbcTemplate.update(sql, a.getResident() != null ? a.getResident().getId() : null, a.getActivityType(),
-                a.getNotes(), a.getActivityDate() != null ? Date.valueOf(a.getActivityDate()) : null,
+                a.getNotes(), a.getIntakePercentage(),
+                a.getActivityDate() != null ? Date.valueOf(a.getActivityDate()) : null,
                 a.getActivityTime() != null ? Time.valueOf(a.getActivityTime()) : null, a.getLoggedByUsername(),
                 a.getCreatedAt() != null ? Timestamp.valueOf(a.getCreatedAt()) : null, a.getId());
         return a;

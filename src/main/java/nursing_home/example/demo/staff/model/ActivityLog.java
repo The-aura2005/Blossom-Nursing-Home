@@ -29,6 +29,7 @@ public class ActivityLog {
 
     private String activityType;
     private String notes;
+    private Integer intakePercentage;
     private LocalDate activityDate;
     private LocalTime activityTime;
     private String loggedByUsername;
@@ -71,6 +72,14 @@ public class ActivityLog {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Integer getIntakePercentage() {
+        return intakePercentage;
+    }
+
+    public void setIntakePercentage(Integer intakePercentage) {
+        this.intakePercentage = intakePercentage;
     }
 
     public LocalDate getActivityDate() {

@@ -31,18 +31,21 @@ public class MedicalReportService {
     private final MedicationAdministrationRepository medicationRepository;
     private final VitalsRepository vitalsRepository;
     private final ActivityLogRepository activityLogRepository;
+    private final VitalsAlertEvaluator alertEvaluator;
 
     public MedicalReportService(
             ResidentRepository residentRepository,
             ResidentMedicalConditionRepository conditionRepository,
             MedicationAdministrationRepository medicationRepository,
             VitalsRepository vitalsRepository,
-            ActivityLogRepository activityLogRepository) {
+            ActivityLogRepository activityLogRepository,
+            VitalsAlertEvaluator alertEvaluator) {
         this.residentRepository = residentRepository;
         this.conditionRepository = conditionRepository;
         this.medicationRepository = medicationRepository;
         this.vitalsRepository = vitalsRepository;
         this.activityLogRepository = activityLogRepository;
+        this.alertEvaluator = alertEvaluator;
     }
 
     public List<Resident> getResidents() {
@@ -85,7 +88,9 @@ public class MedicalReportService {
         List<Vitals> vitals = fetchVitals(selectedResident.getId(), effectiveFrom, effectiveTo);
         List<ActivityLog> activityLogs = fetchActivities(selectedResident.getId(), effectiveFrom, effectiveTo);
 
-        List<Vitals> abnormalVitals = vitals.stream().filter(this::isAbnormalVital).toList();
+        vitals.forEach(alertEvaluator::evaluate);
+        List<Vitals> abnormalVitals = vitals.stream().filter(vital -> !"NORMAL".equals(vital.getAlertStatus()))
+                .toList();
         Map<String, Long> activitySummary = buildActivitySummary(activityLogs);
 
         ReportSummary summary = new ReportSummary(
@@ -182,27 +187,6 @@ public class MedicalReportService {
                             residentId, fromDate, toDate);
         }
         return activityLogRepository.findByResidentIdOrderByActivityDateDescActivityTimeDescIdDesc(residentId);
-    }
-
-    private boolean isAbnormalVital(Vitals vital) {
-        boolean abnormalTemp = vital.getTemperature() > 38 || vital.getTemperature() < 35;
-        boolean abnormalBp = false;
-
-        String bp = vital.getBloodPressure();
-        if (bp != null && bp.contains("/")) {
-            String[] parts = bp.split("/");
-            if (parts.length == 2) {
-                try {
-                    int systolic = Integer.parseInt(parts[0].trim());
-                    int diastolic = Integer.parseInt(parts[1].trim());
-                    abnormalBp = systolic > 140 || diastolic > 90 || systolic < 90 || diastolic < 60;
-                } catch (NumberFormatException ex) {
-                    abnormalBp = false;
-                }
-            }
-        }
-
-        return abnormalTemp || abnormalBp;
     }
 
     private Map<String, Long> buildActivitySummary(List<ActivityLog> activityLogs) {

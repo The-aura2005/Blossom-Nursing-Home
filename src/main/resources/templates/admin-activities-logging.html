@@ -41,6 +41,21 @@
 
     <main class="main-container">
         <div class="data-table" style="margin-bottom: 20px;">
+            <h3>Expected Activities</h3>
+            <table>
+                <thead><tr><th>Resident</th><th>Activity</th><th>Scheduled Time</th><th>Status</th></tr></thead>
+                <tbody>
+                <tr th:if="${#lists.isEmpty(activityTasks)}"><td colspan="4">No expected activities.</td></tr>
+                <tr th:each="task : ${activityTasks}">
+                    <td th:text="${task.residentName}">Resident</td>
+                    <td th:text="${task.title}">Activity</td>
+                    <td th:text="${task.scheduledTime}">08:00</td>
+                    <td th:text="${task.attentionStatus == 'NOT_COMPLETED' ? 'Activity Not Completed' : task.attentionStatus}">UPCOMING</td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="data-table" style="margin-bottom: 20px;">
             <h3>All Activity Logs</h3>
             <table>
                 <thead>

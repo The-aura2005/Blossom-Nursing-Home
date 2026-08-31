@@ -49,16 +49,15 @@
                         <div class="resident-avatar"><span class="material-symbols-outlined">face_6</span></div>
                         <div class="resident-name" th:text="${resident.residentName}">Resident Name</div>
                         <div class="resident-room" th:text="${'Room ' + resident.roomNumber}">Room 0</div>
-                        <div class="resident-status" th:text="${resident.residentStatus}">Assigned</div>
-                        <div class="quick-action-btnn" th:if="${resident.residentId != null}">
-                            <a class="quick-btnn" th:href="@{/VitalLogging(residentId=${resident.residentId})}">Log Vitals</a>
-                            <a class="quick-btnn" th:href="@{/ActivityLogging(residentId=${resident.residentId})}">Add Activity</a>
-                            <a class="quick-btnn" th:href="@{/medications/new/{residentId}(residentId=${resident.residentId})}">Administer Medication</a>
-                            <a class="quick-btnn" th:href="@{/inventory/issue/new/{residentId}(residentId=${resident.residentId})}">Issue Inventory Item</a>
-                            <a class="quick-btnn" th:href="@{/reports/new/{residentId}(residentId=${resident.residentId})}">Write Report</a>
-                        </div>
-                        <div class="resident-room" th:if="${resident.residentId == null}">
-                            Resident link unavailable. Ask admin to reassign this resident.
+                        
+                        <div class ="btn-assigned"> 
+                            <a class="view-details"
+                            th:if="${resident.residentId != null}"
+                            th:href="@{/resident-detailPage(residentId=${resident.residentId})}">View Details</a>
+                            <span class="resident-room" th:if="${resident.residentId == null}">
+                                Resident link unavailable. Ask admin to reassign this resident.
+                            </span>
+                            
                         </div>
                         <div class="resident-room" th:text="${resident.pendingCount + ' pending / ' + resident.completedCount + ' completed tasks'}"></div>
                     </div>

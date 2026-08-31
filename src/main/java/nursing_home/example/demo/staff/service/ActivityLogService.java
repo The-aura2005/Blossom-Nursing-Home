@@ -22,8 +22,8 @@ public class ActivityLogService {
         this.residentRepository = residentRepository;
     }
 
-    public void logActivity(Long residentId, String activityType, String notes, LocalDate activityDate,
-            LocalTime activityTime, String loggedByUsername) {
+    public void logActivity(Long residentId, String activityType, String notes, Integer intakePercentage,
+            LocalDate activityDate, LocalTime activityTime, String loggedByUsername) {
         Resident resident = residentRepository.findById(residentId)
                 .orElseThrow(() -> new IllegalStateException("Resident not found"));
 
@@ -31,6 +31,10 @@ public class ActivityLogService {
         log.setResident(resident);
         log.setActivityType(activityType);
         log.setNotes(notes);
+        if (intakePercentage != null && (intakePercentage < 0 || intakePercentage > 100)) {
+            throw new IllegalStateException("Meal intake must be between 0 and 100 percent.");
+        }
+        log.setIntakePercentage("Meal".equalsIgnoreCase(activityType) ? intakePercentage : null);
         log.setActivityDate(activityDate != null ? activityDate : LocalDate.now());
         log.setActivityTime(activityTime != null ? activityTime : LocalTime.now());
         log.setLoggedByUsername(loggedByUsername);

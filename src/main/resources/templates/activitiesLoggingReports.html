@@ -42,6 +42,22 @@
         <div class="task-alert" th:if="${activityMessage}" th:text="${activityMessage}"></div>
         <div class="task-alert" th:if="${activityError}" th:text="${activityError}"></div>
         <div class="activity-history-container" style="margin-bottom: 15px;">
+            <h3>Expected Activities</h3>
+            <table class="activity-table">
+                <thead><tr><th>Resident</th><th>Activity</th><th>Scheduled Time</th><th>Status</th></tr></thead>
+                <tbody>
+                    <tr th:if="${#lists.isEmpty(activityTasks)}"><td colspan="4">No expected activities.</td></tr>
+                    <tr th:each="task : ${activityTasks}">
+                        <td th:text="${task.residentName}">Resident</td>
+                        <td th:text="${task.title}">Activity</td>
+                        <td th:text="${task.scheduledTime}">08:00</td>
+                        <td th:classappend="${task.attentionStatus == 'NOT_COMPLETED' ? ' alert-warning' : ''}"
+                            th:text="${task.attentionStatus == 'NOT_COMPLETED' ? 'Activity Not Completed' : task.attentionStatus}">UPCOMING</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="activity-history-container" style="margin-bottom: 15px;">
             <h3>My Activity Logs</h3>
             <table class="activity-table">
                 <thead>

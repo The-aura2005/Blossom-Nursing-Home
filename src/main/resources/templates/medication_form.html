@@ -41,7 +41,7 @@
             <h3>Medication Logging</h3>
             <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
 
-            <form th:action="@{/medications/save}" method="post" class="Record-vitals">
+            <form th:action="@{/medication}" method="post" class="Record-vitals">
                 <input type="hidden" name="residentId" th:value="${selectedResident.residentId}">
 
                 <label for="medicationName">Medication Name:</label>

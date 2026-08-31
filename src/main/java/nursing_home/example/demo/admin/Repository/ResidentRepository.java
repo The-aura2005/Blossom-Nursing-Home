@@ -29,18 +29,17 @@ public class ResidentRepository {
         resident.setRoomNumber(rs.getInt("room_number"));
         resident.setAdmissionDate(rs.getDate("admission_date").toLocalDate());
         resident.setEmergencyContact(rs.getLong("emergency_contact"));
-        resident.setStatus(rs.getString("status"));
         return resident;
     };
 
     public Optional<Resident> findById(Long id) {
-        String sql = "SELECT * FROM resident WHERE id = ?";
+        String sql = "SELECT * FROM residents WHERE id = ?";
         List<Resident> result = jdbcTemplate.query(sql, residentRowMapper, id);
         return result.stream().findFirst();
     }
 
     public int save(Resident resident) {
-        String sql = "INSERT INTO resident(name,age, gender,room_number, admission_date, emergency_contact,status) VALUES(?,?,?,?,?,?,?)";
+        String sql = "INSERT INTO residents(name,age, gender,room_number, admission_date, emergency_contact) VALUES(?,?,?,?,?,?)";
         Date sqlAdmissionDate = resident.getAdmissionDate() != null ? Date.valueOf(resident.getAdmissionDate()) : null;
         return jdbcTemplate.update(sql,
                 resident.getName(),
@@ -48,27 +47,26 @@ public class ResidentRepository {
                 resident.getGender(),
                 resident.getRoomNumber(),
                 sqlAdmissionDate,
-                resident.getEmergencyContact(),
-                resident.getStatus());
+                resident.getEmergencyContact());
     }
 
     public void deleteById(Long id) {
-        String sql = "DELETE FROM resident WHERE id = ?";
+        String sql = "DELETE FROM residents WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }
 
     public List<Resident> findAll() {
-        String sql = "SELECT * FROM resident";
+        String sql = "SELECT * FROM residents";
         return jdbcTemplate.query(sql, residentRowMapper);
     }
 
     public List<Resident> findAllByOrderByNameAsc() {
-        String sql = "SELECT * FROM resident ORDER BY name ASC";
+        String sql = "SELECT * FROM residents ORDER BY name ASC";
         return jdbcTemplate.query(sql, residentRowMapper);
     }
 
     public long count() {
-        String sql = "SELECT COUNT(*) FROM resident";
+        String sql = "SELECT COUNT(*) FROM residents";
         Long count = jdbcTemplate.queryForObject(sql, Long.class);
         return count != null ? count : 0L;
     }

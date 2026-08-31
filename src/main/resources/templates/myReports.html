@@ -60,13 +60,19 @@
                 </div>
             </div>
 
+            <div class="Task-container" th:if="${not #lists.isEmpty(attentionAlerts)}">
+                <h3>Attention Required</h3>
+                <div class="task-alert" th:each="alert : ${attentionAlerts}">
+                    <a th:href="${alert.link}" th:text="${alert.residentName + ' - ' + alert.message}">Alert</a>
+                </div>
+            </div>
+
             <div class="Task-container" style="margin-bottom: 20px;">
                 <table class="Task-table">
                     <thead>
                         <tr>
                             <th>Resident</th>
                             <th>Room</th>
-                            <th>Status</th>
                             <th>Pending</th>
                             <th>Completed</th>
                         </tr>
@@ -78,7 +84,6 @@
                         <tr th:each="resident : ${assignedResidents}">
                             <td th:text="${resident.residentName}">Resident</td>
                             <td th:text="${resident.roomNumber}">Room</td>
-                            <td th:text="${resident.residentStatus}">Status</td>
                             <td th:text="${resident.pendingCount}">0</td>
                             <td th:text="${resident.completedCount}">0</td>
                         </tr>

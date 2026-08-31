@@ -42,6 +42,7 @@ public class SupplierExpenseRepository {
 
     public Optional<SupplierExpense> findById(Long id) {
         String sql = "SELECT * FROM supplier_expenses WHERE id = ?";
+        //you have to use stream convert the rs to list then use findfirts to get the first element
         return jdbcTemplate.query(sql, rowMapper, id).stream().findFirst();
     }
 

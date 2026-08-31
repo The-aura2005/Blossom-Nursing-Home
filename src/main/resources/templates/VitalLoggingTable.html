@@ -48,6 +48,8 @@
                                 <th>Temperature</th>
                                 <th>Blood Pressure</th>
                                 <th>Weight</th>
+                                <th>Notes</th>
+                                <th>Status</th>
                                 <th>Date Recorded</th>
                                 <th>Staff Name That Recorded</th>
                             </tr>
@@ -56,9 +58,14 @@
                             <tr th:each="vitals :${vitalsList}">
                                 <td th:text="${vitals.resident.id}"></td>
                                 <td th:text="${vitals.resident.name}"></td>
-                                <td th:text="${vitals.temperature}"></td>
+                                <td th:text="${vitals.temperature + ' C'}"></td>
                                 <td th:text="${vitals.bloodPressure}"></td>
                                 <td th:text="${vitals.weight}"></td>
+                                <td th:text="${vitals.notes}"></td>
+                                <td th:classappend="${vitals.alertStatus != 'NORMAL' ? ' alert-warning' : ''}">
+                                    <span th:text="${vitals.alertStatus}"></span>
+                                    <span th:if="${vitals.alertStatus != 'NORMAL'}" th:text="${' - ' + vitals.alertMessage}"></span>
+                                </td>
                                 <td th:text="${#temporals.format(vitals.dateRecorded,'MM/dd/yyyy')}"></td>
                                 <td th:text="${vitals.recordedByUsername}"></td>
                 

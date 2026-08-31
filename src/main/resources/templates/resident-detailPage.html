@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Resident Detail Page</title>
+    <link rel="stylesheet" href="/css/staff-dashboard.css">
+    <link rel="stylesheet" href="/css/unified-dashboard-theme.css">
+    <link rel="stylesheet" href="/css/resident-detailPage.css">
+    <link rel="stylesheet" href="/css/resident-analytics.css">
+    <script src="/js/admin.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+    <script src="/js/resident-analytics.js" defer></script>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+    
+</head>
+<body>
+    <div class="grid-container">
+        <header class="header">
+            <div class="header-left">
+                <h1 th:text="${'Welcome Back, ' + loggedInUser + '!'}">Welcome Back!</h1>
+            </div>
+            <div class="header-right">
+                <form th:action="@{/logout}" method="post" style="margin:0;">
+                    <button class="log-out-btn" type="submit">Log Out</button>
+                </form>
+            </div>
+        </header>
+        <aside class="sidebar">
+            <div class="sidebar-title">Staff Dashboard</div>
+            <div class="sidebar-menu">
+                <ul>
+                    <li><a th:href="@{/staff-dashboard}">Overview</a></li>
+                    <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                    <li><a th:href="@{/MyAssignedResidents}" class="active">My Assigned Residents</a></li>
+                    <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
+                    <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                    <li><a th:href="@{/myReports}">Reports</a></li>
+                    <li><a th:href="@{/medications}">Medication Logs</a></li>
+                    <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
+                </ul>
+            </div>
+        </aside>
+<main class="main-content">
+    <div>
+<div class="container">
+    <div class="breadcrumb"><a th:href="@{/MyAssignedResidents}">←  My Assigned Residents</a></div>
+
+    <div class="header">
+        <div class="profile">
+            <div class="avatar" th:text="${resident.name}">ME</div>
+            <div>
+                <div class="title" th:text="${resident.name}">Margaret Ellery</div>
+                <div class="subtitle" th:text="${'Room ' + resident.roomNumber + ' · Age ' + resident.age}">Room 214B · Assisted care · Age 82</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="summary-card">
+        <div class="summary-grid">
+            <div class="summary-item">
+                <div class="label">ROOM</div>
+                <div class="value" th:text="${resident.roomNumber}">Room 214B</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">ADMITTED</div>
+                <div class="value" th:text="${residentAdmissionDate}">12 Mar 2024</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">PRIMARY NURSE</div>
+                <div class="value" th:text="${residentPrimaryNurse}">A. Kimani</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">ALLERGIES</div>
+                <div class="value" th:text="${residentAllergies}">Penicillin, latex</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">DIET</div>
+                <div class="value" th:text="${residentDiet}">Low sodium, soft texture</div>
+            </div>
+            <div class="summary-item">
+                <div class="label">MOBILITY</div>
+                <div class="value" th:text="${residentMobility}">Walker, supervision on stairs</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="resident-actions" aria-label="Resident actions">
+        <a class="tab" th:href="@{/VitalLogging(residentId=${resident.id})}">Log Vitals</a>
+        <a class="tab" th:href="@{/ActivityLogging(residentId=${resident.id})}">Add Activity</a>
+        <a class="tab" th:href="@{/medications/new/{residentId}(residentId=${resident.id})}">Medication</a>
+        <a class="tab" th:href="@{/reports/new/{residentId}(residentId=${resident.id})}">Incident Report</a>
+    </nav>
+
+    <section class="analytics-dashboard" th:attr="data-resident-id=${resident.id}">
+        <div class="analytics-heading">
+            <div>
+                <p class="eyebrow">Resident analytics</p>
+                <h2>Care signals at a glance</h2>
+            </div>
+            <div class="date-filter" aria-label="Analytics date range">
+                <label for="analytics-range">Period</label>
+                <select id="analytics-range">
+                    <option value="today">Today</option>
+                    <option value="7" selected>Last 7 days</option>
+                    <option value="30">Last 30 days</option>
+                    <option value="custom">Custom</option>
+                </select>
+                <input id="analytics-start" type="date" aria-label="Start date">
+                <input id="analytics-end" type="date" aria-label="End date">
+                <button id="analytics-refresh" class="btn-save" type="button">Refresh</button>
+            </div>
+        </div>
+
+        <p id="analytics-error" class="analytics-message" role="alert" hidden></p>
+        <div id="analytics-loading" class="analytics-message">Loading analytics...</div>
+
+        <div id="analytics-content" hidden>
+            <div class="analytics-summary-grid">
+                <article class="analytics-stat"><span>Current temperature</span><strong id="latest-temperature">No data</strong><small id="temperature-trend"></small></article>
+                <article class="analytics-stat"><span>Average temperature</span><strong id="average-temperature">No data</strong><small id="temperature-range"></small></article>
+                <article class="analytics-stat"><span>Activity completion</span><strong id="activity-percentage">0%</strong><small id="activity-count"></small></article>
+                <article class="analytics-stat"><span>Medication administration</span><strong id="medication-percentage">0%</strong><small id="medication-count"></small></article>
+                <article class="analytics-stat"><span>Incidents this period</span><strong id="incident-count">0</strong><small id="incident-trend"></small></article>
+            </div>
+
+            <article class="analytics-panel analytics-temperature-panel">
+                <div class="panel-heading"><h3>Temperature trend</h3><span id="reading-count"></span></div>
+                <div class="chart-wrap"><canvas id="temperature-chart"></canvas><p class="chart-empty" hidden>No vital records for this period.</p></div>
+            </article>
+            <div class="analytics-chart-grid">
+                <article class="analytics-panel"><div class="panel-heading"><h3>Activity completion</h3></div><div class="chart-wrap"><canvas id="activity-chart"></canvas><p class="chart-empty" hidden>No activity records for this period.</p></div></article>
+                <article class="analytics-panel"><div class="panel-heading"><h3>Incident frequency</h3></div><div class="chart-wrap"><canvas id="incident-chart"></canvas><p class="chart-empty" hidden>No incident reports for this period.</p></div></article>
+            </div>
+            <article class="analytics-panel alerts-panel"><div class="panel-heading"><h3>Alerts</h3></div><div id="analytics-alerts" class="alert-list"><p class="no-alerts">No alerts for this period.</p></div></article>
+        </div>
+    </section>
+
+    <section class="data-card" th:if="${not #lists.isEmpty(residentVitals)}">
+        <h2>Recent Vital Alerts</h2>
+        <div class="task-alert" th:each="vital : ${residentVitals}" th:if="${vital.alertStatus != 'NORMAL'}"
+             th:text="${vital.alertStatus + ' - ' + vital.alertMessage}">Vital alert</div>
+        <p th:if="${#lists.isEmpty(residentVitals.?[alertStatus != 'NORMAL'])}">No abnormal values detected.</p>
+    </section>
+
+
+</div>
+</main>
+</body>
+</html>

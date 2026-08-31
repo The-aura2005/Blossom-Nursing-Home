@@ -24,7 +24,7 @@ public class AssignedTaskService {
     private final NursingHomeUserRepository nursingHomeUserRepository;
     private final ResidentRepository residentRepository;
 
-    //constructor injection for the repositories
+    // constructor injection for the repositories
     public AssignedTaskService(
             AssignedTaskRepository assignedTaskRepository,
             NursingHomeUserRepository nursingHomeUserRepository,
@@ -91,6 +91,19 @@ public class AssignedTaskService {
         assignedTaskRepository.save(task);
     }
 
+    public void completeNextPendingTaskForResident(Long residentId, String username) {
+        getTasksForStaff(username).stream()
+                .filter(task -> residentId.equals(task.getResidentId()))
+                .filter(task -> "PENDING".equalsIgnoreCase(task.getStatus()))
+                .min(java.util.Comparator.comparing(AssignedTask::getCreatedAt,
+                        java.util.Comparator.nullsLast(java.util.Comparator.naturalOrder())))
+                .ifPresent(task -> {
+                    task.setStatus("COMPLETED");
+                    task.setCompletedAt(LocalDateTime.now());
+                    assignedTaskRepository.save(task);
+                });
+    }
+
     public List<String> getStaffUsernames() {
         List<NursingHomeUser> staffUsers = nursingHomeUserRepository
                 .findByNursingHomeUserRole(NursingHomeUserRole.STAFF);
@@ -104,12 +117,10 @@ public class AssignedTaskService {
         for (AssignedTask task : tasks) {
             String key = buildResidentKey(task);
             ResidentTaskSummaryAccumulator acc = residentMap.computeIfAbsent(key, k -> {
-                String residentStatus = resolveResidentStatus(task.getResidentId());
                 return new ResidentTaskSummaryAccumulator(
                         task.getResidentId(),
                         task.getResidentName(),
-                        task.getRoomNumber(),
-                        residentStatus);
+                        task.getRoomNumber());
             });
 
             acc.taskCount++;
@@ -125,7 +136,6 @@ public class AssignedTaskService {
                         acc.residentId,
                         acc.residentName,
                         acc.roomNumber,
-                        acc.residentStatus,
                         acc.taskCount,
                         acc.pendingCount,
                         acc.completedCount))
@@ -168,15 +178,6 @@ public class AssignedTaskService {
         return (task.getResidentName() + "|" + task.getRoomNumber()).toLowerCase();
     }
 
-    private String resolveResidentStatus(Long residentId) {
-        if (residentId == null) {
-            return "Assigned";
-        }
-        return residentRepository.findById(residentId)
-                .map(Resident::getStatus)
-                .orElse("Assigned");
-    }
-
     private Optional<AssignedTask> enrichTaskWithCurrentResident(AssignedTask task) {
         if (task.getResidentId() == null) {
             return Optional.of(task);
@@ -198,7 +199,6 @@ public class AssignedTaskService {
             Long residentId,
             String residentName,
             String roomNumber,
-            String residentStatus,
             long taskCount,
             long pendingCount,
             long completedCount) {
@@ -208,17 +208,14 @@ public class AssignedTaskService {
         private final Long residentId;
         private final String residentName;
         private final String roomNumber;
-        private final String residentStatus;
         private long taskCount;
         private long pendingCount;
         private long completedCount;
 
-        private ResidentTaskSummaryAccumulator(Long residentId, String residentName, String roomNumber,
-                String residentStatus) {
+        private ResidentTaskSummaryAccumulator(Long residentId, String residentName, String roomNumber) {
             this.residentId = residentId;
             this.residentName = residentName;
             this.roomNumber = roomNumber;
-            this.residentStatus = residentStatus;
         }
     }
 }

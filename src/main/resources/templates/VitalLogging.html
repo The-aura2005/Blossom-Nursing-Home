@@ -3,69 +3,63 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vital Logging</title>
-    
+    <title>Log Vitals</title>
     <link rel="stylesheet" href="/css/staff-dashboard.css">
     <link rel="stylesheet" href="/css/unified-dashboard-theme.css">
     <link rel="stylesheet" href="/css/VitalLogging.css">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_4" />
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@24,400,0,0&icon_names=face_6" />
 </head>
 <body>
-    <div class="grid-container">
-        <header class="header">
-            <div class="header-left">
-                <h1 th:text="${loggedInUser != null ? 'Welcome Back, ' + loggedInUser + '!' : 'Welcome Back!'}">Welcome Back!</h1>
-            </div>
-            <div class="header-right">
-                <form th:action="@{/logout}" method="post" style="margin:0;">
-                    <button class="log-out-btn" type="submit">Log Out</button>
-                </form>
-            </div>
-        </header>
-        <aside class="sidebar">
-            <div class="sidebar-title">Staff Dashboard</div>
-            <div class="sidebar-menu">
-                <ul>
-                    <li><a th:href="@{/staff-dashboard}">Overview</a></li>
-                    <li><a th:href="@{/MyTask}">My Tasks</a></li>
-                    <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
-                    <li><a th:href="@{/VitalLoggingTable}" class="active">Vital Loggings</a></li>
-                    <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
-                    <li><a th:href="@{/myReports}">Reports</a></li>
-                    <li><a th:href="@{/medications}">Medication Logs</a></li>
-                    <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
-                </ul>
-            </div>
-        </aside>
-        <main class="main-content">
-            <div class="Vitals-container">
-                <h3>Vital Logging</h3>
-                <div class="task-alert" th:if="${vitalsMessage}" th:text="${vitalsMessage}"></div>
+<div class="grid-container">
+    <header class="header">
+        <div class="header-left">
+            <h1 th:text="${loggedInUser != null ? 'Welcome Back, ' + loggedInUser + '!' : 'Welcome Back!'}">Welcome Back!</h1>
+        </div>
+        <div class="header-right">
+            <form th:action="@{/logout}" method="post" style="margin:0;">
+                <button class="log-out-btn" type="submit">Log Out</button>
+            </form>
+        </div>
+    </header>
+    <aside class="sidebar">
+        <div class="sidebar-title">Staff Dashboard</div>
+        <div class="sidebar-menu">
+            <ul>
+                <li><a th:href="@{/staff-dashboard}">Overview</a></li>
+                <li><a th:href="@{/MyTask}">My Tasks</a></li>
+                <li><a th:href="@{/MyAssignedResidents}">My Assigned Residents</a></li>
+                <li><a th:href="@{/VitalLoggingTable}">Vital Loggings</a></li>
+                <li><a th:href="@{/activitiesLogging}">Activities Logging</a></li>
+                <li><a th:href="@{/myReports}">Reports</a></li>
+                <li><a th:href="@{/medications}">Medication Logs</a></li>
+                <li><a th:href="@{/incident-reports}">Incident Reports</a></li>
+            </ul>
+        </div>
+    </aside>
 
-                <div th:if="${selectedResident != null}">
-                    <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
-                    <form th:action="@{/vitals}" method="post" class="Record-vitals">
-                        <input type="hidden" name="residentId" th:value="${selectedResident.residentId}">
+    <main class="main-content">
+        <div class="Vitals-container" th:if="${selectedResident != null}">
+            <h3>Log Vitals</h3>
+            <p th:text="${'Resident: ' + selectedResident.residentName + ' - Room ' + selectedResident.roomNumber}">Resident</p>
 
-                        <label for="Temperature">Temperature:</label>
-                        <input type="number" id="Temperature" name="temperature" placeholder="Enter temperature" required>
+            <form th:action="@{/vitals}" method="post" class="Record-vitals">
+                <input type="hidden" name="residentId" th:value="${selectedResidentId}">
 
-                        <label for="Weight">Weight:</label>
-                        <input type="number" id="Weight" name="weight" placeholder="Enter weight (kg)" required>
+                <label for="temperature">Temperature:</label>
+                <input type="number" id="temperature" name="temperature" step="0.1" required>
 
-                        <label for="BloodPressure">Blood Pressure:</label>
-                        <input type="text" id="BloodPressure" name="bloodPressure" placeholder="Enter blood pressure (e.g., 120/80)" required>
+                <label for="bloodPressure">Blood Pressure:</label>
+                <input type="text" id="bloodPressure" name="bloodPressure" placeholder="120/80" required>
 
-                        <label for="Notes">Notes:</label>
-                        <textarea id="Notes" name="notes" placeholder="Enter any additional notes"></textarea>
+                <label for="weight">Weight:</label>
+                <input type="number" id="weight" name="weight" required>
 
-                        <button type="submit">Submit</button>
-                    </form>
-                </div>
-            </div>
-        </main>
-    </div>
+                <label for="notes">Notes:</label>
+                <textarea id="notes" name="notes" placeholder="Enter notes"></textarea>
+
+                <button type="submit">Save Vital Log</button>
+            </form>
+        </div>
+    </main>
+</div>
 </body>
 </html>
-    

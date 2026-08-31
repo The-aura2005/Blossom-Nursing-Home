@@ -1,6 +1,8 @@
 package nursing_home.example.demo.admin.Model;
 
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.time.format.DateTimeParseException;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -133,5 +135,23 @@ public class AssignedTask {
 
     public void setCompletedAt(LocalDateTime completedAt) {
         this.completedAt = completedAt;
+    }
+
+    public String getAttentionStatus() {
+        if ("COMPLETED".equalsIgnoreCase(status)) {
+            return "COMPLETED";
+        }
+        if (!"PENDING".equalsIgnoreCase(status)) {
+            return status == null ? "UPCOMING" : status.toUpperCase();
+        }
+        if (scheduledTime == null || scheduledTime.isBlank()) {
+            return "UPCOMING";
+        }
+        try {
+            LocalTime dueTime = LocalTime.parse(scheduledTime.trim());
+            return dueTime.isBefore(LocalTime.now()) ? "NOT_COMPLETED" : "UPCOMING";
+        } catch (DateTimeParseException ex) {
+            return "UPCOMING";
+        }
     }
 }

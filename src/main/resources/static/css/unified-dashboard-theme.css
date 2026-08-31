@@ -206,6 +206,12 @@ td {
     border-bottom: 1px solid var(--dash-line) !important;
 }
 
+.alert-warning {
+    color: #9a3412 !important;
+    background-color: #ffedd5 !important;
+    font-weight: 700 !important;
+}
+
 .main-cards .card,
 .card {
     border-left: 6px solid var(--dash-primary) !important;

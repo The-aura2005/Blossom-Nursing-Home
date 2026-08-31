@@ -22,7 +22,7 @@ public class ResidentInvoiceRepository {
     public ResidentInvoiceRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
     }
-
+     //rowmapper is used to map the rs of a query to resident invoice object
     private final RowMapper<ResidentInvoice> rowMapper = (rs, rowNum) -> {
         ResidentInvoice r = new ResidentInvoice();
         r.setId(rs.getLong("id"));
@@ -41,6 +41,7 @@ public class ResidentInvoiceRepository {
         String sql = "SELECT * FROM resident_invoices ORDER BY invoice_date DESC, id DESC";
         return jdbcTemplate.query(sql, rowMapper);
     }
+    //selcts resident invoices between two dates and orders them by invoice date and id in descending order
 
     public List<ResidentInvoice> findByInvoiceDateBetweenOrderByInvoiceDateDescIdDesc(java.time.LocalDate fromDate, java.time.LocalDate toDate) {
         String sql = "SELECT * FROM resident_invoices WHERE invoice_date BETWEEN ? AND ? ORDER BY invoice_date DESC, id DESC";
@@ -49,23 +50,33 @@ public class ResidentInvoiceRepository {
 
     public long countByStatus(InvoiceStatus status) {
         String sql = "SELECT COUNT(*) FROM resident_invoices WHERE status = ?";
+        //long.class is used to convert enum value to string represntation 
+        //status.name() is used to get the string representation
         return jdbcTemplate.queryForObject(sql, Long.class, status.name());
     }
+    //optional handles a case where the resident invoice with its id doesn't exist
 
     public Optional<ResidentInvoice> findById(Long id) {
         String sql = "SELECT * FROM resident_invoices WHERE id = ?";
         return jdbcTemplate.query(sql, rowMapper, id).stream().findFirst();
     }
-
+    //method to save resident invoice to a database
     public ResidentInvoice save(ResidentInvoice r) {
+        //check if invoice id is null
         if (r.getId() == null) {
+            //if null insert a new invoice record
             String sql = "INSERT INTO resident_invoices(resident_id, description, amount, invoice_date, due_date, status, paid_at, payment_method) VALUES(?,?,?,?,?,?,?,?)";
+            //use keyholder to retrieve the generated id of newly inserted invoice record
             KeyHolder kh = new GeneratedKeyHolder();
+            
             jdbcTemplate.update(conn -> {
                 var ps = conn.prepareStatement(sql, new String[] { "id" });
+                //ps is used to set the values of the parameters
+                //:null inserts null if resident id isnt set
                 ps.setObject(1, r.getResident() != null ? r.getResident().getId() : null);
                 ps.setString(2, r.getDescription());
                 ps.setBigDecimal(3, r.getAmount());
+                //valueOf converts LocalDate to java.sql.date
                 ps.setDate(4, r.getInvoiceDate() != null ? Date.valueOf(r.getInvoiceDate()) : null);
                 ps.setDate(5, r.getDueDate() != null ? Date.valueOf(r.getDueDate()) : null);
                 ps.setString(6, r.getStatus() != null ? r.getStatus().name() : null);
@@ -80,6 +91,7 @@ public class ResidentInvoiceRepository {
         jdbcTemplate.update(sql, r.getResident() != null ? r.getResident().getId() : null, r.getDescription(), r.getAmount(), r.getInvoiceDate() != null ? Date.valueOf(r.getInvoiceDate()) : null, r.getDueDate() != null ? Date.valueOf(r.getDueDate()) : null, r.getStatus() != null ? r.getStatus().name() : null, r.getPaidAt() != null ? Timestamp.valueOf(r.getPaidAt()) : null, r.getPaymentMethod(), r.getId());
         return r;
     }
+    //method to delete a resident invoice by its id from the database
 
     public void deleteById(Long id) {
         String sql = "DELETE FROM resident_invoices WHERE id = ?";

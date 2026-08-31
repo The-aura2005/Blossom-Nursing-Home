@@ -36,6 +36,7 @@ public class ResidentController {
     @GetMapping("/residents")
     @PreAuthorize("hasRole('ADMIN')")
     public String viewResidents(Model model) {
+        //adding a string attribute to the model
         model.addAttribute("residents", residentService.viewResidents());
         return "residents";
     }

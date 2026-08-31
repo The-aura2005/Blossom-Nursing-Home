@@ -24,7 +24,7 @@ public class ResidentInvoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
+     //manyToOne  shows resident can have many invoices but each invoice belongs to one resident
     @ManyToOne
     @JoinColumn(name = "resident_id", nullable = false)
     private Resident resident;
@@ -39,6 +39,7 @@ public class ResidentInvoice {
 
     private LocalDateTime paidAt;
     private String paymentMethod;
+    //prePersist is used to set default values for invoiceDate and status before sending to db
 
     @PrePersist
     public void prePersist() {
@@ -49,7 +50,7 @@ public class ResidentInvoice {
             status = InvoiceStatus.UNPAID;
         }
     }
-
+    //getters and setters used to access and modify the private fields
     public Long getId() {
         return id;
     }

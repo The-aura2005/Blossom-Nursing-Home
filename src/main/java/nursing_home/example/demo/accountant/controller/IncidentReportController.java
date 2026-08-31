@@ -15,10 +15,13 @@ import nursing_home.example.demo.staff.service.IncidentReportService;
 
 @Controller
 public class IncidentReportController {
+    // dependency injection for IncidentReportCoontroller to use the
+    // IncidentReportService and AssignedTaskService
 
     private final IncidentReportService incidentReportService;
     private final AssignedTaskService assignedTaskService;
 
+    // constructor
     public IncidentReportController(IncidentReportService incidentReportService,
             AssignedTaskService assignedTaskService) {
         this.incidentReportService = incidentReportService;
@@ -71,6 +74,7 @@ public class IncidentReportController {
         }
 
         incidentReportService.saveReport(residentId, authentication.getName(), title, description, severity);
+        assignedTaskService.completeNextPendingTaskForResident(residentId, authentication.getName());
         redirectAttributes.addFlashAttribute("incidentMessage", "Incident report submitted successfully.");
         return "redirect:/incident-reports";
     }

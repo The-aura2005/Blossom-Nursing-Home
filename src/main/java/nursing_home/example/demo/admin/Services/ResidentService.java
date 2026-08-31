@@ -46,7 +46,6 @@ public class ResidentService {
             updatedResident.setAge(resident.getAge());
             updatedResident.setRoomNumber(resident.getRoomNumber());
             updatedResident.setAdmissionDate(resident.getAdmissionDate());
-            updatedResident.setStatus(resident.getStatus());
             residentRepository.save(updatedResident);
         } else {
             throw new IllegalStateException("Resident does not exist");
