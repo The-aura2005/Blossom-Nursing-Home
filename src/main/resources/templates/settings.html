@@ -41,42 +41,44 @@
         <section class="page-intro">
             <h2>Admin Settings</h2>
             <p>Manage profile, account security, and alert preferences in one place.</p>
+            <p th:if="${settingsSuccess}" th:text="${settingsSuccess}" role="status"></p>
+            <p th:if="${settingsError}" th:text="${settingsError}" role="alert"></p>
         </section>
 
         <section class="data-table" style="margin-bottom: 20px;">
             <h3>Profile Settings</h3>
             <p>Update account details for the admin profile.</p>
-            <form>
+            <form th:action="@{/admin-settings/profile}" method="post">
                 <div class="filter-form">
-                    <input type="text" placeholder="Full Name" value="Admin User">
-                    <input type="email" placeholder="Email" value="admin@blossomhomes.com">
-                    <input type="tel" placeholder="Phone" value="+1 555 555 0101">
+                    <input type="text" name="displayName" placeholder="Full Name" th:value="${adminUser.displayName}" required>
+                    <input type="email" name="email" placeholder="Email" th:value="${adminUser.email}">
+                    <input type="tel" name="phone" placeholder="Phone" th:value="${adminUser.phone}">
                 </div>
-                <button type="button" class="btn-sm btn-edit" style="margin-top: 12px;">Save Profile</button>
+                <button type="submit" class="btn-sm btn-edit" style="margin-top: 12px;">Save Profile</button>
             </form>
         </section>
 
         <section class="data-table" style="margin-bottom: 20px;">
             <h3>Security Settings</h3>
             <p>Manage password and session controls.</p>
-            <form>
+            <form th:action="@{/admin-settings/password}" method="post">
                 <div class="filter-form">
-                    <input type="password" placeholder="Current Password">
-                    <input type="password" placeholder="New Password">
-                    <input type="password" placeholder="Confirm Password">
+                    <input type="password" name="currentPassword" placeholder="Current Password" required>
+                    <input type="password" name="newPassword" placeholder="New Password" minlength="8" required>
+                    <input type="password" name="confirmPassword" placeholder="Confirm Password" minlength="8" required>
                 </div>
-                <button type="button" class="btn-sm btn-edit" style="margin-top: 12px;">Update Password</button>
+                <button type="submit" class="btn-sm btn-edit" style="margin-top: 12px;">Update Password</button>
             </form>
         </section>
 
         <section class="data-table">
             <h3>Notification Settings</h3>
             <p>Select which alerts the admin account should receive.</p>
-            <form style="display: grid; gap: 10px;">
-                <label><input type="checkbox" checked> Resident admission alerts</label>
-                <label><input type="checkbox" checked> Staff task completion alerts</label>
-                <label><input type="checkbox"> Daily revenue summary emails</label>
-                <button type="button" class="btn-sm btn-edit" style="width: fit-content;">Save Notifications</button>
+            <form th:action="@{/admin-settings/notifications}" method="post" style="display: grid; gap: 10px;">
+                <label><input type="checkbox" name="residentAdmissionAlerts" value="true" th:checked="${adminUser.residentAdmissionAlerts}"> Resident admission alerts</label>
+                <label><input type="checkbox" name="staffTaskAlerts" value="true" th:checked="${adminUser.staffTaskAlerts}"> Staff task completion alerts</label>
+                <label><input type="checkbox" name="dailyRevenueSummary" value="true" th:checked="${adminUser.dailyRevenueSummary}"> Daily revenue summary emails</label>
+                <button type="submit" class="btn-sm btn-edit" style="width: fit-content;">Save Notifications</button>
             </form>
         </section>
     </main>

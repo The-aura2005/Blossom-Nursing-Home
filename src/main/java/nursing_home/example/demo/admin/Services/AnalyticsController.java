@@ -1,4 +1,4 @@
-package nursing_home.example.demo.analytics;
+package nursing_home.example.demo.admin.Services;
 
 import java.time.LocalDate;
 
@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
-import nursing_home.example.demo.admin.Services.AssignedTaskService;
+import nursing_home.example.demo.analytics.AnalyticsService;
+import nursing_home.example.demo.analytics.DashboardResponse;
+import nursing_home.example.demo.analytics.AnalyticsService.ResidentNotFoundException;
 
 @RestController
 public class AnalyticsController {

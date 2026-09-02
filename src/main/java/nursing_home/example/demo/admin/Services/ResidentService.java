@@ -3,6 +3,7 @@ package nursing_home.example.demo.admin.Services;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.stereotype.Service;
 
 import nursing_home.example.demo.admin.Model.Resident;
@@ -30,6 +31,7 @@ public class ResidentService {
         return residentRepository.findAll();
     }
 
+    @Transactional
     public void deleteResident(Long id) {
         residentRepository.deleteById(id);
     }

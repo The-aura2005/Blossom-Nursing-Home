@@ -27,7 +27,8 @@ public class ResidentRepository {
         resident.setAge(rs.getInt("age"));
         resident.setGender(rs.getString("gender"));
         resident.setRoomNumber(rs.getInt("room_number"));
-        resident.setAdmissionDate(rs.getDate("admission_date").toLocalDate());
+        Date admissionDate = rs.getDate("admission_date");
+        resident.setAdmissionDate(admissionDate != null ? admissionDate.toLocalDate() : null);
         resident.setEmergencyContact(rs.getLong("emergency_contact"));
         return resident;
     };
@@ -51,6 +52,13 @@ public class ResidentRepository {
     }
 
     public void deleteById(Long id) {
+        jdbcTemplate.update("DELETE FROM activity_logs WHERE resident_id = ?", id);
+        jdbcTemplate.update("DELETE FROM incident_reports WHERE resident_id = ?", id);
+        jdbcTemplate.update("DELETE FROM medication_administration WHERE resident_id = ?", id);
+        jdbcTemplate.update("DELETE FROM resident_medical_conditions WHERE resident_id = ?", id);
+        jdbcTemplate.update("DELETE FROM Vitals WHERE resident_id = ?", id);
+        jdbcTemplate.update("DELETE FROM resident_invoices WHERE resident_id = ?", id);
+        jdbcTemplate.update("DELETE FROM assigned_tasks WHERE resident_id = ?", id);
         String sql = "DELETE FROM residents WHERE id = ?";
         jdbcTemplate.update(sql, id);
     }

@@ -78,7 +78,7 @@
                                 <td th:text="${#temporals.format(resident.admissionDate,'MM/dd/yyyy')}"></td>
                                 <td class="action-buttons">
                                     <a th:href="@{/editResident(id=${resident.id})}" class="btn-edit" title="edit"><span class="material-symbols-outlined">edit</span></a>
-                                    <button class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></button>
+                                    <a th:href="@{/admin/resident-detail(residentId=${resident.id})}" class="btn-view" title="View"><span class="material-symbols-outlined">visibility</span></a>
                                     <form th:action="@{/residents/delete(id=${resident.id})}" method="post" style="display: inline;">
                                     <button class="btn-delete" title="Delete"><span class="material-symbols-outlined">delete</span></button>
                                     </form>
